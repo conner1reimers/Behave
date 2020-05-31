@@ -34,9 +34,6 @@ const First = (props) => {
     const [userExpenseTotal, setExpenseTotal] = useState(null);
 
 
-
-
-
     const fetchBudget = useCallback(async () => {
         if (auth.isLoggedIn) {
             let response;

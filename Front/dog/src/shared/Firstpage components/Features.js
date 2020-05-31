@@ -9,10 +9,13 @@ import { AuthContext } from '../../util/context/auth-context';
 import getMonthYear from '../../util/getMonthYear';
 import ErrorModal from '../ErrorModal/ErrorModal';
 import LoadingAnimation from '../../lotties/LoadingAnimation/LoadingAnimation';
+import { BudgetContext } from '../../util/context/budget-context';
 
 const Features = (props) => {
 
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
+
+    const budget = useContext(BudgetContext)
     const auth = useContext(AuthContext);
 
     const [formState, inputHandler] = useForm({
@@ -41,6 +44,11 @@ const Features = (props) => {
 
             }),
             {'Content-Type': 'application/json'});
+            const todo = response.todo;
+            let userTodos = budget.todos
+
+            userTodos.push(todo)
+            budget.setTodos(userTodos);
         } catch (err) {}
     }
 

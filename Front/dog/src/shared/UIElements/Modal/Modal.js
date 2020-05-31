@@ -6,10 +6,10 @@ const modalImg = require('../../../styles/UI/ass.png')
 
 const pageVariants = {
     initial: {
-        x: "-1070%",
-        scale: .6,
+        x: "-50%",
+        scale: 1,
         opacity: 1,
-        rotate: 140
+        rotate: 10
 
 
     },
@@ -40,7 +40,7 @@ const pageVariants = {
 const pageTransition = {
     type: 'spring',
     mass: 2.5,
-    damping: 50,
+    damping: 40,
     stiffness: 600
     
 }
