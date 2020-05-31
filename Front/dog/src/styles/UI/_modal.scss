@@ -1,0 +1,408 @@
+.modal {
+    position: fixed;
+    z-index: 5;
+    background-color: white;
+    min-width: 85vw;
+    top: 15vh;
+    left: 15%;
+    border-radius: 1rem;
+    height: 70vh;
+    color: rgb(43, 49, 53);
+    display: grid;
+    grid-template-columns: 1fr 85%;
+    grid-template-rows: min-content;
+    font-size: 5rem;
+    filter: drop-shadow(4px 8px 3px #b8bbb785);
+
+}
+
+.art {
+    height: 100%;
+    min-height: 450px;
+    width: 100%;
+    background-repeat: repeat;
+    background-size: cover;
+    grid-column: 1 / 1;
+    grid-row: 1 / 3;
+}
+
+.auth-art {
+    background-image: url('./ass.png');
+}
+
+.money-art {
+    background-image: url('./moni.png');
+}
+
+.bulb-art {
+    background-image: url('./bulb.png');
+}
+
+
+.backdrop {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.212);
+    z-index: 1;
+}
+.stuff {
+    display: flex;
+    flex-direction: column;
+    grid-row: 1 / 3;
+    margin: 3rem;
+    align-content: flex-start;
+    justify-content: flex-start;
+    font-size: 8rem;
+}
+
+.modal-header {
+    font-size: 5rem;
+    align-self: flex-start;
+}
+
+.modal-content {
+    align-self: flex-start;
+}
+
+.modal-form {
+    align-self: flex-start;
+    margin: 2rem 0;
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+}
+.input {
+    margin: 4rem 0rem;
+    position: relative;
+
+}
+.form-input {
+
+    border-radius: .9rem;
+    display: flex;
+    transition: all .2s;
+    font-size: 1.5rem;
+    border-color: rgba(0,0,0,.2);
+
+    &:focus {
+        outline: none;
+    }
+
+}
+
+.form-input::-webkit-input-placeholder {
+    font-weight: 100;
+    color: $color-grey;
+    font-family: $font-3;
+
+}
+
+.form-input:hover {
+    &::-webkit-input-placeholder {
+        font-size: 1rem;
+        transform: translateY(-.9rem);
+        color: $color-secondary;
+        transition: all .2s;
+
+    }
+    &.valid-dot {
+        background-color: red;
+    }
+}
+
+.input-label {
+    position: absolute;
+    margin-left: 2rem;
+}
+
+
+.btn {
+    text-decoration: none;
+    border: none;
+    padding: .3rem 1.5rem;
+    cursor: pointer;
+}
+
+.btn:focus {
+    outline: none;
+
+}
+
+.btn-signin {
+    background-color: $color-grey;
+    color: $color-secondary;
+
+}
+.btn-signin:hover {
+    color: $color-light-1;
+}
+
+.auth-form {
+    width: 40vw;
+    height: 4.5rem;
+}
+
+.foot2 {
+    background: none;
+    padding: 0;
+    color: $color-light-1;
+
+    font-size: 1.7rem;
+    transform: translateY(500%);
+    &:hover {
+        color: $color-secondary;
+        
+
+    }
+    
+}
+
+.signup-btn {
+    margin-left: 0rem;
+    font-size: 2rem;
+    background: none;
+    color: $color-light-1;
+    &:hover {
+        color: $color-secondary;
+
+    }
+
+
+}
+
+@media only screen and (min-width: 1000px) {
+    .modal {
+        right: 8rem;
+        min-width: 60vw; 
+    }
+}
+
+
+@media only screen and (min-width: 1500px) {
+    .modal {
+        left: 30rem;
+        max-width: 30vw; 
+    }
+}
+
+@media only screen and (min-width: 1700px) {
+    .modal {
+        left: 50rem;
+        max-width: 30vw; 
+    }
+}
+
+
+.inv {
+    border-color: rgba(212, 33, 33, 0.336);
+
+}
+
+.val {
+    border-color: rgba(0,0,0,.2);
+}
+
+.error-text {
+    color: #B7352F;
+}
+.backdrop2 {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background: rgba(30, 30, 24, 0.418);
+    z-index: 5;
+}
+.error-modal {
+    z-index: 5;
+    background-color: rgba(240, 235, 228, 0.774);
+    position: fixed;
+    min-width: 25vw;
+    top: 20vh;
+    left: 40%;
+    border-radius: .5rem;
+    height: 50vh;
+    color: #1E1E18;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 5rem;
+    filter: drop-shadow(2px 3px .5px rgba(242, 245, 248, 0.144));
+    filter: drop-shadow(0px 2px 0px rgba(255, 255, 255, 0.219));
+    overflow: hidden;
+
+    
+}
+.msg-modal {
+    position: fixed;
+    background-color: rgba(240, 235, 228, 0.911);
+    height: 40vh;
+    width: 18vw;
+    z-index: 5;
+    top: 40%;
+    left: 20%;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    font-size: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    justify-content: space-between;
+    margin: 1.5rem 2rem;
+
+
+
+}
+
+.btn-err {
+    font-size: 2rem;
+    font-weight: 300;
+    font-family: $font-2;
+    padding: 1rem 0;
+    
+    width: 20%;
+    margin: 2rem;
+    align-self: center;
+    color: $color-grey;
+    border-radius: .1rem;
+    background: none;
+    border: 2px solid #405565d7;
+    transition: color .1s ease-in-out, background .4s ease;
+
+
+
+    &:hover {
+        color: $color-orange;
+        transition: color .1s ease-in-out, background .4s ease;
+        background-color: #405565d7;
+
+    }
+
+}
+
+.err-head {
+    color: $color-white;
+    font-family: $font-1;
+    padding: .6rem 1rem;
+    text-align: center;
+    background-color: #405565d7;
+    font-weight: 300;
+    font-size: 2rem;
+
+    & span {
+        color: rgb(196, 60, 60);
+        font-weight: 600;
+        font-family: $font-1;
+        font-size: 2.5rem;
+        letter-spacing: .4rem;
+        text-transform: capitalize;
+        margin-left: 1rem;
+    }
+
+}
+
+.err {
+    color: #405565;
+    font-family: $font-2;
+    text-align: start;
+    line-height: 3rem;
+    font-weight: 400;
+    padding: .5rem 3rem;
+    font-size: 1.8rem;
+
+
+    &--box {
+        background-color: rgba(24, 44, 7, 0);
+        padding: 2rem 10rem;
+        border-radius: 4px;
+        align-self: center;
+
+
+    }
+}
+.errorBefore {
+    background-color: #4055650e;
+    position: fixed;
+    min-width: 25vw;
+    top: 20vh;
+    left: 40%;
+    border-radius: .5rem;
+    height: 50vh;
+    z-index: 4;
+}
+
+.delete-modal {
+
+    
+    &--bottomtext {
+        font-size: 1.5rem;
+        font-family: $font-2;
+        justify-self: flex-end;
+        color: $color-light-1;
+        background-color: rgb(255, 253, 253);
+        border-top-right-radius: 12rem;
+        border-top-left-radius: 2rem;
+
+        padding: 2rem;
+
+    }
+
+    &--edit {
+        margin: 0.2rem 1rem;
+        font-size: 1.2rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-family: $font-1;
+        transition: all .2s;
+
+
+        &:hover {
+            color: $color-secondary-2;
+            transition: all .2s;
+        }
+
+    }
+
+    &--head {
+        font-family: $font-2;
+        justify-self: flex-start;
+        font-size: 1.6rem;
+        color: $color-white;
+        background-color: $color-light-1;
+        padding: 1.5rem 2.3rem;
+        margin-right: 5rem;
+        border-radius: 34rem;
+        margin-left: -1.3rem;
+        width: 200%;
+
+
+    }
+
+    &--btn {
+        font-family: $font-2;
+        border-color: rgb(175, 175, 175);
+
+        &:hover {
+            background-color: $color-white;
+        }
+
+
+    }
+
+    &--btns {
+        justify-self: center;
+        display: flex;
+        justify-content: space-between;
+
+
+    }
+}
+
+#btn {
+    justify-self: center;
+}

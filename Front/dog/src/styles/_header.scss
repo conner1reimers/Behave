@@ -1,0 +1,278 @@
+$bg: #f5f5f07a;
+$text: #ffffff;
+$light-pink: #1C4971;
+$pink: rgb(45, 86, 122);
+$dark-pink: rgb(22, 62, 97);
+$pink-border: rgba(115, 161, 201, 0.616);
+$pink-shadow: rgba(28, 73, 113, 0.295);
+
+.dashboard-container {
+    height: 100%;
+    font-size: 7rem;
+    // background-color: red;
+}
+.money-stack{
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+  background-color: $color-blue;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 1fr;
+  grid-template-columns: 25vw 50vw 10vw 10vw 5vw;
+
+  & svg {
+    grid-column: 2 / 3;
+
+  }
+}
+
+.stacker {
+  grid-column: 2 / 3;
+
+}
+
+.budget-btn-container {
+  grid-column: 4 / 5;
+}
+
+.dash-left { 
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.dash-right { 
+  grid-row: 1 / 2;
+  grid-column: 3 / 4;
+}
+
+.middle {
+    grid-row: 1 / 2;
+
+    height: 100%;
+    width: 50vw;
+    // background-color: yellow;
+    grid-column: 2 / 2;
+    display: grid;
+    grid-template-rows: 10% 10% 30% 30% 10% 10%;
+    grid-template-columns: 10% 10% 30% 30% 10% 10%;
+
+}
+
+
+.budget-heading{
+    grid-column: 1 / 4;
+    color: $color-grey;
+    -webkit-text-stroke: .2px black;
+    font-weight: 300;
+}
+
+.dollars-left {
+
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+ 
+  word-wrap: break-word;
+
+  grid-column: 2 / 6;
+  grid-row: 3 / 4;
+
+}
+.dollar-before {
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    display: block;
+    text-align: center;
+    word-wrap: break-word;
+
+    
+}
+.dollars-text {
+    font-size: 7rem;
+    color: $color-grey;
+    font-weight: bold;
+    position: relative;
+    padding: 0;
+    line-height: 1.5;
+    top: 3rem;
+}
+
+.edit-btn {
+  display: inline-block;
+  justify-self: center;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  transition: all .2s;
+  grid-column: 3 / 5;
+  margin-top: 2rem;
+  &.learn-more {
+
+    font-size: 1.7rem;
+    font-weight: 300;
+    color: $text;
+    text-transform: uppercase;
+    padding: .20em .40em;
+    background: $light-pink;
+    border: 2px solid $pink-border;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    top: 10rem;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+    &::before {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $dark-pink;
+      border-radius: inherit;
+      box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+      transform: translate3d(0, 0.75em, -1em);
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+    }
+    &:hover {
+      background: $pink;
+      transform: translate(0, 0.25em);
+      color: $color-secondary-2;
+      
+      &::before {
+        box-shadow: 0 0 0 2px $pink-border, 0 0.5em 0 0 $pink-shadow;
+        transform: translate3d(0, 0.5em, -1em);
+      }
+    }
+    &:active {
+      background: $pink;
+      transform: translate(0em, 0.75em);
+      &::before {
+        box-shadow: 0 0 0 2px $pink-border, 0 0 $pink-shadow;
+        transform: translate3d(0, 0, -1em);
+      }
+    }
+  }
+}
+
+
+.middledash-bottom {
+    grid-row: 5 / 6;
+    grid-column: 5 / 7;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+}
+
+
+.remain {
+    font-size: 2rem;
+    color: $color-grey;
+    font-weight: 500;
+    position: relative;
+    padding: 0;
+    top: 2rem;
+
+
+    &:hover {
+      color: $color-orange;
+      cursor: pointer;
+    }
+
+}
+
+@media only screen and (max-width: 750px) and (max-height: 750px) {
+  .remain {
+    position: absolute;
+    transform: translateY(3rem);
+  }
+}
+
+@media only screen and (max-width: 750px) {
+
+  .middle {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 100%;
+}
+
+  .dash-left {
+    grid-row: 3/4;
+    grid-column: 2 / 4;
+  }
+
+  .dash-right {
+    grid-column: 2 / 4;
+    grid-row: 1 / 2;
+  }
+
+  .money-stack {
+    grid-column: 1 / 4;
+    grid-row: 2 / 3;
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
+  .edit-btn {
+    margin-left: 3.5rem;
+  }
+  .budget-btn-container {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+
+
+  }
+  .remain {
+    justify-self: flex-start;
+    align-self: flex-start;
+    
+  }
+}
+
+
+.needTo-createBudget {
+  font-size: 3rem;
+  justify-self: center;
+  align-self: center;
+  color: $color-light-1;
+  font-weight: 500;
+  padding: 3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-budgetBtn-noBudget {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $color-light-1;
+  outline: none;
+  padding: 0;
+  &:hover {
+    color: $color-secondary-2;
+
+    transition: all .2s;
+  }
+
+}
+
+.edit-div {
+  cursor: pointer;
+  width: 40%;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+  font-size: 3rem;
+  padding: 0;
+
+
+}

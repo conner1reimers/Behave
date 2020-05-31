@@ -1,0 +1,476 @@
+.dash-left {
+    font-weight: 300;
+    display: grid;
+    grid-column: 1fr;
+    grid-row: repeat(2, 50%);
+    color: $color-grey;
+}
+
+.progress {
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    font-size: 3rem;
+    height: 100%;
+    width: 100%;
+    
+    
+
+
+}
+
+.saved-container {
+    margin-top: auto;
+    align-self: flex-start;
+
+    & p {
+        align-self: flex-start;
+        margin: 3rem 0;
+        padding: 0;
+        font-weight: 450;
+        font-size: 1.7rem;
+        text-align: center;
+
+    }
+
+}
+
+.self-typed {
+
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+
+    margin-left: 1.5rem;
+    filter: drop-shadow(1px 2px 1px #00000015);
+
+    
+
+    & span {
+        font-family: $font-2;
+
+    }
+}
+
+.expenses {
+    // background-color: #165238;
+
+    &--back {
+        background-color: #c46035f3;
+        filter: drop-shadow(3px 3px 1px #b8bbb785);
+    }
+
+
+    // background-color: $color-secondary-2;
+
+    color: white;
+    border-radius: 1rem;
+    margin: 1rem 3rem;
+    margin-bottom: 5rem;
+
+    grid-row: 2 / 3;
+    & button {
+        padding: 0;
+        font-weight: 300;
+        font-size: 1.5rem;
+        margin-left: 0rem;
+    }
+
+    // & button:hover {
+    //     border-top: .5px solid $color-light-1;
+    //     border-top-left-radius: 12rem;
+    //     border-top-right-radius: 12rem;
+    //     border-bottom: .5px solid $color-light-1;
+    //     border-bottom-left-radius: 12rem;
+    //     border-bottom-right-radius: 12rem;
+    //     transition: border-top-left-radius .4s, border-top-right-radius .4s, border-bottom-left-radius .4s, border-bottom-right-radius .4s;
+
+    // }
+}
+
+
+.calendar {
+    cursor: pointer;
+
+    &-label {
+            width: 120px;
+            top: 28%;
+            left: 20%;
+            background-color: black;
+            color: $color-secondary;
+            text-align: center;
+            padding: 1rem 0;
+            border-radius: 6px;
+            font-size: 1.2rem;
+           
+            /* Position the tooltip text - see examples below! */
+            position: absolute;
+            z-index: 1;
+        }
+    
+}
+
+.event {
+    transition: all .4s;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 1rem;
+    
+
+    &-container {
+        display: flex;
+        height: 6.3rem;
+        width: 16rem;
+        border: 1.5px solid #64675e10;
+        border-radius: .8rem;
+        transition: all .4s;
+        display: flex;
+        cursor: pointer;
+        text-align: center;
+        filter: drop-shadow(3px 1px 1px #b8bbb785);
+
+        & p {
+            font-size: 3rem;
+            align-self: center;
+            font-weight: 450;
+            margin-left: 1rem;
+    
+        }
+
+    }
+    & :hover.event-container{
+        filter: drop-shadow(4px 5px 1px #b8bbb785);
+
+        transition: all .4s;
+
+
+    }
+    & :hover > #cal {
+        color: $color-light-1;
+        transition: all .5s;
+
+        
+    }
+}
+
+.calendar {
+    height: 15rem;
+    width: 15rem;
+    margin: 0;
+    align-self: flex-start;
+    margin-top: -4.5rem;
+
+    
+}
+
+
+.history-btn {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    font-family: $font-3;
+
+
+    & a {
+        font-size: 1rem;
+
+    }
+}
+
+.expense-list {
+    list-style: none;
+    
+}
+
+.expense-item {
+    font-size: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-content: flex-start;
+    margin: 2rem 1.2rem;
+    padding: 1rem 1rem;
+    background-color: #aa5531ec;
+    border-radius: .6rem;
+    transition: all .2s;
+    filter: drop-shadow(1px 1px .5px #b8bbb76e);
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+
+
+
+
+    &:hover {
+        background-color: white;
+        color: $color-secondary-2;
+        cursor: pointer;
+        transition: all .2s;
+        -webkit-text-stroke: none
+
+
+        
+    }
+
+    &--delete {
+        background-color: #c1ec69;
+        color: black;
+        height: 5rem;
+        width: 8rem;
+        position: absolute;
+        overflow: hidden;
+        text-align: center;
+        display: flex;
+        padding: 2rem;
+        justify-content: center;
+        align-items: center;
+        border-top-left-radius: 6rem;
+        border-bottom-left-radius: 6rem;
+        top: 0rem;
+        right: 0rem;
+        font-size: 2rem;
+
+        &:hover {
+            background-color: #b2d865ef;
+            color: red;
+
+            & .del-text {
+                color: rgb(231, 85, 0);
+            }
+            
+            & .pen2 {
+                filter: invert(57%) sepia(41%) saturate(2008%) hue-rotate(345deg) brightness(104%) contrast(97%);
+        
+            }
+            
+        }
+        
+    }
+
+    &--edit {
+        position: absolute;
+        overflow: visible;
+        z-index: 99;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        bottom: 0;
+
+
+    }
+}
+
+
+.edit-element {
+    height: 3rem;
+    padding: 2rem 1rem;
+    cursor: default;
+    position: relative;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 16rem;
+    margin-left: 2rem;
+    border-radius: .5rem;
+
+
+    &--circle {
+
+        display: block;
+        content: '';
+        background-color: rgba(219, 216, 216, 0.123);
+        position: absolute;
+        z-index: 1;
+        top: .5rem;
+        left: 3rem;
+        border-radius: 999rem;
+        filter: none;
+    }
+
+    &--img {
+        z-index: 5;
+        position: relative;
+        bottom: 1rem;
+
+
+
+
+    }
+}
+
+
+.remove {
+
+
+    & img {
+        width: 2.3rem;
+        height: 2.3rem;
+        z-index: 5;
+
+
+    }
+    &:hover {
+        cursor: pointer;
+
+        img {
+            filter: drop-shadow(none) invert(17%) sepia(41%) saturate(108%) hue-rotate(316deg) brightness(104%) contrast(97%) ;
+
+        }
+    }
+}
+
+.edit-item-ani {
+    padding: 1.8rem;
+    margin-top: -2rem;
+    margin-right: 3rem;
+    display: flex;
+    justify-content: space-between;
+    border-top-right-radius: 78rem;
+    border-top-left-radius: 95rem;
+    border-bottom-left-radius: 60rem;
+    border-bottom-right-radius: 89rem;
+    overflow: visible;
+    filter: drop-shadow(-3px -3px -1px #b8bbb785);
+    transition: transform .6s, filter .2s, width .1s;
+
+
+    
+    &:hover {
+        transform: rotateZ(36deg) rotateY(1deg) rotateX(0deg) scaleX(.9);
+        filter: invert(197%) sepia(41%) saturate(108%) hue-rotate(316deg) brightness(104%) contrast(97%);
+        transition: transform .6s, filter .2s, width .1s;
+
+    }
+}
+
+.wrench {
+    
+    & img {
+        width: 2.3rem;
+        height: 2.3rem;
+        z-index: 5;
+
+    }
+    &:hover {
+        cursor: pointer;
+
+        img {
+            filter: invert(27%) sepia(41%) saturate(108%) hue-rotate(116deg) brightness(104%) contrast(97%) ;
+
+        }
+    }
+}
+
+
+.expense-item:hover {
+    & .expense-item--delete {
+        color: black;
+    }
+}
+
+.expense-ammount {
+    font-weight: 300;
+    font-size: 1.8rem;
+    font-family: $font-2;
+    justify-self: flex-end;
+    position: static;
+    overflow: visible;
+    z-index: 10;
+    
+
+
+}
+
+.expense-title {
+    font-family: $font-2;
+
+}
+.zzz {
+    content: '';
+    height: 1.6rem;
+    width: 1.6rem;
+    display: inline-block;
+    margin-right: 2rem;
+    transform: translateY(.4rem);
+    filter: drop-shadow(1px 1px .5px #b8bbb728);
+
+    
+
+    
+}
+
+.delete-expense {
+    background-color: red;
+    height: 3rem;
+    width: 3rem;
+    visibility: visible;
+
+
+    // &.onNow {
+    //     visibility: visible;
+
+    // }
+
+    // &:not(.onNow) {
+    //     visibility: hidden;
+
+    // }
+
+}
+
+
+
+.pen1 {
+    filter: invert(27%) sepia(41%) saturate(3008%) hue-rotate(516deg) brightness(104%) contrast(97%) opacity(13%) ;
+    display: inline-block;
+    z-index: 1;
+    height: 8rem;
+    &:hover {
+        & .pen2 {
+            filter: invert(27%) sepia(41%) saturate(3008%) hue-rotate(516deg) brightness(104%) contrast(97%);
+
+        }
+    }
+    
+}
+.pen2 {
+    height: 2.7rem;
+    width: 2.7rem;
+    position: absolute;
+    display: inline-block;
+    bottom: 1.4rem;
+    z-index: 2;
+
+    
+
+}
+
+.edit-label {
+    width: 120px;
+    top: 107%;
+    left: 50%;
+    margin-left: 5rem;
+    background-color: black;
+    color: $color-orange;
+    text-align: center;
+    padding: 1rem 0;
+    border-radius: 6px;
+    font-size: 1.2rem;
+   font-family: $font-3;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.rmlab {
+    margin-left: -7rem;
+}

@@ -1,0 +1,27 @@
+.history {
+
+    &--first {
+        grid-row: 2 / 4;
+        grid-column: 1 / 3;
+        width: 100vw;
+        background-color: black;
+        color: white;
+    }
+
+    &--sidebar {
+        border-right: 3px solid white;
+    }
+
+    &--month-list {
+    font-size: 2rem;
+
+    }
+    &--month-item {
+    font-size: 2rem;
+
+    }
+}
+
+.sidebar-head {
+    font-size: 3rem;
+}
