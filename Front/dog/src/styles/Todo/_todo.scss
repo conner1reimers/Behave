@@ -68,7 +68,35 @@
         background-color: rgba(112, 209, 141, 0.116);
         color: $color-light-1;
     }
+
+    &--delete {
+        width: 20vw;
+        border-radius: 2rem;
+        background-color: #c46035b2;
+    }
+    &--deleteHead {
+
+    }
 }
+
+.checkmark {
+    
+    &--box {
+        display: flex;
+    }
+
+    &--1 {
+        margin-top: 2rem;
+        height: 5rem;
+    }
+
+    &--2 {
+        position: absolute;
+        right: 2rem;
+    }
+    
+}
+
 .todo-urgency {
     display: flex;
     text-align: start;

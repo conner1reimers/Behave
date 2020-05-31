@@ -112,6 +112,38 @@ body {
     z-index: 0;
     opacity: .3;
 }
+@media only screen and (min-width: 1200px) {
+    .fetti {
+        transform: translateX(25rem);
+    }
+}
+@media only screen and (min-width: 1700px) {
+    .fetti {
+        transform: translateX(15rem);
+    }
+}
+@media only screen and (min-width: 2000px) {
+    .fetti {
+        transform: translateX(35rem);
+    }
+}
+@media only screen and (min-width: 2300px) {
+    .fetti {
+        transform: translateX(50rem);
+    }
+}
+
+.lotfet {
+    grid-row: 1 / 4;
+    grid-column: 1 / 4;
+    position: fixed;
+    top: 0;
+    z-index: 0;
+    opacity: .3;
+    transform: translateX(-34rem);
+
+}
+
 
 .inv {
     border-color: $color-orange;

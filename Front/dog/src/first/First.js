@@ -9,6 +9,7 @@ import { AuthContext } from '../util/context/auth-context';
 import { useHttpClient } from '../util/hooks/http-hook';
 import ErrorModal from '../shared/ErrorModal/ErrorModal';
 import { BudgetContext } from '../util/context/budget-context';
+import { ResetContext } from '../util/context/reset-context';
 var _ = require('lodash');
 
 
@@ -16,7 +17,10 @@ var _ = require('lodash');
 const First = (props) => {
     const mountedRef = useRef(true);
 
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
 
+    
     const {isLoading, error, clearError, sendRequest} = useHttpClient();
 
     const auth = useContext(AuthContext);
@@ -188,7 +192,7 @@ const First = (props) => {
         return () => {
             mountedRef.current = false;
         }
-    }, [fetchBudget])
+    }, [fetchBudget, fetchTodos])
 
 
     const setBug = (budget) => {
@@ -219,7 +223,7 @@ const First = (props) => {
                 addedExpenseArray: addedUpExpenseArray,
                 setAddedUpExpenses,
                 todos: userTodos,
-                setTodos: setUserTodos
+                setTodos: setTodo
             }}
         >
             <ErrorModal error={error} clearError={clearError}/>
@@ -255,8 +259,13 @@ const First = (props) => {
                 goals={userGoals}
                 setGoals={setUserGoals}
             />
-            <Features todos={userTodos} setTodo={setUserTodos}/>
             
+            <ResetContext.Provider 
+                value = {{forceUpdate: forceUpdate}}
+            >
+                <Features todos={userTodos} setTodo={setUserTodos}/>
+
+            </ResetContext.Provider>
 
         </BudgetContext.Provider>
     )

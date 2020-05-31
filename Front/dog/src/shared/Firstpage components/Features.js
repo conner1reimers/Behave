@@ -10,6 +10,7 @@ import getMonthYear from '../../util/getMonthYear';
 import ErrorModal from '../ErrorModal/ErrorModal';
 import LoadingAnimation from '../../lotties/LoadingAnimation/LoadingAnimation';
 import { BudgetContext } from '../../util/context/budget-context';
+import { ResetContext } from '../../util/context/reset-context';
 
 const Features = (props) => {
 
@@ -17,6 +18,7 @@ const Features = (props) => {
 
     const budget = useContext(BudgetContext)
     const auth = useContext(AuthContext);
+    const reset = useContext(ResetContext)
 
     const [formState, inputHandler] = useForm({
         task: {value: '', isValid: false},
@@ -44,11 +46,12 @@ const Features = (props) => {
 
             }),
             {'Content-Type': 'application/json'});
-            const todo = response.todo;
+            let todo = response.todo;
             let userTodos = budget.todos
 
             userTodos.push(todo)
             budget.setTodos(userTodos);
+            reset.forceUpdate()
         } catch (err) {}
     }
 

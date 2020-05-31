@@ -78,6 +78,22 @@ const MoneyAni = () => {
                     </div>
                 </Media>
 
+                <Media query="(min-width: 1690px)">
+                    <div className="fetti" >
+                            <Lottie
+                            ref={onRefLottie}
+                            options={defaultOptions}
+                            height={1500}
+                            isClickToPauseDisabled={true}
+
+                            width={1500}
+                            />
+                            
+                    </div>
+                    
+                    
+                </Media>
+
             
 
 

@@ -254,7 +254,7 @@ const DashLeft = (props) => {
             </div>
             <p className="delete-modal--bottomtext">Choose to <button type="button" className="btn delete-modal--edit">edit</button> instead</p>
         </Fragment>
-    )
+    );
 
     const setExpenses = () => {
         

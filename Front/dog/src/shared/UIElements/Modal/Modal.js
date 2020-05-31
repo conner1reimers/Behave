@@ -60,7 +60,8 @@ const Modal = (props) => {
             rotate: [0, 2, 0],
             transition
         })
-    }
+    };
+    
     useEffect(() => {
         toggleAnimation()
     }, [props.noMatch]) 

@@ -175,7 +175,7 @@
 
 @media only screen and (min-width: 1000px) {
     .modal {
-        right: 8rem;
+        right: 20rem;
         min-width: 60vw; 
     }
 }
@@ -189,6 +189,12 @@
 }
 
 @media only screen and (min-width: 1700px) {
+    .modal {
+        left: 40rem;
+        max-width: 30vw; 
+    }
+}
+@media only screen and (min-width: 2400px) {
     .modal {
         left: 50rem;
         max-width: 30vw; 

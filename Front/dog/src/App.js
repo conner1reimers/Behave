@@ -10,8 +10,6 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
 
-  const [, updateState] = useState();
-  const forceUpdate = useCallback(() => updateState({}), []);
 
   const [openLogin, setOpenLogin] = useState(false);
   const [isOnSignupMode, setIsonSignup] = useState(false);
@@ -95,23 +93,27 @@ function App() {
         token,
         login,
         logout,
-        forceUpdate: forceUpdate
       }}
     >
       <div className="container">
+
         <BrowserRouter>
         <Sidebar toggle={toggleLogin} />
-          <Switch>
           
-            {home}
+            <Switch>
+
+              {home}
+              
+              <Route path={`/${userId}/history`} exact>
+                <HistoryPage/>
+              </Route>
+              
+              {reDirect}
+
+            </Switch>
             
-            <Route path={`/${userId}/history`} exact>
-              <HistoryPage/>
-            </Route>
-            
-            {reDirect}
-          </Switch>
         </BrowserRouter>
+
       </div>
     </AuthContext.Provider>
   );
