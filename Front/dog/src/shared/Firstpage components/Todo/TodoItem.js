@@ -6,6 +6,9 @@ import { useHttpClient } from '../../../util/hooks/http-hook';
 import { AuthContext } from '../../../util/context/auth-context';
 import { BudgetContext } from '../../../util/context/budget-context';
 import tic from './tick.svg'
+import nope from './close.svg'
+import MouseOverLabel from '../../../util/MouseOverLabel';
+
 
 const pageVariants = {
     initial: {
@@ -38,7 +41,7 @@ const pageTransition = {
 const deleteVariants = {
     initial: {
         scale: .9,
-        x: '200%'
+        x: '6000%'
 
 
     },
@@ -59,8 +62,8 @@ const deleteVariants = {
 
 const deleteTransition = {
     type: 'spring',
-    mass: 1.3,
-    damping: 50,
+    mass: 5.3,
+    damping: 100,
     stiffness: 700,
     velocity: 3
     
@@ -175,6 +178,20 @@ const TodoItem = (props) => {
         console.log(id)
     }
 
+    const cancelHandlr = (event) => {
+        event.cancelBubble = true
+        event.stopPropagation()
+        console.log('cancel')
+
+    }
+
+    const deleteTodo = (event) => {
+        event.cancelBubble = true
+        event.stopPropagation()
+        console.log('delete')
+    }
+
+
     let todos;
     const setTodos = () => {
         if (props.todos) {
@@ -208,10 +225,32 @@ const TodoItem = (props) => {
                                         className="todo-itemz--delete"
                                         onClick={(event) => toggleEditItem(event, todo.id)}
                                     >
-                                        <h1 className="todo-itemz--deleteHead">Have you finished this task?</h1>
+                                        <h1 className="todo-itemz--deleteHead">Finished?</h1>
                                         <div className="checkmark--box">
-                                            <img alt="" className="pen1 checkmark checkmark--1" src={tic}></img>
-                                            <img alt="" className="pen2 checkmark checkmark--2" src={tic}></img>
+
+                                            <MouseOverLabel
+                                                label="Yes"
+                                                labelClass="edit-label"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                            >   <div
+                                                    onClick={deleteTodo}
+                                            >
+                                                    <img alt="" className="pen2 checkmark checkmark--1" src={nope}></img>
+                                                </div>
+                                            </MouseOverLabel>
+
+                                            <MouseOverLabel
+                                                label="Cancel"
+                                                labelClass="edit-label"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                            >   <div
+                                                    onClick={cancelHandlr}
+                                            >
+                                                    <img alt="" className="pen2 checkmark checkmark--2" src={tic}></img>
+                                                </div>
+                                            </MouseOverLabel>
                                         </div>
 
                                     </motion.div>)

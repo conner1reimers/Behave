@@ -30,7 +30,7 @@ const BudgetIncome = (props) => {
     return (
             <div className="budget-maker">
                     <Input 
-                        name="How much Did you Make?"
+                        name="How Much Did You Make?"
                         id="income"
                         onInput={inputHandler}
                         validator={VALIDATOR_NUMBER()}

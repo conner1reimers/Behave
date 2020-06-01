@@ -31,6 +31,9 @@ const First = (props) => {
     const [userGoals, setUserGoals] = useState(null);
     const [userTodos, setUserTodos] = useState(null);
 
+    const [passedUserExpense, setPassedUserExpense] = useState(null);
+
+
     const [addedUpExpenseArray, setAddedUpExpenses] = useState(null);
 
 
@@ -59,6 +62,9 @@ const First = (props) => {
 
                 if ((!response.expense) || (response.expense.length < 1) ) {
                     setUserExpense([{}])
+                } else {
+                    setUserExpense(response.expense)
+                    setPassedUserExpense(response.expense)
                 }
                 if ((response.income === 'not found') || (response.income.length < 1) || (response.income === null)) {
                     setUserIncome([{}])
@@ -149,6 +155,11 @@ const First = (props) => {
                 }]
                 totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
                 setUserExpense(totalExpenses)
+
+                
+
+                
+
         } catch (err) {
             // ??????
             }}
@@ -210,6 +221,19 @@ const First = (props) => {
         setUserTodos(todos)
     }
 
+
+    const passData = () => {
+        let userBudgetObj = {
+            budget: userBudget,
+            expense: passedUserExpense,
+            income: userIncome
+        }
+        props.passData(userBudgetObj)
+    }
+
+    useEffect(() => {
+        passData();
+    }, [userBudget, passedUserExpense, userIncome])
 
     return (
         <BudgetContext.Provider

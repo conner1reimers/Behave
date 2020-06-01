@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import First from './first/First';
 import './styles/base.scss';
@@ -15,6 +15,12 @@ function App() {
   const [isOnSignupMode, setIsonSignup] = useState(false);
   const [ontoNextSignup, setOntoNextSignup] = useState(false);
 
+  const [budgetState, setBudgetState] = useState(false);
+
+  const passData = (passed) => {
+    setBudgetState(passed);
+    console.log(budgetState)
+  }
   
   const login = useCallback((uid, token) => {
       setToken(token);
@@ -43,7 +49,7 @@ function App() {
       login(storedData.userId, storedData.token)
     }
     // checkHome();
-  },[])
+  }, [])
 
   const toggleLogin = (event) => {
     if(!!token) {
@@ -66,7 +72,9 @@ function App() {
       openLogin={openLogin} 
       isOnSignupMode={isOnSignupMode} 
       toggleLogin={toggleLogin}
-      setOpenLogin={setOpenLogin}/>
+      setOpenLogin={setOpenLogin}
+      passData={passData}
+      />
     </Route>
 
   ) 
@@ -79,7 +87,9 @@ function App() {
       openLogin={openLogin} 
       isOnSignupMode={isOnSignupMode} 
       toggleLogin={toggleLogin}
-      setOpenLogin={setOpenLogin}/>
+      setOpenLogin={setOpenLogin}
+      passData={passData}
+      />
     </Route>
   );
 
@@ -93,19 +103,22 @@ function App() {
         token,
         login,
         logout,
+        budget: budgetState
       }}
     >
       <div className="container">
 
         <BrowserRouter>
-        <Sidebar toggle={toggleLogin} />
+        <Sidebar isLoggedIn={!!token} userId={userId} toggle={toggleLogin} />
           
             <Switch>
 
               {home}
               
               <Route path={`/${userId}/history`} exact>
-                <HistoryPage/>
+                <HistoryPage
+                  budget={budgetState}
+                />
               </Route>
               
               {reDirect}

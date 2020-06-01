@@ -280,7 +280,7 @@ const Input = (props) => {
                 )
         } else if (props.cat === "todo-time") {
             element = (
-                <form className="radio-todo">
+                <div className="radio-todo">
                     <input className="radio-todo--input radio-todo--input--1" defaultChecked id="today" value="today" name="time" style={{marginLeft: '3rem', fontFamily: 'Didact Gothic'}}type="radio"/> 
                     <label className="radio-todo--label" htmlFor="today" style={{marginRight: '3rem', marginLeft: '1rem', fontFamily: 'Didact Gothic'}}><span></span>Today</label>
 
@@ -321,7 +321,7 @@ const Input = (props) => {
 	                </div>
                     
 
-                </form>)
+                </div>)
         } else if (props.cat === "todo-urgency") {
             element = (
                 <Fragment>

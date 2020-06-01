@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie';
-import animationData from './redCalendar.json';
+import animationData from './redCal.json';
 
 const Bulb = () => {
     let _lottieHeartRef;
@@ -12,8 +12,8 @@ const Bulb = () => {
     
 
     const defaultOptions = {
-        loop: true,
-        autoplay: true,
+        loop: false,
+        autoplay: false,
         animationData: animationData,
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice"
@@ -23,7 +23,7 @@ const Bulb = () => {
                             <span className="calendar"><Lottie
                             ref={onRefLottie}
                             options={defaultOptions}
-                            isClickToPauseDisabled={true}
+                            isClickToPauseDisabled={false}
                            
                             /></span>
 

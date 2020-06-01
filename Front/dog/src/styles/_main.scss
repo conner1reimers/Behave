@@ -30,10 +30,12 @@ html {
 
 body {
     height: 100vh;
-    width: 100vw;
+    max-width: 100%;
     background-color: $color-primary;
     font-size: 2.5rem;
     box-sizing: inherit;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 *,
@@ -55,6 +57,10 @@ body {
     display: grid;
     grid-template-rows: 8vh 79.8vh 10vh 100vh;
     grid-template-columns: repeat(3, min-content);
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+
 
 }
 
@@ -69,6 +75,8 @@ body {
     grid-template-columns: 3vw 17vw 20vw 60vw;
     border-bottom: .5px solid #64675e8e;
     position: fixed;
+    max-width: 100%;
+
 
 }
 
@@ -102,6 +110,8 @@ body {
     display: grid;
     grid-template-columns: 25vw 50vw 25vw;
     grid-template-rows: 80vh 10vh;
+    max-width: 100%;
+
 }
 
 .fetti {
@@ -168,6 +178,8 @@ body {
         grid-template-columns: 65vw 35vw;
         grid-template-rows: 70vh .3fr 1fr 1.5fr ;
         grid-gap: 1rem;
+        max-width: 100%;
+
     }
 
     .features {
