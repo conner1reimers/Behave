@@ -33,6 +33,7 @@ const First = (props) => {
 
     const [passedUserExpense, setPassedUserExpense] = useState(null);
 
+    const [passedUserBudget, setPassedUserBudget] = useState(null);
 
     const [addedUpExpenseArray, setAddedUpExpenses] = useState(null);
 
@@ -54,7 +55,8 @@ const First = (props) => {
                 response = await sendRequest(`http://localhost:5000/api/budget/${auth.userId}`)
                 if (!mountedRef.current) return null
 
-                setUserBudget(response.budget)
+                setUserBudget(response.budget);
+                setPassedUserBudget(response.allBudgets)
                 expenseTotalArray = response.expense.map((el) => {
                     return el.ammount
                 })
@@ -224,7 +226,7 @@ const First = (props) => {
 
     const passData = () => {
         let userBudgetObj = {
-            budget: userBudget,
+            budget: passedUserBudget,
             expense: passedUserExpense,
             income: userIncome
         }

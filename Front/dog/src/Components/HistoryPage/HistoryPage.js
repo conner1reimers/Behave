@@ -20,12 +20,12 @@ const HistoryPage = (props) => {
     let julyIncomes;
 
 
-    if (budgets.length > 1) {
+    if (budgets.length >= 1) {
         mayBudget = budgets.filter((el) => {
             return el.month === "052020"
         });
         juneBudget = budgets.filter((el) => {
-            return el.month === "052020"
+            return el.month === "062020"
         });
         julyBudget = budgets.filter((el) => {
             return el.month === "072020"
@@ -34,7 +34,7 @@ const HistoryPage = (props) => {
 
     }
 
-    if (expenses.length > 1) {
+    if (expenses.length >= 1) {
         mayExpenses = expenses.filter((el) => {
             return el.month === "052020"
         });
@@ -48,7 +48,7 @@ const HistoryPage = (props) => {
         });
     }
 
-    if (expenses.length > 1) {
+    if (expenses.length >= 1) {
         mayIncomes = incomes.filter((el) => {
             return el.month === "052020"
         });
@@ -62,19 +62,19 @@ const HistoryPage = (props) => {
         });
     }
 
-    // const userBudgets = {
-    //     budgets: [mayBudget, juneBudget, julyBudget],
-    //     expenses: []
-    // }
+    const userBudgets = {
+        budgets: [mayBudget, juneBudget, julyBudget],
+        expenses: [mayExpenses, juneExpenses]
+    }
 
 
 
 
-    
+    console.log(mayBudget)
 
     return (
         <div className="history--first">
-            <HistoryLeft budget={props.budget}/>
+            <HistoryLeft userData={userBudgets}/>
             <HistoryMiddle />
         </div>
     )

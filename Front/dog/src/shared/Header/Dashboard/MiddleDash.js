@@ -95,7 +95,10 @@ const MiddleDash = (props) => {
 
     if (budgetEdit && !incomeEdit && !expenseEdit) {
         let response
-        budgetAmt = props.userBudget.ammount
+        if (props.userBudget) {
+            budgetAmt = props.userBudget.ammount
+
+        }
 
         setJustSubmitted(false);
         try {
