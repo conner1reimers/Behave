@@ -16,6 +16,7 @@ import MouseOverLabel from '../../../util/MouseOverLabel';
 import MsgModal from '../../UIElements/Modal/MsgModal';
 import {useHttpClient} from '../../../util/hooks/http-hook';
 import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation';
+import { ResetContext } from '../../../util/context/reset-context';
 
 const pageVariants = {
     initial: {
@@ -131,6 +132,7 @@ const DashLeft = (props) => {
     
     const auth = useContext(AuthContext);
     const budget = useContext(BudgetContext)
+    const reset = useContext(ResetContext)
 
     const eventModalOpen = () => {
         if(auth.isLoggedIn) {
@@ -183,7 +185,12 @@ const DashLeft = (props) => {
                 return el.title !== deleteName
             })
             budget.setExp(newExpenses)
+            let added = newExpenses.reduce((cur, acc) => cur.ammount + acc.ammount);
+            budget.setAddedUpExpenses(added)
+            
+            console.log(added)
             cancelHandler()
+            
         } catch (err) {}
 
 
@@ -321,8 +328,7 @@ const DashLeft = (props) => {
                                                         >
                                                 <div onClick={openDeleteModalHandler} className="remove edit-item-ani">
                                                 <img alt="" className="edit-element--img" src={remove}></img></div>
-                                                    </MouseOverLabel>
-                                                
+                                                    </MouseOverLabel>                                               
                                             </span>
 
                                     </motion.div>)

@@ -27,4 +27,17 @@ const getMonthYear = () => {
     return dateNow
 }
 
+export const getMonthYearNumbered = () => {
+    const date = new Date()
+        let month = (date.getMonth() + 1).toString()
+        let year = date.getFullYear().toString();
+        
+        if (month.length <= 1) {
+            month = '0' + month
+        }
+    const curMonth = month + year
+
+    return curMonth
+}
+
 export default getMonthYear;

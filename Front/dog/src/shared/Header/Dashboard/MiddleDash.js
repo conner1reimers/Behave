@@ -9,6 +9,7 @@ import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation
 import Backdrop from '../../UIElements/Modal/Backdrop';
 import ErrorModal from '../../ErrorModal/ErrorModal';
 import { BudgetContext } from '../../../util/context/budget-context';
+import { ResetContext } from '../../../util/context/reset-context';
 
 
 const MiddleDash = (props) => {
@@ -20,7 +21,7 @@ const MiddleDash = (props) => {
     const [justSubmitted, setJustSubmitted] = useState(null);
 
 
-
+    const reset = useContext(ResetContext)
     const auth = useContext(AuthContext)
     const bugetContext = useContext(BudgetContext)
 
@@ -118,7 +119,7 @@ const MiddleDash = (props) => {
                 budgetAmt = budgetState.inputs.ammount.value - props.expenseTotal;
                 const newBudget = ({
                     month: curMonth,
-                    ammount: budgetAmt,
+                    ammount: budgetState.inputs.ammount.value,
                     creator: auth.userId
                 });
                 bugetContext.setBug(newBudget);
@@ -248,9 +249,17 @@ const MiddleDash = (props) => {
                     ammount: otherExp
                 }]
                 totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
-
+                console.log(totalExpenses)
                 // bugetContext.setAddedUpExpenses(totalExpenses)
+
+                let expenseTotalArray = expenses.map((el) => {
+                    return el.ammount
+                })
+
                 bugetContext.setExp(totalExpenses)
+                const added = expenseTotalArray.reduce((cur, acc) => {return cur + acc});
+                bugetContext.setAddedUpExpenses(added)
+
 
 
                 
@@ -260,10 +269,13 @@ const MiddleDash = (props) => {
     let budgetAmmount;
     let remaining;
 
-
+    let expenseTotal;
     const setupBudgetDisplay = () => {
+        expenseTotal = bugetContext.addedExpenseArray
         if (props.userBudget) {
+            
             if (!props.userBudget.ammount) {
+
                 budgetAmmount = (<span className='dollars-text needTo-createBudget'> Please Create a Budget for this Month<br></br>
                                     <button 
                                         onClick={budgetOpenHandlr} 
@@ -275,8 +287,8 @@ const MiddleDash = (props) => {
 
             } else {
                 let budgetAmmountDollars;
-                if (props.expenseTotal > 0) {
-                    budgetAmmountDollars = Number(parseFloat(props.userBudget.ammount) - props.expenseTotal
+                if (expenseTotal > 0) {
+                    budgetAmmountDollars = Number(parseFloat(props.userBudget.ammount) - expenseTotal
                     .toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2});
 
                 } else {
@@ -312,8 +324,9 @@ const MiddleDash = (props) => {
     setupBudgetDisplay();
 
     useEffect(() => {
-        setupBudgetDisplay();
-    }, [budgetAmt])
+        setupBudgetDisplay()
+
+    }, [props.expenseTotal, props.userBudget])
 
 
     return (

@@ -21,6 +21,9 @@ const getBudgets = async (req, res, next) => {
     let expenses;
     let incomes;
     let allBudgets;
+    let allExpenses;
+    let allIncomes;
+
 
     try {
         user = await User.findById(userId).populate('budgets').populate('incomes').populate('expenses')
@@ -75,7 +78,11 @@ const getBudgets = async (req, res, next) => {
         
         try {
             budget = await Budget.findById(budgetId);
-            allBudgets = user.budgets.map((el) => {return el})
+            allBudgets = user.budgets.map((el) => {return el});
+            allExpenses = user.expenses.map((el) => {return el});
+            allIncomes = user.incomes.map((el) => {return el})
+
+
         } catch (err) {
             const error = new HttpError('Fetching budget failed...', 500);
             return next(error);
@@ -83,7 +90,7 @@ const getBudgets = async (req, res, next) => {
     }
 
 
-    res.status(201).json({budget: budget, income: existingIncomes, expense: existingExpenses, allBudgets})
+    res.status(201).json({budget: budget, income: existingIncomes, expense: existingExpenses, allBudgets, allExpenses, allIncomes})
 
             
 

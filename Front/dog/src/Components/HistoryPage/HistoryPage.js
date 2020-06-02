@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HistoryLeft from './HistoryComponents/HistoryLeft'
 import HistoryMiddle from './HistoryComponents/HistoryMiddle'
+
 const HistoryPage = (props) => {
+
+    const [monthSet, setMonthSet] = useState(null);
+
+    const passData = (data) => {
+        setMonthSet(data)
+    } 
 
     const expenses = props.budget.expense;
     const incomes = props.budget.income;
@@ -24,12 +31,26 @@ const HistoryPage = (props) => {
         mayBudget = budgets.filter((el) => {
             return el.month === "052020"
         });
+        if (mayBudget.length > 0) {
+            mayBudget = mayBudget.reduce((el) =>{ return el})
+
+        }
         juneBudget = budgets.filter((el) => {
             return el.month === "062020"
         });
+        if (juneBudget.length > 0) {
+            juneBudget = juneBudget.reduce((el) =>{ return el})
+
+        }        
+
         julyBudget = budgets.filter((el) => {
             return el.month === "072020"
         });
+        if (julyBudget.length > 0) {
+            julyBudget = julyBudget.reduce((el) =>{ return el})
+
+        }
+
 
 
     }
@@ -62,20 +83,34 @@ const HistoryPage = (props) => {
         });
     }
 
-    const userBudgets = {
-        budgets: [mayBudget, juneBudget, julyBudget],
-        expenses: [mayExpenses, juneExpenses]
-    }
+    const userBudgets = [mayBudget, juneBudget, julyBudget];
 
+    const userExpenses = {
+        '052020': mayExpenses,
+        '062020': juneExpenses,
+        '072020': julyExpenses
+    };
+    const userIncomes = {
+        mayIncomes,
+        juneIncomes,
+        julyIncomes
+    };
 
-
-
-    console.log(mayBudget)
+    console.log(userExpenses)
 
     return (
         <div className="history--first">
-            <HistoryLeft userData={userBudgets}/>
-            <HistoryMiddle />
+            <HistoryLeft
+                passData={passData} 
+                budgets={userBudgets}
+            />
+
+            <HistoryMiddle 
+                chosenMonth={monthSet}
+                budgets={userBudgets}
+                expenses={userExpenses}
+                incomes={userIncomes}
+            />
         </div>
     )
 }

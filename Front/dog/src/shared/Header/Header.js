@@ -41,6 +41,7 @@ const Header = (props) => {
                 setUserExpense={props.setUserExpense}
                 setUserIncome={props.setUserIncome}
 
+                reamain={props.remain}
                 incomeTotal={props.userIncomeTotal}
                 expenseTotal={props.userExpenseTotal}
 

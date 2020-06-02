@@ -32,9 +32,10 @@ const First = (props) => {
     const [userTodos, setUserTodos] = useState(null);
 
     const [passedUserExpense, setPassedUserExpense] = useState(null);
-
     const [passedUserBudget, setPassedUserBudget] = useState(null);
+    const [passedUserIncome, setPassedUserIncome] = useState(null);
 
+    const [userBudgetRemaining, setBudgetRemain] = useState(null);
     const [addedUpExpenseArray, setAddedUpExpenses] = useState(null);
 
 
@@ -56,33 +57,44 @@ const First = (props) => {
                 if (!mountedRef.current) return null
 
                 setUserBudget(response.budget);
-                setPassedUserBudget(response.allBudgets)
+                setPassedUserBudget({
+                    budget: response.allBudgets,
+                    income: response.allIncomes,
+                    expense: response.allExpenses
+                })
                 expenseTotalArray = response.expense.map((el) => {
                     return el.ammount
                 })
                 expenseTotal = expenseTotalArray.reduce((acc, cur) => acc + cur);
+                
 
                 if ((!response.expense) || (response.expense.length < 1) ) {
                     setUserExpense([{}])
-                } else {
-                    setUserExpense(response.expense)
-                    setPassedUserExpense(response.expense)
-                }
-                if ((response.income === 'not found') || (response.income.length < 1) || (response.income === null)) {
+                } 
+
+
+
+
+                if ((!response.income === 'not found') || (response.income.length < 1)) {
                     setUserIncome([{}])
                 } else {
                     setUserIncome(response.income)
+                }
+
+                if ((response.allIncomes.length < 1) || (!response.allIncomes)) {
+                    setPassedUserIncome([{}])
+                } else {
+                    setPassedUserIncome(response.allIncomes)
                 }
                 
 
                 incomeTotalArray = response.income.map((el) => {
                     return el.ammount
-                })
+                });
+
                 incomeTotal = incomeTotalArray.reduce((acc, cur) => acc + cur);
 
                 setIncomeTotal(incomeTotal);
-                setExpenseTotal(expenseTotal);
-                      
 
                 let expenses = response.expense
 
@@ -158,7 +170,18 @@ const First = (props) => {
                 totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
                 setUserExpense(totalExpenses)
 
-                
+                setExpenseTotal(expenseTotal);
+
+                let budgetRemaining;
+                if (expenseTotal > 1 && response.budget) {
+                    budgetRemaining = response.budget.ammount - expenseTotal;
+                } else {
+                    budgetRemaining = response.budget.ammount;
+                };
+
+                setBudgetRemain(budgetRemaining);
+                setAddedUpExpenses(expenseTotal);
+
 
                 
 
@@ -225,17 +248,12 @@ const First = (props) => {
 
 
     const passData = () => {
-        let userBudgetObj = {
-            budget: passedUserBudget,
-            expense: passedUserExpense,
-            income: userIncome
-        }
-        props.passData(userBudgetObj)
+        props.passData(passedUserBudget)
     }
 
     useEffect(() => {
         passData();
-    }, [userBudget, passedUserExpense, userIncome])
+    }, [passedUserBudget, passedUserExpense, passedUserIncome])
 
     return (
         <BudgetContext.Provider
@@ -268,7 +286,9 @@ const First = (props) => {
             </AnimatePresence>
 
 
-
+            <ResetContext.Provider 
+                value = {{forceUpdate: forceUpdate}}
+            >
             
             <Header 
                 toggle={props.toggleLogin}
@@ -280,16 +300,17 @@ const First = (props) => {
                 setUserExpense={setUserExpense}
                 setUserIncome={setUserIncome}
 
+                remain={userBudgetRemaining}
+                setExpenseTotal={setExpenseTotal}
+
                 userIncomeTotal={userIncomeTotal}
                 userExpenseTotal={userExpenseTotal}
                 goals={userGoals}
                 setGoals={setUserGoals}
             />
             
-            <ResetContext.Provider 
-                value = {{forceUpdate: forceUpdate}}
-            >
-                <Features todos={userTodos} setTodo={setUserTodos}/>
+            
+            <Features todos={userTodos} setTodo={setUserTodos}/>
 
             </ResetContext.Provider>
 

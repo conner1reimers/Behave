@@ -4,52 +4,71 @@
         grid-row: 2 / 4;
         grid-column: 1 / 3;
         width: 100vw;
-        background-color: #858d7517;
+        background-color: #95998d17;
         color: $color-grey;
         display: grid;
-        grid-template-columns: 11vw 35vw 35vw 17vw 8vw;
+        grid-template-columns: 5vw 11vw 5vw 29vw 29.5vw 5vw 11vw 5.5vw;
     }
 
     &--sidebar {
-        background-color: $color-white;
         margin: 3rem 1rem;
-        
+        border-right: .3px solid rgba(0, 0, 0, 0.13);
+        background-color: rgb(255, 255, 255);
+        border-radius: .5rem;
+        height: 40vh;
+        grid-column: 2 / 3;
 
 
     }
 
     &--month-list {
         margin-top: 3rem;
-        font-size: 2rem;
         font-family: $font-3;
-        background-color: $color-white;
-
+        border-radius: 2rem;
+        position: relative;
+        
 
 
     }
     &--month-item {
-        font-size: 2rem;
+        font-size: 1.7rem;
         font-family: $font-2;
         font-weight: 400;
         list-style: none;
         margin: 3rem 1rem;
+        transition: all .2s;
+
+        cursor: pointer;
+
+        & p {
+            margin-left: 1rem;
+        }
+
+        &:hover {
+            color: $color-light-1;
+
+            transition: all .2s;
+        }
 
     }
 
     &--middle {
-        grid-column: 2 /  6;
-        display: grid;
-        grid-template-columns: 25vw 45vw 14vw 8vw 8vw;
-        background-color: $color-white;
-        margin: 3rem;
-        border-left: 1.3px solid rgb(0, 0, 0);
+        grid-column: 4 /  6;
+        grid-row: 1 / 2;
+        background-color: rgb(255, 255, 255);
+        margin: 3rem 0;
+        border-left: 1.3px solid rgba(0, 0, 0, 0.11);
+        border-radius: .5rem;
 
 
 
         &--head-contain {
-            grid-column: 2 / 3;
+            grid-column: 1 / 3;
             display: flex;
             justify-content: space-around;
+            height: 5rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
 
         }
 
@@ -74,18 +93,69 @@
             }
 
         }
+
+        &--expense-list {
+            list-style: none;
+        }
+        &--expense-item {
+            font-size: 3rem;
+        }
+    }
+
+    &--right {
+        background-color: white;
+        grid-row: 1 / 3;
+        grid-column: 7 / 8;
+        margin: 1.5rem;
+
+        &--lower {
+            background-color: white;
+            grid-row: 2 / 3;
+            grid-column: 7 / 8;
+            margin: 1.5rem;
+        }
+
     }
 }
 
 .sidebar-head {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-family: $font-2;
-    margin-left: 1rem;
+    margin-left: 2rem;
     margin-bottom: 5rem;
+    margin-top: 2rem;
+
+
+}
+
+.monthChosen {
+    overflow: visible;
+    border-left: 1px solid $color-light-1;
+    color: $color-light-1;
 
 }
 
 .history-chosen {
     color: $color-light-1;
     border-bottom: 1px solid $color-light-1;
+    position: relative;
+    
+}
+
+.choose-month-ani {
+    height: 5rem;
+    width: 5rem;
+    background-color: blue;
+    border-radius: 1rem;
+    top: .4em;
+    left: -5.5rem;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+
+
 }
