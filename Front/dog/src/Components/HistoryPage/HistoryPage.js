@@ -91,12 +91,10 @@ const HistoryPage = (props) => {
         '072020': julyExpenses
     };
     const userIncomes = {
-        mayIncomes,
-        juneIncomes,
-        julyIncomes
+        '052020': mayIncomes,
+        '062020': juneIncomes,
+        '072020': julyIncomes
     };
-
-    console.log(userExpenses)
 
     return (
         <div className="history--first">
@@ -111,6 +109,7 @@ const HistoryPage = (props) => {
                 expenses={userExpenses}
                 incomes={userIncomes}
             />
+            <div className="history--first--back"></div>
         </div>
     )
 }

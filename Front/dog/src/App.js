@@ -19,9 +19,8 @@ function App() {
 
   const passData = (passed) => {
     setBudgetState(passed);
-    console.log(budgetState)
   }
-  
+  console.log(budgetState)
   const login = useCallback((uid, token) => {
       setToken(token);
       setUserId(uid);
@@ -39,9 +38,6 @@ function App() {
       localStorage.removeItem('userData')
     },[]);
 
-  // const checkHome = () => {
-    
-  // }
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -49,7 +45,7 @@ function App() {
       login(storedData.userId, storedData.token)
     }
     // checkHome();
-  }, [])
+  }, []);
 
   const toggleLogin = (event) => {
     if(!!token) {

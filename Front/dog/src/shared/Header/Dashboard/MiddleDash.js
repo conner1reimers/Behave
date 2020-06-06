@@ -10,7 +10,45 @@ import Backdrop from '../../UIElements/Modal/Backdrop';
 import ErrorModal from '../../ErrorModal/ErrorModal';
 import { BudgetContext } from '../../../util/context/budget-context';
 import { ResetContext } from '../../../util/context/reset-context';
+import Media from 'react-media';
+import forbidden from './forbidden.svg'
+import { AnimatePresence, motion } from 'framer-motion';
 
+const pageVariants = {
+    initial: {
+        scale: .2,
+        opacity: 0,
+        x: '40%',
+        rotate: 15
+
+
+    },
+    out: {
+
+
+        scale: .3,
+        opacity: .4,
+        x: '70%',
+        rotate: 15
+
+
+    },
+    in: {
+
+        scale: 0.9,
+        opacity: 1,
+        x: '0%',
+        rotate: 0
+    }
+}
+
+const pageTransition = {
+    type: 'spring',
+    mass: 2.1,
+    damping: 80,
+    stiffness: 1200
+    
+}
 
 const MiddleDash = (props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
@@ -19,6 +57,8 @@ const MiddleDash = (props) => {
     const [budgetState, setBudgetState] = useState(null);
 
     const [justSubmitted, setJustSubmitted] = useState(null);
+
+    const [goalsHidden, setGoalsHidden] = useState(false);
 
 
     const reset = useContext(ResetContext)
@@ -59,6 +99,10 @@ const MiddleDash = (props) => {
         setIncomeEdit(false);
         setJustSubmitted(false);
 
+    }
+
+    const hideGoals = () => {
+        setGoalsHidden((prevState) => !prevState);
     }
 
     const budgetOpenHandlr = () => {
@@ -175,7 +219,7 @@ const MiddleDash = (props) => {
                 })
                 setJustSubmitted(true);
                 let expense = response.expense
-                let expenses = bugetContext.expense
+                let expenses = props.userExpense
                 expenses.push(expense)
                 
 
@@ -249,7 +293,6 @@ const MiddleDash = (props) => {
                     ammount: otherExp
                 }]
                 totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
-                console.log(totalExpenses)
                 // bugetContext.setAddedUpExpenses(totalExpenses)
 
                 let expenseTotalArray = expenses.map((el) => {
@@ -271,7 +314,8 @@ const MiddleDash = (props) => {
 
     let expenseTotal;
     const setupBudgetDisplay = () => {
-        expenseTotal = bugetContext.addedExpenseArray
+        expenseTotal = props.expenseTotal
+
         if (props.userBudget) {
             
             if (!props.userBudget.ammount) {
@@ -287,7 +331,7 @@ const MiddleDash = (props) => {
 
             } else {
                 let budgetAmmountDollars;
-                if (expenseTotal > 0) {
+                if (expenseTotal > 0 && props.userExpense.length > 0) {
                     budgetAmmountDollars = Number(parseFloat(props.userBudget.ammount) - expenseTotal
                     .toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2});
 
@@ -326,7 +370,31 @@ const MiddleDash = (props) => {
     useEffect(() => {
         setupBudgetDisplay()
 
-    }, [props.expenseTotal, props.userBudget])
+    }, [props.expenseTotal, props.userBudget, props.userExpense])
+
+    let goals = props.goals;
+
+
+    let chosenGoals;
+    if (goals) {
+        chosenGoals = goals.filter((goal) => {
+            return goal.chosen === true
+        })
+    } else {
+        chosenGoals = []
+    }
+
+
+    let mappedChosenGoals;
+    if (chosenGoals) {
+        mappedChosenGoals = chosenGoals.map((goal, index) => {
+            return (
+            <li key={index} className="chosen-goals--item">
+                {goal.title}
+            </li>
+            )
+        })
+    }
 
 
     return (
@@ -334,6 +402,43 @@ const MiddleDash = (props) => {
                 <ErrorModal error={error} clearError={clearError}/>
 
                 {content}
+                <Media query="(max-width: 450px)">
+                <Modal
+                    cancel={cancelHandler} 
+                    onSubmit={submitDataToBudget}
+                    header={<div className="budget-head">Setup Your Budget! <IncomeIcon/> {backButton} </div>}
+                    headerClass="budgetHead"
+                    footer={<BudgetFooter 
+                        passedData={passData}
+                        budgetEdit={budgetEdit}
+                        incomeEdit={incomeEdit}
+                        expenseEdit={expenseEdit}  
+                        justSubmitted={justSubmitted}
+                        userBudget={props.userBudget}  
+
+                        />}
+                    show={props.modalOpen}
+                    >
+                        <BudgetEditor 
+                            setModalOpen={props.setModalOpen} 
+                            modalOpen={props.modalOpen}
+                            editIncomeToggle={editIncome}
+                            editBudgetToggle={editBudget}
+                            editExpenseToggle={editExpense}
+                            budgetEdit={budgetEdit}
+                            incomeEdit={incomeEdit}
+                            expenseEdit={expenseEdit}
+                            passData={passData}
+                            existingUserBudget={props.userBudget}  
+                            existingUserIncome={props.userIncome}                            
+                            existingUserExpense={props.userExpense}
+                            justSubmitted={justSubmitted}                            
+                          
+                        /> 
+                </Modal>
+                </Media>
+
+                <Media query="(min-width: 450px)">
                 <Modal
                     cancel={cancelHandler} 
                     onSubmit={submitDataToBudget}
@@ -369,6 +474,7 @@ const MiddleDash = (props) => {
                           
                         /> 
                 </Modal>
+                </Media>
             
 
 
@@ -401,6 +507,29 @@ const MiddleDash = (props) => {
                         display: 'inline-block'
                         }}>$2,401</span></p>
                 </div> */}
+
+
+                {chosenGoals.length > 0 &&  <button type="button" onClick={hideGoals} className="btn chosen-goals--hide"><img alt='' src={forbidden}></img></button>}
+                <AnimatePresence exitBeforeEnter>
+                    {chosenGoals.length > 0 && !goalsHidden && (
+                    
+                    
+                        <motion.div
+                            initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={pageVariants}
+                            transition={pageTransition}
+                            className="chosen-goals">
+                            <p>Top 3 goals:</p>
+                            <ul className="chosen-goals--list">
+                                {mappedChosenGoals}
+                            </ul>
+                        </motion.div>
+                
+                    )}
+                </AnimatePresence>
+
 
         </div>
     )

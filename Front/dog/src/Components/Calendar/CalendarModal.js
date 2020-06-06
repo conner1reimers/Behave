@@ -37,9 +37,11 @@ const CalendarModal = () => {
 
      ]
 
-    const daysMapped = daysOfTheWeek.map((day) => {
+    const daysMapped = daysOfTheWeek.map((day, index) => {
         return (
-            <li className="calendar-modal--dayitem">
+            <li
+            key={index}
+            className="calendar-modal--dayitem">
                 <span className="calendar-modal--text">{day.day}</span>
             </li>
         )

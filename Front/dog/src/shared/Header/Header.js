@@ -7,16 +7,6 @@ import Monies from '../../lotties/Monies/Monies';
 const Header = (props) => {
     const [modalOpen, setModalOpen] = useState(false)
 
-    // const passData = useCallback((budget, income, expense) => {
-    //     const userTemplate = {
-    //         budget,
-    //         income,
-    //         expense
-    //     }
-    //     setUserData(userTemplate)
-    //     console.log(userData)
-    // }, []);
-
     const todos = [{todo: 'hi'}, {todo: 'ho'}];
 
 
@@ -27,6 +17,7 @@ const Header = (props) => {
                 userExpense={props.userExpense}
                 setUserExpense={props.setUserExpense}
                 toggle={props.toggle} 
+                setExpenseTotal={props.setExpenseTotal}
 
             />
             <MiddleDash 
@@ -44,6 +35,9 @@ const Header = (props) => {
                 reamain={props.remain}
                 incomeTotal={props.userIncomeTotal}
                 expenseTotal={props.userExpenseTotal}
+
+                goals={props.goals}
+
 
             />
             <DashRight

@@ -23,29 +23,6 @@ const MoneyAni = () => {
         }
         };
 
-    // const complica = async () => {
-    //     setTimeout(() => {
-            
-    //         setIsVis(false)
-    //         lottie.setDirection(-1)
-
-    //     }, 50);
-    // }
-
-    //     const mouseOverHandler = (event) => {
-    //         setIsVis(true)
-    //         _lottieHeartRef && _lottieHeartRef.setDirection(1)
-    //         _lottieHeartRef && _lottieHeartRef.play()  
-    //         console.log(_lottieHeartRef)
-    //     }
-    //     const mouseLeaveHandler = (event) => {
-    //         _lottieHeartRef.setDirection(-1)
-    //         _lottieHeartRef.play()
-            
-            
-    //         complica()
-            
-    //     }
 
 
         return ReactDOM.createPortal(

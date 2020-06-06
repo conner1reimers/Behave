@@ -47,7 +47,7 @@ const Potion = (props) => {
 
 
         return (
-            <div className="budget-btns addexpense-btn" >
+            <div className="budget-btns addexpense-btn card" >
                             <div className="btn-budget-container addexpense-btn">
                                 <button onMouseLeave={mouseLeaveHandler} onMouseEnter={mouseOverHandler} type="button" onClick={props.editExpenseToggle} className="btn btn-budget ">Add Your Expenses</button>
                                 <div className='creditCard'>    <Lottie

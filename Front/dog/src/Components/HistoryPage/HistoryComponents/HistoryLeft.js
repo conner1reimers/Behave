@@ -85,9 +85,7 @@ const HistoryLeft = (props) => {
                 )
             }}
             return (
-            <Fragment
-            key={el.month}
-            >
+
             <li 
                 onClick={() => monthChoose(el.month)} 
                 key={el.month}
@@ -100,17 +98,16 @@ const HistoryLeft = (props) => {
                 </p>
     
  
-    
-                
-            </li >
-            {el.month === monthSet && (
+                {el.month === monthSet && (
                 <AnimatePresence 
                 exitBeforeEnter
                 key={index}
                 >
                     {dotElement}
                 </AnimatePresence>)}
-            </Fragment>
+                
+            </li >
+            
         )})
     }
 
@@ -132,7 +129,7 @@ const HistoryLeft = (props) => {
                     {monthList}
                 </ul>
             </div>
-            <div className="history--sidebar">
+            <div className="history--sidebar2">
                 <h1 className="sidebar-head">Months: </h1>
 
                 

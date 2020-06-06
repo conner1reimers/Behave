@@ -180,15 +180,20 @@ const DashLeft = (props) => {
             }),
             {'Content-Type': 'application/json'}
             )
-            let expense = budget.expense            
+            let expense = props.userExpense         
             let newExpenses = expense.filter((el) => {
                 return el.title !== deleteName
             })
+
+            let expenseTotalArray = newExpenses.map((el) => {
+                return el.ammount
+            })
+
+            props.setUserExpense(newExpenses)
             budget.setExp(newExpenses)
-            let added = newExpenses.reduce((cur, acc) => cur.ammount + acc.ammount);
+            const added = expenseTotalArray.reduce((cur, acc) =>{ return cur + acc});
+            props.setExpenseTotal(added)
             budget.setAddedUpExpenses(added)
-            
-            console.log(added)
             cancelHandler()
             
         } catch (err) {}
@@ -203,7 +208,7 @@ const DashLeft = (props) => {
     }
 
     const toggleDeleteItem = (event) => {
-        if (isDelete) {
+        if (isDelete && props.userExpense.length > 0) {
             const clickedName = event.target.firstChild.id;
 
             if (isDelete.name === clickedName && isDelete.clicked === true) {
@@ -394,6 +399,8 @@ const DashLeft = (props) => {
 
     useEffect(() => {
         setExpenses();
+        cancelHandler()
+
     }, [props.userExpense, expenses])
 
         
@@ -415,7 +422,8 @@ const DashLeft = (props) => {
             <Modal
                 show={modalOpen}
                 cancel={cancelHandler}
-                header={<h2 className="calendar-modal--head">Month of {dateNow}</h2>}
+                header={`Month of ${dateNow}`}
+                headerClass={"calendar-modal--head"}
                 footer={null}
             >
                 <CalendarModal />
@@ -432,7 +440,8 @@ const DashLeft = (props) => {
             <Modal
                 show={editModalOpen}
                 cancel={cancelHandler}
-                header={<h2 className="calendar-modal--head">Month of {dateNow}</h2>}
+                header={`Month of ${dateNow}`}
+                headerClass={"calendar-modal--head"}
                 footer={null}
             >   {editModalContent}
 

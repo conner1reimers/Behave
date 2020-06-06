@@ -6,6 +6,7 @@ import { useForm } from '../util/hooks/useForm';
 import { useHttpClient } from '../util/hooks/http-hook';
 import { AuthContext } from '../util/context/auth-context';
 import ErrorModal from '../shared/ErrorModal/ErrorModal';
+import Media from 'react-media';
 
 const Auth = (props) => {
     const auth = useContext(AuthContext);

@@ -15,6 +15,7 @@ import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation
 import { useHttpClient } from '../../../util/hooks/http-hook';
 import ErrorModal from '../../ErrorModal/ErrorModal';
 
+
 const pageVariants = {
     initial: {
         scale: .9,
@@ -120,24 +121,7 @@ const DashRight = (props) => {
     let newGoal;
     let goals = props.goals;
 
-    let chosenGoals;
-    if (goals) {
-        chosenGoals = goals.filter((goal) => {
-            return goal.chosen === true
-        })
-    }
 
-
-    let mappedChosenGoals;
-    if (chosenGoals) {
-        mappedChosenGoals = chosenGoals.map((goal, index) => {
-            return (
-            <li key={index} className="chosen-goals--item">
-                {goal.title}
-            </li>
-            )
-        })
-    }
 
     const goalSubmit = async (event) => {
         event.preventDefault();
@@ -181,11 +165,7 @@ const DashRight = (props) => {
                     <p id="goal" className="dash-right-goals">Goals  </p>
                     <Bulb/>
                 </div> 
-                <div className="chosen-goals">
-                    <ul className="chosen-goals--list">
-                        {mappedChosenGoals}
-                    </ul>
-                </div>
+                
             </div>
 
             

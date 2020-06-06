@@ -24,7 +24,6 @@ const GoalModalItem = (props) => {
                     creator: auth.userId
                 }),
                 {'Content-Type': 'application/json'});
-            console.log(response)
 
             let newArray = props.goals.filter((goal) => {
                 return goal._id !== id
@@ -59,7 +58,6 @@ const GoalModalItem = (props) => {
     let goalList = null;
 
     const setGoals = () => {
-        console.log('hola')
         if (props.goals) {
             goalList = props.goals.map((goal, index) => {
                 if (goal.chosen) {

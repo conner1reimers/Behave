@@ -14,7 +14,6 @@ const Sidebar = (props) => {
     const setItems = () => {
         
         setTimeout(() => {
-            console.log(props.isLoggedIn)
             setContent(
                 <div className="sidebar">
                     

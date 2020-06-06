@@ -41,7 +41,7 @@
 
 .backdrop {
     position: fixed;
-    height: 100vh;
+    height: 200vh;
     width: 100vw;
     top: 0;
     left: 0;
@@ -164,6 +164,45 @@
     }
 
 
+}
+@media only screen and (max-width: 450px) {
+    .modal {
+        right: 0rem;
+        width: 80vw; 
+        left: 4rem;
+        top: 5rem;
+        height: 40%;
+        position: fixed;
+
+    }
+}
+@media only screen and (max-width: 375px) {
+    .modal {
+        right: 0rem;
+        width: 80vw; 
+        left: 3.5rem;
+        top: 6rem;
+        max-height: 80vh;
+        position: fixed;
+
+    }
+}
+@media only screen and (max-width: 750px) and (min-width: 450px) {
+    .modal {
+        position: fixed;
+
+        right: 28rem;
+        width: 80vw; 
+        left: 7rem;
+        top: 10rem;
+        height: 60%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .modal {
+        right: 25rem;
+        min-width: 60vw; 
+    }
 }
 
 @media only screen and (min-width: 1000px) {

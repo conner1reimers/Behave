@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useContext, useCallback, useEffect, useRef } from 'react'
-import Sidebar from '../shared/Sidebar/Sidebar'
+import React, {useState, useContext, useCallback, useEffect, useRef } from 'react'
 import Header from '../shared/Header/Header'
 import Features from '../shared/Firstpage components/Features'
 import { AnimatePresence } from 'framer-motion';
@@ -10,7 +9,6 @@ import { useHttpClient } from '../util/hooks/http-hook';
 import ErrorModal from '../shared/ErrorModal/ErrorModal';
 import { BudgetContext } from '../util/context/budget-context';
 import { ResetContext } from '../util/context/reset-context';
-var _ = require('lodash');
 
 
 
@@ -31,12 +29,9 @@ const First = (props) => {
     const [userGoals, setUserGoals] = useState(null);
     const [userTodos, setUserTodos] = useState(null);
 
-    const [passedUserExpense, setPassedUserExpense] = useState(null);
     const [passedUserBudget, setPassedUserBudget] = useState(null);
-    const [passedUserIncome, setPassedUserIncome] = useState(null);
 
     const [userBudgetRemaining, setBudgetRemain] = useState(null);
-    const [addedUpExpenseArray, setAddedUpExpenses] = useState(null);
 
 
     const [userIncomeTotal, setIncomeTotal] = useState(null);
@@ -79,13 +74,7 @@ const First = (props) => {
                     setUserIncome([{}])
                 } else {
                     setUserIncome(response.income)
-                }
-
-                if ((response.allIncomes.length < 1) || (!response.allIncomes)) {
-                    setPassedUserIncome([{}])
-                } else {
-                    setPassedUserIncome(response.allIncomes)
-                }
+                }            
                 
 
                 incomeTotalArray = response.income.map((el) => {
@@ -170,6 +159,8 @@ const First = (props) => {
                 totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
                 setUserExpense(totalExpenses)
 
+
+
                 setExpenseTotal(expenseTotal);
 
                 let budgetRemaining;
@@ -180,8 +171,6 @@ const First = (props) => {
                 };
 
                 setBudgetRemain(budgetRemaining);
-                setAddedUpExpenses(expenseTotal);
-
 
                 
 
@@ -190,12 +179,11 @@ const First = (props) => {
             }}
         
 
-    }, [])
+    }, [auth.isLoggedIn, auth.userId, sendRequest])
 
     const fetchGoals = useCallback(async () => {
         if (auth.isLoggedIn) {
             let response;
-            let goals;
 
             
             try {
@@ -206,19 +194,17 @@ const First = (props) => {
         } catch (err) {
             // ??????
             }}
-    }, [])
+    }, [auth.isLoggedIn, auth.userId, sendRequest])
 
     const fetchTodos = useCallback(async () => {
         if (auth.isLoggedIn) {
             let response;
-            let todos;
             try {
                 response = await sendRequest(`http://localhost:5000/api/todo/${auth.userId}`)
                 if (!mountedRef.current) return null
                 setUserTodos(response.todos)
-                console.log(response.todos)
         } catch (err) {}}
-    }, [])
+    }, [auth.isLoggedIn, auth.userId, sendRequest])
 
     useEffect(() => {
         fetchBudget();
@@ -228,7 +214,7 @@ const First = (props) => {
         return () => {
             mountedRef.current = false;
         }
-    }, [fetchBudget, fetchTodos])
+    }, [fetchBudget, fetchTodos, fetchGoals])
 
 
     const setBug = (budget) => {
@@ -247,13 +233,13 @@ const First = (props) => {
     }
 
 
-    const passData = () => {
+    const passData = useCallback(() => {
         props.passData(passedUserBudget)
-    }
+    }, [props, passedUserBudget])
 
     useEffect(() => {
         passData();
-    }, [passedUserBudget, passedUserExpense, passedUserIncome])
+    }, [passedUserBudget, passData])
 
     return (
         <BudgetContext.Provider
@@ -264,8 +250,8 @@ const First = (props) => {
                 budget: userBudget,
                 expense: userExpense,
                 income: userIncome,
-                addedExpenseArray: addedUpExpenseArray,
-                setAddedUpExpenses,
+                addedExpenseArray: userExpenseTotal,
+                setAddedUpExpenses: setExpenseTotal,
                 todos: userTodos,
                 setTodos: setTodo
             }}
@@ -305,6 +291,8 @@ const First = (props) => {
 
                 userIncomeTotal={userIncomeTotal}
                 userExpenseTotal={userExpenseTotal}
+                setExpenseTotal={setExpenseTotal}
+
                 goals={userGoals}
                 setGoals={setUserGoals}
             />

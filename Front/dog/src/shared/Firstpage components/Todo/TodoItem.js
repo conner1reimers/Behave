@@ -170,25 +170,21 @@ const TodoItem = (props) => {
             setIsDelete({id, clicked: true});
             setIsEdit(false)
         }
-        console.log(isDelete)
     }
     
     const toggleEditItem = (event, id) => {
         event.preventDefault();
-        console.log(id)
     }
 
     const cancelHandlr = (event) => {
         event.cancelBubble = true
         event.stopPropagation()
-        console.log('cancel')
 
     }
 
     const deleteTodo = (event) => {
         event.cancelBubble = true
         event.stopPropagation()
-        console.log('delete')
     }
 
 

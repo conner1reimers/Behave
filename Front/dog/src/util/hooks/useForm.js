@@ -18,14 +18,7 @@ const formReducer = (state, action) => {
                 else {
                     formIsValid = formIsValid && state.inputs[inputId].isValid
                 }
-                // if (action.inputId === 'passwordConfirm') {
-                //     pass = state.inputs.password.value
-                //     passConfirm = state.inputs.passwordConfirm.value
-                //     matchPass = (pass == passConfirm) ? true : false
-                    
-                //     console.log(`pass: ${pass}   .... confirm: ${passConfirm}`)
-                //     console.log(matchPass)
-                // }
+         
             
             }
             return {

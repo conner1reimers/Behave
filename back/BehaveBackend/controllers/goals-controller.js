@@ -77,7 +77,6 @@ const chooseGoal = async (req, res, next) => {
 
 
     if (currentlyChosen.length <= 2) {
-        console.log(goal)
 
         try {
             goal.chosen = !chosen
@@ -123,8 +122,6 @@ const createGoal = async (req, res, next) => {
     });
 
     let user;
-
-    console.log(createdGoal)
 
     try {
         user = await User.findById(creator).populate('goals')

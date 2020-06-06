@@ -47,8 +47,8 @@ const ExpenseIcon = (props) => {
 
 
         return (
-            <div className="budget-btns" >
-                            <div className="btn-budget-container">
+            <div className="budget-btns pig" >
+                            <div style={{zIndex: 3}} className="btn-budget-container">
                                 <button 
                                     type="button" 
                                     onMouseLeave={mouseLeaveHandler} 

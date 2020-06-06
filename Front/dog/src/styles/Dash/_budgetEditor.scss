@@ -14,65 +14,8 @@
     justify-content: flex-start;
     font-size: 8rem;
 }
-@media only screen and (max-height: 730px){
 
-    .budget-editor {
-        width: 40vw;
-        height: 35vh;
-        grid-template-columns: 25.34% 25.33% 50.33%;
-        grid-template-rows: 23.34% 43.33% 66.33%;
 
-    }
-
-    .budget-buttons {
-        display: grid;
-        width: 40vw;
-        height: 35vh;
-        grid-template-columns: 25.34% 25.33% 50.33%;
-        grid-template-rows: 23.34% 43.33% 66.33%;
-    }
-    .budget-btns {
-        display: grid;
-    }
-    .stuff {
-        display: flex;
-    }
-
-    .potion {
-        grid-row: 1 / 2;
-        grid-column: 2 / 3;
-    }
-
-    .creditCard {
-        grid-row: 1 / 2;
-        grid-column: 3 / 4;
-    }
-
-    .addexpense-btn {
-        height: 33rem;
-        grid-column: 3 / 4;
-        grid-row: 1 / 2;
-        transform: translateY(-7rem);
-        transition: all .2s;
-    }
-    .piggy {
-        grid-row: 1 / 2;
-        grid-column: 2 / 3;
-    }
-    .btn-budget-container {
-        width: 16vw;
-        height: 30%;
-        margin-top: 3rem;
-        text-align: start;
-        display: grid;
-        grid-template-rows: 100%;
-        grid-template-columns: 1vw 10vw 20vw;
-    
-        & svg {
-            grid-column: 3 / span 1;
-        }
-    }
-}
 
 
 
@@ -142,6 +85,18 @@
     grid-template-rows: 100%;
     grid-template-columns: 70% 10% 20% 30% 30% 35%;
     font-size: 3rem;
+}
+@media only screen and (max-width: 875px) {
+    .budget-head {
+        grid-template-columns: 90% 10%;
+
+    }
+}
+@media only screen and (max-width: 560px) {
+    .budget-head {
+        grid-template-columns: 170% 25% 20%;
+
+    }
 }
 
 .income-ico {
@@ -499,4 +454,139 @@
 
 .budget-dropdown {
     right: 2.7rem;
+}
+
+@media only screen and (max-width: 450px) {
+    .budget-editor {
+        width: 100%;
+
+    }
+    .btn-budget-container {
+        margin-right: -3rem;
+        transform: translateX(-2rem);
+    }
+
+    .budget-maker {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        display: grid;
+        width: 80vw;
+        height: 50vh;
+        grid-template-columns: 100%;
+        grid-template-rows: 33% 33% 33%;
+        transform: translateY(-4rem);
+
+    }
+    .budget-desc {
+        grid-row: 2/3;
+        grid-column: 1/2;
+        align-self: center;
+        width: 60vw;
+    }
+    .budget-input {
+        grid-row: 3 / 4;
+        width: 60vw;
+        align-self: center;
+
+    }
+    .budget-dropdown {
+
+        min-width: 10vw;
+        max-width: 63vw;
+        left: 11.3rem;
+        grid-column: 1 / span 1;
+
+    }
+    .footer-budget {
+        flex-direction: column;
+        
+    }
+    .budget-month {
+        width: 66vw;
+        margin-top: 5rem;
+    }
+    .btn-budgetSubmit {
+        margin-top: -9rem;
+    }
+    .cur-bud {
+        margin-top: 4rem;
+        width: 66vw;
+    }
+    .back-btn {
+        padding: 5px 1rem;
+        transform: translateX(-5rem) translateY(-3rem) scale(0.6);
+
+    }
+}
+@media only screen and (max-height: 655px) and (min-width: 790px){
+
+    .budget-editor {
+        width: 40vw;
+        height: 35vh;
+        grid-template-columns: 25.34% 25.33% 50.33%;
+        grid-template-rows: 23.34% 43.33% 66.33%;
+
+    }
+
+    .budget-buttons {
+        display: grid;
+        width: 40vw;
+        height: 35vh;
+        grid-template-columns: 25.34% 25.33% 50.33%;
+        grid-template-rows: 23.34% 43.33% 66.33%;
+    }
+    .budget-btns {
+        display: grid;
+    }
+    .stuff {
+        display: flex;
+    }
+
+    .potion {
+        grid-row: 1 / 2;
+        grid-column: 2 / 3;
+    }
+
+    .creditCard {
+        grid-row: 1 / 2;
+        grid-column: 3 / 4;
+    }
+
+    .pot {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+    }
+    .potion {
+        grid-column: 2 / 4;
+    }
+    .pig {
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+        transform: translateY(-5rem);
+    }
+    .piggy {
+        grid-row: 1 / 2;
+        grid-column: 2 / 4;
+    }
+    .btn-budget-container {
+        width: 16vw;
+        height: 30%;
+        grid-row: 3 / 4;
+        margin-top: 3rem;
+        text-align: start;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 1vw 10vw 20vw;
+    
+        & svg {
+            grid-column: 3 / span 1;
+        }
+    }
+    .card {
+        grid-row: 2 / 3;
+        grid-column: 3 / 4;
+    }
+    .creditCard{
+        grid-column: 2 / 4;
+    }
 }

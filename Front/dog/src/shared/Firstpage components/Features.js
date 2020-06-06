@@ -33,7 +33,6 @@ const Features = (props) => {
         event.preventDefault();
 
         let response;
-        console.log(formState)
         try {
             response = await sendRequest('http://localhost:5000/api/todo',
             'POST',

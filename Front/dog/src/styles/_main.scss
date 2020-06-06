@@ -169,22 +169,38 @@ body {
 
 @media only screen and (max-width: 750px) {
     .container {
-        grid-template-rows: 8vh repeat(3, 39.8vh) repeat(3, 100vh);
+        grid-template-rows: 8vh repeat(6, 39.8vh) repeat(3, 100vh);
         grid-template-columns: repeat(3, min-content);
     }
 
     .dashboard-container {
-        grid-row: 2 / 6;
-        grid-template-columns: 65vw 35vw;
+        grid-row: 2 / 8;
+        grid-template-columns: 60vw 40vw;
         grid-template-rows: 70vh .3fr 1fr 1.5fr ;
         grid-gap: 1rem;
         max-width: 100%;
 
     }
 
-    .features {
-        grid-row: 6 / 7;
+    
+
+    .todo {
+        grid-row: 8 / 10;
+        grid-column: 1/2;
     }
+    .todo-contained {
+        width: 88vw;
+    }
+    .heading-todo {
+        grid-column: 1/4;
+        justify-self: flex-start;
+        transform: translateX(-10rem);
+    }
+    .urgency {
+        margin-bottom: 40rem;
+        margin-left: 8rem;
+    }
+
   }
 .loading {
 
