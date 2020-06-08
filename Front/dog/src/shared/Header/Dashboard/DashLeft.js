@@ -3,20 +3,29 @@ import Typed from 'react-typed';
 import Calendar2 from '../../../lotties/Calendar2';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../util/context/auth-context';
-import business from './businesss.png';
+import business from './dashLeftImgs/businesss.png';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import Modal from '../../UIElements/Modal/Modal';
 import CalendarModal from '../../../Components/Calendar/CalendarModal';
-import getMonthYear from '../../../util/getMonthYear';
+import getMonthYear, { getMonthYearNumbered } from '../../../util/getMonthYear';
 import { BudgetContext } from '../../../util/context/budget-context';
-import pencil from './pencil.svg';
-import remove from './remove.svg';
-import wrench from './wrench.svg';
+
+import pencil from './dashLeftImgs/pencil.svg';
+import remove from './dashLeftImgs/remove.svg';
+import wrench from './dashLeftImgs/wrench.svg';
+import register from './dashLeftImgs/register.svg';
+import kill from './dashLeftImgs/kill.svg'
+import question from './dashLeftImgs/question.svg'
+
+
 import MouseOverLabel from '../../../util/MouseOverLabel';
 import MsgModal from '../../UIElements/Modal/MsgModal';
 import {useHttpClient} from '../../../util/hooks/http-hook';
 import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation';
 import { ResetContext } from '../../../util/context/reset-context';
+import Input from '../../UIElements/Input/Input';
+import { VALIDATOR_REQUIRE } from '../../../util/validators';
+import { useForm } from '../../../util/hooks/useForm';
 
 const pageVariants = {
     initial: {
@@ -117,6 +126,40 @@ const editTransition = {
     
 }
 
+const editExpenseVariants = {
+    initial: {
+        scale: .9,
+        x: '450%',
+        opacity: 0
+
+
+    },
+    out: {
+
+
+        scale: 0.8,
+        x: '350%',
+        opacity: 0
+
+
+    },
+    in: {
+
+        scale: 1,
+        x: '165%',
+        opacity: 1.4
+    }
+}
+
+const editExpenseTransition = {
+    type: 'spring',
+    mass: 2.7,
+    damping: 83,
+    stiffness: 750,
+    velocity: 6,
+
+    
+}
 
 
 
@@ -127,12 +170,24 @@ const DashLeft = (props) => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [deleteName, setDeleteName] = useState(null)
+    const [editExpenseName, setEditExpenseName] = useState(null)
+
+    const [editAnimationState, setEditAnimationState] = useState(null)
     
     const {isLoading, error, sendRequest, clearError} = useHttpClient()
+
+    const curMonth = getMonthYearNumbered()
     
     const auth = useContext(AuthContext);
     const budget = useContext(BudgetContext)
-    const reset = useContext(ResetContext)
+    const reset = useContext(ResetContext);
+    
+    const [formState, inputHandler] = useForm({
+        email: {
+            value: '',
+            isValid: false
+        }
+    }, false);
 
     const eventModalOpen = () => {
         if(auth.isLoggedIn) {
@@ -141,8 +196,119 @@ const DashLeft = (props) => {
             props.toggle()
         }
     }
-    
-    const openEditModalHandler = (event) => {
+
+    const editExpenseAmmount = (event, id) => {
+        if (editAnimationState) {
+            if (editAnimationState.id === id && isDelete.clicked === true) {
+                setEditAnimationState((prevState) => {return {...prevState, clicked: false}});
+            } else {
+                setEditAnimationState({id: id, clicked: true});
+            }
+        } else {
+            setEditAnimationState({id: id, clicked: true});
+
+        }
+    }
+
+    let editModalContent;
+    let displayExpenses;
+
+    const setEditModal = (title) => {
+        if (props.entireBudget && editExpenseName) {
+            displayExpenses = props.entireBudget.expense
+                .filter((el) => el.month === curMonth)
+                .filter((el) => el.title === editExpenseName);
+            
+
+        editModalContent = displayExpenses.map((el) => {
+                let expenseDescription;
+                let editExpenseInput;
+                if (el.description !== '') {
+                    expenseDescription = el.description
+                } else {
+                    expenseDescription = 'No Description'
+                };
+
+                editExpenseInput = (
+                    <motion.div
+                        initial="initial"
+                        animate="in"
+                        exit="out"
+                        variants={editExpenseVariants}
+                        transition={editExpenseTransition}
+                        className="expense-item--input"
+                        // onClick={(event) => toggleEditItem(event, expense.title)}
+                    >
+                        <Input 
+                            name="New Ammount" 
+                            id="email"
+                            validator={VALIDATOR_REQUIRE()}
+                            onInput={inputHandler}
+                            type="text"
+                            class="expense-edit-input"
+                        />
+                    </motion.div>)
+
+                return (
+                    <li 
+                        className="expense-edit-list--item"
+                        key={el._id}
+                    >
+                       <MouseOverLabel
+                            label={expenseDescription}
+                            labelClass="label-expense-edit"
+                            visibleClass="vis"
+                            hiddenClass="hid"
+                       >
+                            <img alt="" className="expense-edit-list--item--info" src={question}></img>
+
+                            <p>{el.title}</p>
+
+                       </MouseOverLabel> 
+
+                        <p className="expense-edit-list--item--ammount" style={{marginLeft: '3rem'}}>${el.ammount}</p>
+                        {editAnimationState && (
+                                        <AnimatePresence exitBeforeEnter>
+                                        {editAnimationState.id === el._id && editExpenseInput}
+                                        </AnimatePresence>
+                                    )} 
+
+                        <div style={{marginRight: '3rem'}} className="expense-edit-list--item--btn-contain">
+
+                                <MouseOverLabel
+                                    label="Delete Expense"
+                                    labelClass="label-expense-edit kill"
+                                    visibleClass="vis"
+                                    hiddenClass="hid"
+                                    
+                            >
+                                    <button onClick={(event) => deleteSingleHandler(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={kill}></img></button>
+                                    
+                                </MouseOverLabel>
+                                
+                                    <MouseOverLabel
+                                    label="Edit Ammount"
+                                    labelClass="label-expense-edit register"
+                                    visibleClass="vis"
+                                    hiddenClass="hid"
+                            >
+                                    <button onClick={(event) => editExpenseAmmount(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={register}></img></button>
+
+                                    </MouseOverLabel>
+                                    
+                        </div>
+                        
+                        
+                    </li>)
+        })
+        }
+
+        
+    }
+
+    const openEditModalHandler = (event, title) => {        
+        setEditModal(title)
+        setDeleteModalOpen(false)
         event.preventDefault();
         event.cancelBubble = true
         event.stopPropagation()
@@ -164,6 +330,8 @@ const DashLeft = (props) => {
         setDeleteModalOpen(false);
         setEditModalOpen(false);
         setDeleteName(null)
+        setEditExpenseName(null)
+        setIsEdit(false)
     }
 
     const [isDelete, setIsDelete] = useState(false)
@@ -201,6 +369,45 @@ const DashLeft = (props) => {
 
     }
 
+    console.log(props.userExpense)
+
+    const deleteSingleHandler = async (event, id) => {
+        event.preventDefault();
+        
+        let response;
+        try {
+            response = await sendRequest(`http://localhost:5000/api/expense/${id}`, 'DELETE',
+            {'Content-Type': 'application/json'}
+            )
+
+            props.setEntireBudget((prevState) => {
+                let prev = prevState.expense.filter((el) => {
+                    return el._id !== id
+                });
+
+                const expensesThisMonth = prev.filter((el) => el.month === curMonth);
+
+                const createdArray = expensesThisMonth.length > 0 ? props.createExpensesArray(expensesThisMonth) : [];
+                const added = expensesThisMonth.length > 0 ? expensesThisMonth.map((el) => el.ammount).reduce((acc, curr) => acc + curr) : 0;
+            
+                props.setExpenseTotal(added)
+                props.setUserExpense(createdArray)
+                console.log(createdArray)
+
+
+                return {
+                    ...prevState,
+                    expense: prev
+                }
+            });
+                                   
+        } catch (err) {}
+
+    }
+
+
+    setEditModal()
+
     const overflowHide = isEdit ? {
         overflow: 'visible'
     } : {
@@ -232,6 +439,7 @@ const DashLeft = (props) => {
         event.stopPropagation()
 
         const clickedName = title;
+        setEditExpenseName(title)
         setDeleteName(title)
 
         if (isEdit) {
@@ -250,12 +458,7 @@ const DashLeft = (props) => {
 
     let expenseList;
     let expenses;
-
-    const editModalContent = (
-        <div>
-            
-        </div>
-    )
+    
 
     const deleteModalContent = (
         <Fragment>
@@ -264,7 +467,7 @@ const DashLeft = (props) => {
                 <button onClick={deleteHandler} id="btn" className="delete-modal--btn btn btn--yes btn-err" type="button">YES</button>
                 <button onClick={cancelHandler}  id="btn" className="delete-modal--btn btn btn-err" type="button">CANCEL</button>
             </div>
-            <p className="delete-modal--bottomtext">Choose to <button type="button" className="btn delete-modal--edit">edit</button> instead</p>
+            <p className="delete-modal--bottomtext">Choose to <button onClick={openEditModalHandler} type="button" className="btn delete-modal--edit">edit</button> instead</p>
         </Fragment>
     );
 
@@ -273,7 +476,7 @@ const DashLeft = (props) => {
         if (props.userExpense) {
             expenses = props.userExpense;
         } else {
-            expenses = [{}]
+            expenses = []
         }
         if(expenses) {
             if (expenses.length > 0 && expenses !== 'not found') {
@@ -399,14 +602,20 @@ const DashLeft = (props) => {
 
     useEffect(() => {
         setExpenses();
-        cancelHandler()
+        setDeleteModalOpen(false);
+    }, [props.userExpense, props.entireBudget])
 
-    }, [props.userExpense, expenses])
+    useEffect(() => {
+        setEditModal()
+    }, [displayExpenses, props.userExpense, props.entireBudget])
 
         
 
     return (
+        
         <div className="dash-left">
+    {/* {EVENT SECTION} */}
+
             {isLoading && <LoadingAnimation loading={isLoading}/>}
             <div className="progress">
 
@@ -419,6 +628,8 @@ const DashLeft = (props) => {
                 
             </div>
 
+
+        {/* {CALENDAR MODAL} */}
             <Modal
                 show={modalOpen}
                 cancel={cancelHandler}
@@ -429,6 +640,7 @@ const DashLeft = (props) => {
                 <CalendarModal />
 
             </Modal>
+        {/* {DELETE MODAL} */}
 
             <MsgModal
                 show={deleteModalOpen}
@@ -437,16 +649,24 @@ const DashLeft = (props) => {
 
             </MsgModal>
 
+
+        {/* {EDIT MODAL} */}
             <Modal
                 show={editModalOpen}
                 cancel={cancelHandler}
                 header={`Month of ${dateNow}`}
                 headerClass={"calendar-modal--head"}
                 footer={null}
-            >   {editModalContent}
+            >
+                <ul className="expense-edit-list"
+                >
+                    {editModalContent}
+                </ul>
+                
 
             </Modal>
             
+    {/* {EXPENSE LIST} */}
             <div className="expenses expenses--back">
             <Typed
                 strings={[

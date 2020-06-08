@@ -444,3 +444,13 @@
 #btn {
     justify-self: center;
 }
+
+.expense-edit-input {
+
+}
+.expense-item--input {
+    height: min-content;
+    width: min-content;
+    transform: scale(0.8);
+    position: absolute;
+}

@@ -21,5 +21,8 @@ router.post('/',
 
 router.delete('/deletegroup', expenseController.deleteGroup)
 
+router.delete('/:eid', expenseController.deleteSingleExpense)
+
+
 
 module.exports = router;

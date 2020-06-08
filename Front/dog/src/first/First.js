@@ -67,9 +67,6 @@ const First = (props) => {
                     setUserExpense([{}])
                 } 
 
-
-
-
                 if ((!response.income === 'not found') || (response.income.length < 1)) {
                     setUserIncome([{}])
                 } else {
@@ -80,87 +77,12 @@ const First = (props) => {
                 incomeTotalArray = response.income.map((el) => {
                     return el.ammount
                 });
-
                 incomeTotal = incomeTotalArray.reduce((acc, cur) => acc + cur);
 
                 setIncomeTotal(incomeTotal);
 
-                let expenses = response.expense
-
-                let techExp = expenses.map((el) => {
-                    if (el.title === 'tech') {
-                        return el
-                    } else {
-                        return {title: 'tech', ammount: 0}}
-                });
-                let kidExp = expenses.map((el) => {
-                    if (el.title === 'kids') {
-                        return el
-                    } else {
-                        return {title: 'kids', ammount: 0}}
-                });
-                let billExp = expenses.map((el) => {
-                    if (el.title === 'bills') {
-                        return el
-                    } else {
-                        return {title: 'bills', ammount: 0}}
-                });
-                let entertainExp = expenses.map((el) => {
-                    if (el.title === 'entertainment') {
-                        return el
-                    } else {
-                        return {title: 'entertainment', ammount: 0}}
-                });
-                let foodExp = expenses.map((el) => {
-                    if (el.title === 'food') {
-                        return el
-                    } else {
-                        return {title: 'food', ammount: 0}}
-                });
-                let otherExp = expenses.map((el) => {
-                    if (el.title === 'other') {
-                        return el
-                    } else {
-                        return {title: 'other', ammount: 0}
-                    }
-                });
-                let supplyExp = expenses.map((el) => {
-                    if (el.title === 'supplies') {
-                        return el
-                    } else {
-                        return {title: 'supplies', ammount: 0}
-                    }
-                });
-
-                techExp = techExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                kidExp = kidExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                foodExp = foodExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                entertainExp = entertainExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                supplyExp = supplyExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                otherExp = otherExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                billExp = billExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-
-                let totalExpenses = [
-                {   title: 'food',
-                    ammount: foodExp
-                },{ title: 'bills',
-                    ammount: billExp
-                },{ title: 'kids',
-                    ammount: kidExp
-                },{ title: 'tech',
-                    ammount: techExp
-                },{ title: 'supplies',
-                    ammount: supplyExp
-                },{ title: 'entertainment',
-                    ammount: entertainExp
-                },{ title: 'other',
-                    ammount: otherExp
-                }]
-                totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
-                setUserExpense(totalExpenses)
-
-
-
+                let expenses = createExpensesArray(response.expense)
+                setUserExpense(expenses)
                 setExpenseTotal(expenseTotal);
 
                 let budgetRemaining;
@@ -180,6 +102,84 @@ const First = (props) => {
         
 
     }, [auth.isLoggedIn, auth.userId, sendRequest])
+
+    const createExpensesArray = (expenses) => {
+        if (expenses.length > 0) {
+            let techExp = expenses.map((el) => {
+                if (el.title === 'tech') {
+                    return el
+                } else {
+                    return {title: 'tech', ammount: 0}}
+            });
+            let kidExp = expenses.map((el) => {
+                if (el.title === 'kids') {
+                    return el
+                } else {
+                    return {title: 'kids', ammount: 0}}
+            });
+            let billExp = expenses.map((el) => {
+                if (el.title === 'bills') {
+                    return el
+                } else {
+                    return {title: 'bills', ammount: 0}}
+            });
+            let entertainExp = expenses.map((el) => {
+                if (el.title === 'entertainment') {
+                    return el
+                } else {
+                    return {title: 'entertainment', ammount: 0}}
+            });
+            let foodExp = expenses.map((el) => {
+                if (el.title === 'food') {
+                    return el
+                } else {
+                    return {title: 'food', ammount: 0}}
+            });
+            let otherExp = expenses.map((el) => {
+                if (el.title === 'other') {
+                    return el
+                } else {
+                    return {title: 'other', ammount: 0}
+                }
+            });
+            let supplyExp = expenses.map((el) => {
+                if (el.title === 'supplies') {
+                    return el
+                } else {
+                    return {title: 'supplies', ammount: 0}
+                }
+            });
+    
+            techExp = techExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            kidExp = kidExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            foodExp = foodExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            entertainExp = entertainExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            supplyExp = supplyExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            otherExp = otherExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+            billExp = billExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
+    
+            let totalExpenses = [
+            {   title: 'food',
+                ammount: foodExp
+            },{ title: 'bills',
+                ammount: billExp
+            },{ title: 'kids',
+                ammount: kidExp
+            },{ title: 'tech',
+                ammount: techExp
+            },{ title: 'supplies',
+                ammount: supplyExp
+            },{ title: 'entertainment',
+                ammount: entertainExp
+            },{ title: 'other',
+                ammount: otherExp
+            }].filter(el => el.ammount !== 0)
+    
+            return totalExpenses;
+        }
+        
+    };
+
 
     const fetchGoals = useCallback(async () => {
         if (auth.isLoggedIn) {
@@ -253,7 +253,9 @@ const First = (props) => {
                 addedExpenseArray: userExpenseTotal,
                 setAddedUpExpenses: setExpenseTotal,
                 todos: userTodos,
-                setTodos: setTodo
+                setTodos: setTodo,
+                entireBudget: passedUserBudget
+
             }}
         >
             <ErrorModal error={error} clearError={clearError}/>
@@ -295,6 +297,12 @@ const First = (props) => {
 
                 goals={userGoals}
                 setGoals={setUserGoals}
+
+                entireBudget={passedUserBudget}
+                setEntireBudget={setPassedUserBudget}
+                createExpensesArray={createExpensesArray}
+
+
             />
             
             

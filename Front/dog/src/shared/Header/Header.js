@@ -19,6 +19,12 @@ const Header = (props) => {
                 toggle={props.toggle} 
                 setExpenseTotal={props.setExpenseTotal}
 
+                entireBudget={props.entireBudget}
+                setEntireBudget={props.setEntireBudget}
+                createExpensesArray={props.createExpensesArray}
+
+
+
             />
             <MiddleDash 
                 toggle={props.toggle} 

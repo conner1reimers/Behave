@@ -6,7 +6,7 @@ import { AuthContext } from '../../../util/context/auth-context';
 import Input from '../../UIElements/Input/Input';
 import { useForm } from '../../../util/hooks/useForm';
 import { AnimatePresence, motion } from 'framer-motion';
-import business from './businesss.png';
+import business from './dashLeftImgs/businesss.png';
 import { VALIDATOR_REQUIRE } from '../../../util/validators';
 import getMonthYear from '../../../util/getMonthYear';
 import Trophy from '../../../lotties/Trophy/Trophy';

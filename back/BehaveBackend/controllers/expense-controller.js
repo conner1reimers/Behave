@@ -48,7 +48,7 @@ const createExpense = async (req, res, next) => {
     res.status(201).json({expense: createdExpense})
 }
 
-deleteGroup = async (req, res, next) => {
+const deleteGroup = async (req, res, next) => {
     const {title, creator} = req.body;
 
     let user;
@@ -121,5 +121,40 @@ deleteGroup = async (req, res, next) => {
     }
 }
 
+const deleteSingleExpense = async (req, res, next) => {
+    const expenseId = req.params.eid;
+
+    let expense;
+    try {
+        expense = await Expense.findById(expenseId).populate('creator');
+    } catch (error) {
+        error = new HttpError('Couldnt delete... hmmm', 500);
+        return next(error);
+    }
+
+    if(!expense) {
+        error = new HttpError('Couldnt delete... hmmm', 500);
+        return next(error);
+    }
+
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await expense.remove({session: sess});
+        expense.creator.expenses.pull(expense);
+        await expense.creator.save({session: sess});
+        await sess.commitTransaction();
+
+    } catch (error) {
+        error = new HttpError('Couldnt delete... hmmm', 500);
+        return next(error);
+    }
+    res.json({deleted: expense})
+
+}
+
+
 exports.createExpense = createExpense;
 exports.deleteGroup = deleteGroup;
+exports.deleteSingleExpense = deleteSingleExpense;

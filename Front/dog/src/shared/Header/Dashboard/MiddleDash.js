@@ -11,7 +11,7 @@ import ErrorModal from '../../ErrorModal/ErrorModal';
 import { BudgetContext } from '../../../util/context/budget-context';
 import { ResetContext } from '../../../util/context/reset-context';
 import Media from 'react-media';
-import forbidden from './forbidden.svg'
+import forbidden from './dashLeftImgs/forbidden.svg'
 import { AnimatePresence, motion } from 'framer-motion';
 
 const pageVariants = {
