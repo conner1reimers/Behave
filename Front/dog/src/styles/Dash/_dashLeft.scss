@@ -503,10 +503,12 @@
 
 .expense-edit-list{
     list-style: none;
-    height: 40vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     &--item {
         width: 55vw;
@@ -517,7 +519,8 @@
         position: relative;
         background-color: rgba(148, 161, 139, 0.096);
 
-        padding: .7rem 3rem;
+        padding: .5rem 3rem;
+        margin: .5rem 1rem;
         border-radius: 1rem;
 
         p {
@@ -606,4 +609,38 @@
     right: 23%;
     top: -78%;
 
+}
+
+.expense-edit-input {
+
+}
+.expense-item--input {
+    height: min-content;
+    width: min-content;
+    transform: scale(0.8);
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: .5rem;
+
+    &--btn {
+        height: min-content;
+        width: min-content;
+        margin-left: 3rem;
+        transition: all .5s;
+        transition-timing-function: cubic-bezier(.95,.15,.83,.67);
+
+
+
+        &:hover {
+            color: $color-light-1;
+            transition: all .1s;
+            transition-timing-function: cubic-bezier(.95,.15,.83,.67);
+        }
+    }
+}
+.newAmtErrTxt {
+    font-size: .5rem;
+    transform: scale(0.8);
 }

@@ -301,7 +301,8 @@ const First = (props) => {
                 entireBudget={passedUserBudget}
                 setEntireBudget={setPassedUserBudget}
                 createExpensesArray={createExpensesArray}
-
+                todos={userTodos} 
+                setTodo={setUserTodos}
 
             />
             

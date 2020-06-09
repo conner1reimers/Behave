@@ -20,7 +20,12 @@ router.post('/',
     expenseController.createExpense)
 
 router.delete('/deletegroup', expenseController.deleteGroup)
+router.patch('/:eid', 
+    [
+        check('ammount')
+            .isCurrency()
 
+], expenseController.updateExpense)
 router.delete('/:eid', expenseController.deleteSingleExpense)
 
 

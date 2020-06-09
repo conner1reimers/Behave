@@ -24,7 +24,7 @@ import {useHttpClient} from '../../../util/hooks/http-hook';
 import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation';
 import { ResetContext } from '../../../util/context/reset-context';
 import Input from '../../UIElements/Input/Input';
-import { VALIDATOR_REQUIRE } from '../../../util/validators';
+import { VALIDATOR_REQUIRE, VALIDATOR_NUMBER } from '../../../util/validators';
 import { useForm } from '../../../util/hooks/useForm';
 
 const pageVariants = {
@@ -146,7 +146,7 @@ const editExpenseVariants = {
     in: {
 
         scale: 1,
-        x: '165%',
+        x: '145%',
         opacity: 1.4
     }
 }
@@ -183,7 +183,7 @@ const DashLeft = (props) => {
     const reset = useContext(ResetContext);
     
     const [formState, inputHandler] = useForm({
-        email: {
+        ammount: {
             value: '',
             isValid: false
         }
@@ -208,6 +208,45 @@ const DashLeft = (props) => {
             setEditAnimationState({id: id, clicked: true});
 
         }
+    }
+
+    const submitHandler = async (event) => {
+        event.preventDefault()
+        let response;
+        try {
+            response = await sendRequest(`http://localhost:5000/api/expense/${editAnimationState.id}`, 'PATCH',
+            JSON.stringify({
+                ammount: formState.inputs.ammount.value
+            }),
+            {'Content-Type': 'application/json'}
+            );
+            setEditAnimationState(false)
+
+            console.log(response)
+
+            props.setEntireBudget((prevState) => {
+                let prev = prevState.expense.filter((el) => {
+                    return el._id !== response.expense.id
+                });
+                prev.push(response.expense)
+
+                const expensesThisMonth = prev.filter((el) => el.month === curMonth);
+
+                const createdArray = expensesThisMonth.length > 0 ? props.createExpensesArray(expensesThisMonth) : [];
+                const added = expensesThisMonth.length > 0 ? expensesThisMonth.map((el) => el.ammount).reduce((acc, curr) => acc + curr) : 0;
+            
+                props.setExpenseTotal(added)
+                props.setUserExpense(createdArray)
+                console.log(createdArray)
+
+
+                return {
+                    ...prevState,
+                    expense: prev
+                }
+            });
+                                   
+        } catch (err) {}
     }
 
     let editModalContent;
@@ -241,12 +280,15 @@ const DashLeft = (props) => {
                     >
                         <Input 
                             name="New Ammount" 
-                            id="email"
-                            validator={VALIDATOR_REQUIRE()}
+                            id="ammount"
+                            validator={VALIDATOR_NUMBER()}
                             onInput={inputHandler}
                             type="text"
+                            errorText="Numbers only..."
                             class="expense-edit-input"
+                            errorClass="newAmtErrTxt"
                         />
+                        <button type="submit" className="btn btn-submit expense-item--input--btn">Submit</button>
                     </motion.div>)
 
                 return (
@@ -282,7 +324,7 @@ const DashLeft = (props) => {
                                     hiddenClass="hid"
                                     
                             >
-                                    <button onClick={(event) => deleteSingleHandler(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={kill}></img></button>
+                                    <button type="button" onClick={(event) => deleteSingleHandler(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={kill}></img></button>
                                     
                                 </MouseOverLabel>
                                 
@@ -292,7 +334,7 @@ const DashLeft = (props) => {
                                     visibleClass="vis"
                                     hiddenClass="hid"
                             >
-                                    <button onClick={(event) => editExpenseAmmount(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={register}></img></button>
+                                    <button type="button" onClick={(event) => editExpenseAmmount(event, el._id)} className="btn expense-edit-list--item--btn hov"><img alt='' src={register}></img></button>
 
                                     </MouseOverLabel>
                                     
@@ -657,6 +699,8 @@ const DashLeft = (props) => {
                 header={`Month of ${dateNow}`}
                 headerClass={"calendar-modal--head"}
                 footer={null}
+                onSubmit={submitHandler}
+
             >
                 <ul className="expense-edit-list"
                 >

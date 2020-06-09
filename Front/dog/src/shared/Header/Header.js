@@ -7,8 +7,6 @@ import Monies from '../../lotties/Monies/Monies';
 const Header = (props) => {
     const [modalOpen, setModalOpen] = useState(false)
 
-    const todos = [{todo: 'hi'}, {todo: 'ho'}];
-
 
     
     return (
@@ -48,7 +46,8 @@ const Header = (props) => {
             />
             <DashRight
                 toggle={props.toggle} 
-                todos={todos}
+                todos={props.todos}
+                setTodo={props.setTodo}
                 goals={props.goals}
                 setGoals={props.setGoals}
 

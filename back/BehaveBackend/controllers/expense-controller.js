@@ -154,7 +154,37 @@ const deleteSingleExpense = async (req, res, next) => {
 
 }
 
+const updateExpense = async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return next(new HttpError('Invalid ammount passed', 422));
+    };
+
+    const expenseId = req.params.eid;
+    const {ammount} = req.body;
+
+
+    try {
+        expense = await Expense.findById(expenseId);
+    } catch (err) {
+        const error = new HttpError('Could not find the expense', 500);
+        return next(error)
+    };
+
+    expense.ammount = ammount;
+
+    try {
+        await expense.save();
+    } catch (error) {
+        error = new HttpError('Somethinddg went wrong, couldnt update for some reason hmmmm.....', 500);
+        return next(error);
+    }
+
+    res.status(200).json({expense: expense.toObject({getters: true})})
+}
+
 
 exports.createExpense = createExpense;
 exports.deleteGroup = deleteGroup;
 exports.deleteSingleExpense = deleteSingleExpense;
+exports.updateExpense = updateExpense;

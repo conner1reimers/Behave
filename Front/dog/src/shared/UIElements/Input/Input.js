@@ -54,6 +54,7 @@ const Input = (props) => {
         customInputRef = ref;
     } 
 
+    const [touchVerify, setTouchVerify] = useState(false)
 
 
     const animation = useAnimation()
@@ -115,11 +116,15 @@ const Input = (props) => {
     const changeHandler = (event, checked) => {
         dispatch({type: 'CHANGE', val: event.target.value, validators: props.validator})
 
-        
+        if (event.target.value.split() >= 2 ) {
+            setTouchVerify(true);
+        }
         
     };
 
-    const touchHandler = () => {
+    const touchHandler = (event) => {
+
+        
         dispatch({type: 'TOUCH'})
     }
 
@@ -131,11 +136,12 @@ const Input = (props) => {
     let classes;
 
     if (!inputState.isValid && inputState.isTouched) {
-        if(inputState.value.length <= 1) {
+        if(touchVerify) {
             toggleAnimation()
+            classes = 'inv'
         }
         
-        classes = 'inv'
+        
     }
     if (inputState.isValid) {
         classes = 'val'
@@ -176,7 +182,7 @@ const Input = (props) => {
                 placeholder={props.name}
                 
                 />
-                {!inputState.isValid && inputState.isTouched ? <p className={`error-text ${props.errorClass}`}>{props.errorText}</p> : null}
+                {!inputState.isValid && inputState.isTouched && touchVerify ? <p className={`error-text ${props.errorClass}`}>{props.errorText}</p> : null}
                 
             </motion.div>
         )

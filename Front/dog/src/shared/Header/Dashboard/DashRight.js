@@ -64,6 +64,7 @@ const DashRight = (props) => {
 
     const auth = useContext(AuthContext)
     const [modalOpen, setModalOpen] = useState(false)
+    const [todoSelect, setTodoSelect] = useState(null);
 
 
     const goalsModalOpen = () => {
@@ -79,9 +80,32 @@ const DashRight = (props) => {
         setModalOpen(false);
     }
 
+    const selectTodo = (event, todoId) => {
+        if (todoSelect) {
+                if (todoSelect.id === todoId) {
+                    
+                } else {
+                    setTodoSelect()
+                }
+        } else{
+            setTodoSelect({
+                id: todoId,
+                clicked: true
+            })
+        }
+    }
 
-    let todos = props.todos
+
+    let todos;
     let todoList;
+    console.log(props.todos)
+
+    const setTodos = () => {
+        if (props.todos) {
+            todos = props.todos;
+        } else {
+            todos = []
+        }
     
         if(todos) {
             if (todos.length > 0) {
@@ -102,10 +126,10 @@ const DashRight = (props) => {
                             >
                                 <span id={index} className="todo-title">
                                     <img alt="" src={business} className="zzz"></img>
-                                    {todo.todo}
+                                    {todo.task}
                                 </span>
                                 <span className="todo-ammount">
-                                    {todo.todo}
+                                    {todo.urgency}
                                 </span>
 
                             </motion.li>
@@ -117,7 +141,7 @@ const DashRight = (props) => {
         else {
             todoList = null;
         }
-    }
+    }}
     let newGoal;
     let goals = props.goals;
 
@@ -148,6 +172,12 @@ const DashRight = (props) => {
     }
 
     const forceUpdate = useCallback(() => updateState({}), []);
+
+    setTodos();
+
+    useEffect(() => {
+        setTodos();
+    }, [props.todos])
 
     
 
@@ -221,7 +251,7 @@ const DashRight = (props) => {
                     showCursor
                     loop ></Typed> <br/>
 
-                <button style={{marginLeft: '1.5rem'}} className="btn signup-btn btn-prod">Check your productivity...</button>
+                <button style={{marginLeft: '1.5rem'}} className="btn signup-btn btn-prod">See previous...</button>
 
                 <ul style={{marginLeft: '1.5rem'}} className="expense-list">
                     {todoList}
