@@ -491,7 +491,7 @@
     font-size: 1.2rem;
     /* Position the tooltip text - see examples below! */
     position: absolute;
-    z-index: 999;
+    z-index: 99999;
     transform: scale(.8);
     font-size: 1.5rem;
     font-weight: 600;
@@ -517,7 +517,7 @@
         justify-content: space-between;
         align-items: center;
         position: relative;
-        background-color: rgba(148, 161, 139, 0.096);
+        background-color: rgba(203, 211, 197, 0.055);
 
         padding: .5rem 3rem;
         margin: .5rem 1rem;
@@ -548,7 +548,7 @@
             width: 2rem;
             top: 1rem;
             left: 1.5rem;
-            transform: scale(.6);
+            transform: scale(.5);
             opacity: .6;
             filter: blur(1px) saturate(33%) hue-rotate(337%);
         }
