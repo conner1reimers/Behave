@@ -678,6 +678,7 @@ const DashLeft = (props) => {
                 header={`Month of ${dateNow}`}
                 headerClass={"calendar-modal--head"}
                 footer={null}
+                calendar
             >
                 <CalendarModal />
 

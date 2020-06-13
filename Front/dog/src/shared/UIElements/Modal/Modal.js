@@ -75,9 +75,9 @@ const Modal = (props) => {
     } else if (props.img === 'moni') {
         art = 'money-art'
     }
-    
+    let mainModal
 
-    const mainModal = props.noMatch 
+    mainModal = props.noMatch 
     ? (<motion.div 
         className="stuff"
         animate={animation}
@@ -107,7 +107,20 @@ const Modal = (props) => {
         {props.footer}
     </form>
     
-    </div>)
+    </div>);
+
+    if (props.calendar) {
+        mainModal = (
+        <div className="stuff">
+            <header className={`modal-header ${props.headerClass}`}>
+                <h2>{props.header}</h2>
+            </header>
+    
+            <div className={`modal-content ${props.contentClass}`} >
+                    {props.children}
+            </div>            
+        </div>);
+    }
 
     const modalContent = (
         <motion.div 
