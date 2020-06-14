@@ -112,10 +112,7 @@ const Modal = (props) => {
     if (props.calendar) {
         mainModal = (
         <div className="stuff">
-            <header className={`modal-header ${props.headerClass}`}>
-                <h2>{props.header}</h2>
-            </header>
-    
+                
             <div className={`modal-content ${props.contentClass}`} >
                     {props.children}
             </div>            

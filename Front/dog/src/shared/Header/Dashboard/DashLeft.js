@@ -651,7 +651,6 @@ const DashLeft = (props) => {
         setEditModal()
     }, [displayExpenses, props.userExpense, props.entireBudget])
 
-        
 
     return (
         
@@ -675,9 +674,9 @@ const DashLeft = (props) => {
             <Modal
                 show={modalOpen}
                 cancel={cancelHandler}
-                header={`Month of ${dateNow}`}
-                headerClass={"calendar-modal--head"}
                 footer={null}
+                header={null}
+                contentClass='calendar-modal'
                 calendar
             >
                 <CalendarModal />
