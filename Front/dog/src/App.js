@@ -20,7 +20,6 @@ function App() {
   const passData = (passed) => {
     setBudgetState(passed);
   }
-  console.log(budgetState)
   const login = useCallback((uid, token) => {
       setToken(token);
       setUserId(uid);

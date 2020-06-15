@@ -11,7 +11,9 @@ const userSchema = new Schema({
     incomes: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Income'}],
     expenses: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Expense'}],
     goals: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Goals'}],
-    todos: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Todo'}]
+    todos: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Todo'}],
+    events: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Event'}]
+
 
 
 });

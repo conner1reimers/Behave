@@ -2,14 +2,36 @@
     display: flex;
 }
 
+.cal-modal{
+    height: 97vh;
+    top: 2rem;
+
+}
+
 .calendar-modal {
 
     font-size: 5rem;
-    height: 75vh;
+    height: 100%;
     width: 100%;
     overflow: hidden;
     background-color: #f9faf95b;
+    position: relative;
+    z-index: 5;
+    overflow: visible;
 
+    &--btn {
+        margin: 0 1.4rem;
+        border-radius: .2rem;
+        padding: 0 2rem;
+        height: 3rem;
+        font-size: 1.6rem;
+        color: $color-grey;
+        font-family: $font-3;
+
+        &:hover{
+            color: $color-light-1;
+        }
+    }
 
     &--head {
         width: 40vw;
@@ -17,6 +39,7 @@
         color: $color-grey;
         position: relative;
         z-index: 99999;
+        margin-bottom: 2rem;
     }
     &--days {
         list-style: none;
@@ -24,38 +47,137 @@
         grid-template-columns: repeat(7, 13.28%);
         grid-template-rows: repeat(5, 14.66%);
         grid-column-gap: 1rem;
+        grid-row-gap: .5rem;
         height: 100%;
         background: cover;
         width: 52vw;
         margin-left: 3rem;
+        position: relative;
+        z-index: 5;
+        color: $color-grey;
+
 
         &--oftheweek {
             font-family: $font-3;
             position: relative;
+            height: 1rem;
         }
 
 
     }
 
+    &--event-list {
+        font-size: 3rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &--event-item{
+        margin: 1rem;
+        display: flex;
+        align-content: center;
+        justify-content: flex-start;
+
+        img {
+            height: 10%;
+            width: 10%;
+        }
+
+        &--btn {
+            background: none;
+            outline: none;
+        }
+
+    }
+
     &--dayedit {
-        height: 39rem;
-        background-color: red;
+        height: 62vh;
+        width: 30vw;
+
+        background-color: #e1e2e0de;
         position: absolute;
+        z-index: 99999;
+        border-radius: .7rem;
+        display: flex;
+        flex-direction: column;
+
+        &--head {
+            font-size: 3.5rem;
+            display: flex;
+            background-color: #582e32;
+            height: 5rem;
+            font-family: $font-3;
+            width: 100%;
+            align-items: center;
+
+            h1 {
+                color: white;
+                font-family: $font-3;
+                justify-self: flex-start;
+                font-weight: 200;
+                margin-left: 2rem;
+
+            }
+        }
+
+        &--form {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        &--input {
+            
+            height: 5rem;
+            margin: 2rem 1rem;
+            width: 90%;
+            border-radius: 0.2rem;
+
+            
+            &--dropdown {
+                background-color: white;
+
+                width: 6rem;
+                right: -8.1rem;
+                // top: 5.8rem;
+                position: relative;
+
+
+                &--label {
+                    background-color: rgba(245, 239, 239, 0.911);
+
+                }
+            }
+        }
+        &--btn {
+            margin: 2.6rem 2.2rem;
+            font-size: 1.9rem;
+            padding: 1rem 2.5rem;
+            color: $color-grey;
+            font-family: $font-3;
+            background-color: white;
+            margin-top: 7rem;
+
+            &:hover {
+                color: $color-secondary;
+            }
+        }
     }
 
     &--dayitem {
         position: relative;
-        height: 10vh;
+        height: 12.3vh;
         width: 100%;
         background-color: #82d38b86;
         border: 1px solid #243b0c28;
         border-radius: .2rem;
-        filter: drop-shadow(3px -2px .2px #40ff0044);
-        margin-top: -4rem;
+        margin-top: -7rem;
+        z-index: 5;
+        overflow: visible;
+
 
         &:hover {
-            background-color: $color-orange;
-            filter: drop-shadow(2px -4px .2px #c4f02438);
+            background-color: #de82324f;
             cursor: pointer;
             transition: all .3s;
         }
@@ -72,4 +194,15 @@
     
 
 
+}
+
+.cal-cancel {
+    background: none;
+    justify-self: flex-end;
+    margin-top: 1.7rem;
+    transform: translateX(43rem);
+    img {
+        height: 2rem;
+        width: 2rem;
+    }
 }

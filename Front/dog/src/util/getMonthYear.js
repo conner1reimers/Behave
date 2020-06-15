@@ -58,7 +58,6 @@ export const getMonthYearFromNumbered = (nums, year) => {
     // nums=nums.split('')
     // const month = parseInt(nums[0] + nums[1]);
     // const year = nums.split('')[1];
-    console.log(nums)
 
     return monthName[nums] + ", " + year;
 }

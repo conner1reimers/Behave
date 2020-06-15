@@ -79,7 +79,7 @@ const Input = (props) => {
             }
         } else if (props.cat === "income") {
             defaults = {
-                value: 'bills',
+                value: 'salary',
                 isValid: true
             }
         } else if (props.cat === "todo-time") {
@@ -90,6 +90,11 @@ const Input = (props) => {
         } else if (props.cat === "todo-urgency") {
             defaults = {
                 value: 'important',
+                isValid: true
+            }
+        } else if (props.cat === "cal-options") {
+            defaults = {
+                value: 'personal',
                 isValid: true
             }
         }
@@ -284,7 +289,66 @@ const Input = (props) => {
                 
                         
                 )
-        } else if (props.cat === "todo-time") {
+        }
+        else if (props.cat === "cal-options") {
+            let color = 'white'
+            element = (
+                <Fragment>
+                    <div 
+                        className={`custom-dropdown ${props.dropdownClass}`}
+                        id="customDropdown"
+                        ref={onDropdownRef}
+                        onClick={addDropdownClass}    
+                    >
+                        <input
+                        
+                            className={`custom-input`}
+                            type="radio"
+                            name='dropdown'
+                            id='personal'
+                            value="personal"
+                            ref={onCustomInputRef}
+                            defaultChecked
+                            onClick={changeHandler}
+                            className={props.labelClass}
+                            style={{backgroundColor: color}}
+                            
+                            // checked={salarCheck}
+                        />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="personal">Personal <img className="straw" src={envelope}/></label>
+
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="family" onClick={changeHandler}  ref={onCustomInputRef}  type="radio" id="family" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="family">Family <img className="straw" src={strawberry}/></label>
+
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="work" onClick={changeHandler} ref={onCustomInputRef}  type="radio" id="work" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="work">Work <img className="straw" src={popcorn}/></label>
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="birthday" onClick={changeHandler} ref={onCustomInputRef}  type="radio" id="birthday" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="birthday">Birthday <img className="straw" src={pharmacy}/></label>
+
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="travel" onClick={changeHandler} ref={onCustomInputRef}  type="radio" id="travel" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="travel">Travel <img className="straw" src={headphone}/></label>
+                        
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="friend" onClick={changeHandler} ref={onCustomInputRef}  type="radio" id="friend" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="friend">Friend <img className="straw" src={babyGirl}/></label>
+
+                        <input style={{backgroundColor: color}} className={props.labelClass} value="other" onClick={changeHandler} ref={onCustomInputRef}  type="radio" id="other" name="dropdown" className="custom-input" />
+                        <label style={{backgroundColor: color}} className={props.labelClass} htmlFor="other">Other <img className="straw" src={drop}/></label>
+
+                                {/* <option value="1">Category</option>
+                                <option value="5">Salary</option>
+                                <option value="5">Side money</option>
+                                <option value="5">Stocks</option>
+                                <option value="5">Trading</option>
+                                <option value="5">Other</option> */}
+                        
+                    </div>
+
+                </Fragment>
+                
+                        
+                )
+        }
+        else if (props.cat === "todo-time") {
             element = (
                 <div className="radio-todo">
                     <input className="radio-todo--input radio-todo--input--1" defaultChecked id="today" value="today" name="time" style={{marginLeft: '3rem', fontFamily: 'Didact Gothic'}}type="radio"/> 

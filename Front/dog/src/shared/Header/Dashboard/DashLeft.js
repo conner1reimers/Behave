@@ -221,9 +221,6 @@ const DashLeft = (props) => {
             {'Content-Type': 'application/json'}
             );
             setEditAnimationState(false)
-
-            console.log(response)
-
             props.setEntireBudget((prevState) => {
                 let prev = prevState.expense.filter((el) => {
                     return el._id !== response.expense.id
@@ -237,7 +234,6 @@ const DashLeft = (props) => {
             
                 props.setExpenseTotal(added)
                 props.setUserExpense(createdArray)
-                console.log(createdArray)
 
 
                 return {
@@ -410,9 +406,6 @@ const DashLeft = (props) => {
 
 
     }
-
-    console.log(props.userExpense)
-
     const deleteSingleHandler = async (event, id) => {
         event.preventDefault();
         
@@ -434,8 +427,6 @@ const DashLeft = (props) => {
             
                 props.setExpenseTotal(added)
                 props.setUserExpense(createdArray)
-                console.log(createdArray)
-
 
                 return {
                     ...prevState,
@@ -678,6 +669,7 @@ const DashLeft = (props) => {
                 header={null}
                 contentClass='calendar-modal'
                 calendar
+                modalClass="cal-modal"
             >
                 <CalendarModal />
 

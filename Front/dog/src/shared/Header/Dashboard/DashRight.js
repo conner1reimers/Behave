@@ -98,8 +98,6 @@ const DashRight = (props) => {
 
     let todos;
     let todoList;
-    console.log(props.todos)
-
     const setTodos = () => {
         if (props.todos) {
             todos = props.todos;

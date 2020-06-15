@@ -8,6 +8,8 @@ const incomeRoutes = require('./routes/income-routes');
 const expenseRoutes = require('./routes/expense-routes');
 const goalsRoutes = require('./routes/goals-routes')
 const todoRoutes = require('./routes/todo-routes')
+const eventRoutes = require('./routes/event-routes')
+
 
 const HttpError = require('./models/http-error');
 
@@ -31,6 +33,7 @@ app.use('/api/income', incomeRoutes);
 app.use('/api/expense', expenseRoutes);
 app.use('/api/goals', goalsRoutes);
 app.use('/api/todo', todoRoutes);
+app.use('/api/event', eventRoutes);
 
 
 

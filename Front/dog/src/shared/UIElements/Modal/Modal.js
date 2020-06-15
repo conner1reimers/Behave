@@ -127,7 +127,7 @@ const Modal = (props) => {
         exit="out"
         variants={pageVariants}
         transition={pageTransition} 
-        className="modal">
+        className={`modal ${props.modalClass}`}>
 
             {props.art && <div style={{color: 'red', }} style={{backgroundImage: modalImg}} className={`art ${art}`}>
                 
