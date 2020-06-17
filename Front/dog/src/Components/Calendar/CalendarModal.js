@@ -371,7 +371,7 @@ const CalendarModal = (props) => {
                                         return (
                                             <li
                                             key={index}
-                                            className="calendar-modal--event-item">
+                                            className="btn calendar-modal--event-item--btn">
                                                 <button className="btn calendar-modal--event-item--btn">....View more</button>
                                             </li>
                                         )   
