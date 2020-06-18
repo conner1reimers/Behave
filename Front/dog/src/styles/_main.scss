@@ -41,6 +41,7 @@ body {
     box-sizing: inherit;
     margin: 0;
     overflow-x: hidden;
+
 }
 
 *,
@@ -60,11 +61,12 @@ body {
 .container {
     box-sizing: border-box;
     display: grid;
-    grid-template-rows: 8vh 79.8vh 10vh 100vh;
+    grid-template-rows: 10vh 80vh 10vh;
     grid-template-columns: repeat(3, min-content);
     max-width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 
 
 }
@@ -104,8 +106,8 @@ body {
 
 .todo {
     background-color: $color-primary;
-    grid-column: 1 / 4;
-    grid-row: 4 / 5;
+    grid-column: 1 / span 4;
+    grid-row: 2 / 5;
 
 }
 .dashboard-container {
@@ -171,7 +173,6 @@ body {
 
 
 
-
 @media only screen and (max-width: 750px) {
     .container {
         grid-template-rows: 8vh repeat(6, 39.8vh) repeat(3, 100vh);
@@ -190,12 +191,14 @@ body {
     
 
     .todo {
-        grid-row: 8 / 10;
-        grid-column: 1/2;
+        grid-row: 1 / span 15;
+        grid-column: 1 / span 2;
     }
     .todo-contained {
         width: 88vw;
     }
+
+
     .heading-todo {
         grid-column: 1/4;
         justify-self: flex-start;

@@ -87,7 +87,7 @@ const Lottie1 = () => {
                             width={40}
                             isClickToPauseDisabled={true}
                             />
-                            <span className={`lotto-label ${isVis ? 'vis' : 'hid'}`}>Coins</span>
+                            <span className={`lotto-label ${isVis ? 'vis' : 'hid'}`}>History</span>
 
             </div>
 

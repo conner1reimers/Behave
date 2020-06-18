@@ -12,6 +12,14 @@ import dot from './dot.svg'
 import ErrorModal from '../../shared/ErrorModal/ErrorModal';
 import MouseOverLabel from '../../util/MouseOverLabel';
 import pencil from '../../shared/Header/Dashboard/dashLeftImgs/pencil.svg';
+import work from './calendarPics/work.svg';
+import friend from './calendarPics/friend.svg';
+import family from './calendarPics/family.svg';
+import other from './calendarPics/other.svg';
+import travel from './calendarPics/travel.svg';
+import bday from './calendarPics/bday.svg';
+
+
 
 const dayVariants = {
     initial: {
@@ -347,6 +355,17 @@ const CalendarModal = (props) => {
             if (eventEdit.event.title === item.title && eventEdit.event.category === item.category) {
                 setEventEdit((prevState) => {return {...prevState, clicked: false}})
             } else {
+                let categoryEventImg;
+
+                switch (item.category) {
+                    case 'work': categoryEventImg = work; break;
+                    case 'family': categoryEventImg = family;  break;
+                    case 'other': categoryEventImg = other; break;
+                    case 'travel': categoryEventImg = travel; break;
+                    case 'friend': categoryEventImg = friend; break;
+                    case 'birthday': categoryEventImg = bday; break;
+                    default: categoryEventImg = dot; break;
+                }                
                 setEventEdit({
                     clicked: true,
                     event: {
@@ -355,12 +374,24 @@ const CalendarModal = (props) => {
                         time: item.time,
                         description: item.description,
                         location: item.location,
+                        pic: categoryEventImg
                         
                     }
     
                 });
             }
         } else {
+            let categoryEventImg;
+
+            switch (item.category) {
+                case 'work': categoryEventImg = work; break;
+                case 'family': categoryEventImg = family;  break;
+                case 'other': categoryEventImg = other; break;
+                case 'travel': categoryEventImg = travel; break;
+                case 'friend': categoryEventImg = friend; break;
+                case 'birthday': categoryEventImg = bday; break;
+                default: categoryEventImg = dot; break;
+            }            
             setEventEdit({
                 clicked: true,
                 event: {
@@ -369,6 +400,7 @@ const CalendarModal = (props) => {
                     time: item.time,
                     description: item.description,
                     location: item.location,
+                    pic: categoryEventImg
                 }
 
             });
@@ -646,6 +678,18 @@ const CalendarModal = (props) => {
                                             <p>{el.title}</p>
                                         </Fragment>
                                     )
+                                    let categoryImg;
+
+                                    switch (el.category) {
+                                        case 'work': categoryImg = work; break;
+                                        case 'family': categoryImg = family;  break;
+                                        case 'other': categoryImg = other; break;
+                                        case 'travel': categoryImg = travel; break;
+                                        case 'friend': categoryImg = friend; break;
+                                        case 'bday': categoryImg = bday; break;
+                                        default: console.log('default'); categoryImg = dot; break;
+                                    }
+
                                         return (
                                             <MouseOverLabel
                                                 label={label}
@@ -658,7 +702,7 @@ const CalendarModal = (props) => {
                                                 onClick={(event) => editSingleEvent(event, el)}
                                                 key={index}
                                                 className="calendar-modal--event-item">
-                                                    <img src={dot}></img>
+                                                    <img src={categoryImg}></img>
                                                     <span>{el.title}</span>
                                                 </li>
                                             </MouseOverLabel>
@@ -667,12 +711,23 @@ const CalendarModal = (props) => {
 
                                 {day.events && day.events.length >= 3 && eventz.map((el, index) => {
                                     if (index <= 1) {
+
                                         let label = (
                                             <Fragment>
                                                 <h1>{el.category}</h1>
                                                 <p>{el.title}</p>
                                             </Fragment>
                                         )
+                                        let categoryImg;
+                                    switch (el.category) {
+                                        case 'work': categoryImg = work; break;
+                                        case 'family': categoryImg = family; break;
+                                        case 'other': categoryImg = other; break;
+                                        case 'travel': categoryImg = travel; break;
+                                        case 'friend': console.log('hi'); categoryImg = friend; break;
+                                        case 'bday': categoryImg = bday; break;
+                                        default: console.log('default'); categoryImg = dot; break;
+                                    }
                                         return (
                                             <MouseOverLabel
                                                 label={label}
@@ -685,7 +740,7 @@ const CalendarModal = (props) => {
                                             onClick={(event) => editSingleEvent(event, el)}
                                             key={index}
                                             className="calendar-modal--event-item">
-                                                <img src={dot}></img>
+                                                <img src={categoryImg}></img>
                                                 <span>{el.title}</span>
                                             </li>
                                             </MouseOverLabel>
@@ -843,6 +898,11 @@ const CalendarModal = (props) => {
         </motion.div>
     )
 
+    let categoryEventImg;
+
+                                
+
+
     let eventEditElement = (
         <motion.div
             initial="initial"
@@ -862,6 +922,7 @@ const CalendarModal = (props) => {
                 >
                     <button onClick={editEventFurtherHandler} className="btn cal-cancel"><img src={pencil} alt=""/></button>
                 </MouseOverLabel>
+                <img className="cal-eventedit-img" src={eventEdit.event.pic} alt=""/>
                 <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
             </header>
             <div>

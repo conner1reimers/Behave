@@ -228,12 +228,9 @@
 }
 
 .todo-form {
-    grid-column: 1 / 6;
-    grid-row: 2 / 3;
-    display: grid;
+
     padding-bottom: 3rem;
-    grid-template-columns: repeat(5, 20%);
-    grid-template-rows: repeat(2, 50%);
+
     border-bottom: 1px solid rgba(143, 150, 194, 0.288);
     grid-gap: 2rem;
     
@@ -473,5 +470,70 @@ $shadowColor: rgba(0, 0, 0, 0.089);
         }
 
         }
+    }
+}
+
+
+
+
+@media only screen and (min-width: 750px) { 
+
+    .todo-form {
+        grid-column: 1 / 6;
+        grid-row: 2 / 3;
+        display: grid;
+        grid-template-columns: repeat(5, 20%);
+        grid-template-rows: repeat(2, 50%);
+        
+    }
+}
+
+
+@media only screen and (max-width: 750px) {
+    .todo-form {
+        grid-column: 1 / 6;
+        grid-row: 2 / span 2;
+        display: grid;
+        grid-template-columns: 33vw 33vw 33vw;
+        grid-template-rows: repeat(3, 50%);
+        transform: translateY(-6rem);
+        
+    }
+
+    .radio-todo {
+        grid-column: 2 / 3;
+    }
+    .task {
+        grid-column: 1/-1;
+        align-self: center;
+        max-width: 95vw;
+        margin-left: .5rem;
+        // transform: translateX(-4rem);
+    }
+    .urgency {
+        grid-column: 1/-1;
+        left: 23rem;
+        max-width: 95vw;
+    }
+    .todo {
+        grid-template-rows: 35vh 50vh 30vh;
+    }
+    .heading-todo {
+        flex-direction: column;
+    }
+    .todo-lottie {
+        justify-self: center;
+        align-self: center;
+        margin-left: 18rem;
+    }
+    .todo-head {
+        margin-bottom: -8rem;
+    }
+
+    .todo-under {
+        
+    }
+    .back {
+        grid-row: 5 / 9;
     }
 }

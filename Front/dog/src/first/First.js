@@ -309,7 +309,6 @@ const First = (props) => {
             />
             
             
-            <Features todos={userTodos} setTodo={setUserTodos}/>
 
             </ResetContext.Provider>
 

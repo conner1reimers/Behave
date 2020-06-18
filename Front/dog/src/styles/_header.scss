@@ -19,7 +19,7 @@ $pink-shadow: rgba(28, 73, 113, 0.295);
   height: 100%;
   grid-template-rows: 1fr;
   grid-template-columns: 25vw 50vw 10vw 10vw 5vw;
-  max-width: 99%;
+  max-width: 100%;
 
   & svg {
     grid-column: 2 / 3;
