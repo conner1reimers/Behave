@@ -64,7 +64,7 @@ const Lottie1 = () => {
                             isClickToPauseDisabled={true}
 
                             />
-                            <span className={`lotto-label ${isVis ? 'vis' : 'hid'}`}>Your Treasure</span>
+                            <span className={`lotto-label ${isVis ? 'vis' : 'hid'}`}>Todo List</span>
 
             </div>
 

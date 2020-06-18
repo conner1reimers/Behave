@@ -105,7 +105,7 @@ const LoadingAnimation = (props) => {
                     </motion.div>)}
                                 
                 </AnimatePresence>
-                {props.loading && <Backdrop onClick={props.cancel}/>}
+                {props.loading && <Backdrop backdropClass='backdr' onClick={props.cancel}/>}
 
             </Fragment>, document.getElementById('loading-hook')
 

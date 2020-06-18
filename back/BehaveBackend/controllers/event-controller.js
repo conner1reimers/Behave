@@ -62,17 +62,25 @@ const getEvents = async (req, res, next) => {
                 filteredEventsByMonth.map((el) => {
                     if (events[chosenMonthYear][el.day]) {
                         events[chosenMonthYear][el.day].push({
-                            title: el.title
+                            title: el.title,
+                            category: el.category,
+                            time: el.time,
+                            description: el.description,
+                            location: el.location,
+
                         })
                     } else {
                         events[chosenMonthYear][el.day] = [{
-                            title: el.title
+                            title: el.title,
+                            category: el.category,
+                            time: el.time,
+                            description: el.description,
+                            location: el.location,
                         }]
                     }
                     
                 });
                 res.status(201).json({events})
-                console.log(events)
 
             } else {
                 res.status(201).json({events: {}})
@@ -91,19 +99,24 @@ const getEvents = async (req, res, next) => {
 }
 
 const createEvent = async (req, res, next) => {
-    const errors = validationResult(req);
+    console.log('going..')
 
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         next(new HttpError('Invalid inputs passed...', 422))
     };
 
-    const {monthYear, day, title, creator} = req.body;
+    const {monthYear, day, title, category, time, description, location, creator} = req.body;
 
     const createdEvent = new Event({
         monthYear,
         day,
         title,
-        creator
+        category,
+        creator,
+        time,
+        description, 
+        location
     });
 
     let user;

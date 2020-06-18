@@ -291,7 +291,7 @@ const Input = (props) => {
                 )
         }
         else if (props.cat === "cal-options") {
-            let color = 'white'
+            let color = '#f23a62d3'
             element = (
                 <Fragment>
                     <div 

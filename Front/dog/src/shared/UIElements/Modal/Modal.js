@@ -113,11 +113,13 @@ const Modal = (props) => {
         mainModal = (
         <div className="stuff">
                 
-            <div className={`modal-content ${props.contentClass}`} >
+            <div className={`${props.contentClass}`} >
                     {props.children}
             </div>            
         </div>);
     }
+
+    const classModal = props.calendar ? null : 'modal'
 
     const modalContent = (
         <motion.div 
@@ -127,7 +129,7 @@ const Modal = (props) => {
         exit="out"
         variants={pageVariants}
         transition={pageTransition} 
-        className={`modal ${props.modalClass}`}>
+        className={`${classModal} ${props.modalClass}`}>
 
             {props.art && <div style={{color: 'red', }} style={{backgroundImage: modalImg}} className={`art ${art}`}>
                 

@@ -49,7 +49,9 @@
     z-index: 1;
 }
 
-
+.backdr {
+    z-index: 5;
+}
 
 .modal-header {
     font-size: 5rem;
@@ -121,6 +123,9 @@
     border: none;
     padding: .3rem 1.5rem;
     cursor: pointer;
+    &::-moz-focus-inner {
+        border: 0;
+     }
 }
 
 .btn:focus {

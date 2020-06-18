@@ -12,6 +12,11 @@ $color-light-1: #c46035ec;
 $color-blue: #1C4971;
 $color-blue-2: #1B436B;
 
+$color-red-1: #F14A34;
+$color-red-2: #CB372A;
+$color-green-1: #22BCA9;
+$color-pink-1: #F23A61;
+
 
 $bp-largest: 75em; // 1200px  
 $bp-large: 62.5em; // 1000px
@@ -207,7 +212,6 @@ body {
     z-index: 9999;
     position: fixed;
 
-    z-index: 9999;
     bottom: 35vh;
     right: 33vw;
 

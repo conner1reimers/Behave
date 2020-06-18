@@ -81,8 +81,9 @@ const First = (props) => {
 
                 setIncomeTotal(incomeTotal);
 
-                let expenses = createExpensesArray(response.expense)
-                setUserExpense(expenses)
+                let expenses = createExpensesArray(response.expense);
+
+                setUserExpense(expenses);
                 setExpenseTotal(expenseTotal);
 
                 let budgetRemaining;
@@ -214,7 +215,7 @@ const First = (props) => {
         return () => {
             mountedRef.current = false;
         }
-    }, [fetchBudget, fetchTodos, fetchGoals])
+    }, [])
 
 
     const setBug = (budget) => {
@@ -235,11 +236,12 @@ const First = (props) => {
 
     const passData = useCallback(() => {
         props.passData(passedUserBudget)
-    }, [props, passedUserBudget])
+    }, [props, passedUserBudget]);
 
+    
     useEffect(() => {
         passData();
-    }, [passedUserBudget, passData])
+    }, [passedUserBudget, passData]);
 
     return (
         <BudgetContext.Provider

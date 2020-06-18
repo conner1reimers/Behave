@@ -4,11 +4,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import close from './close.svg'
 import Input from '../../shared/UIElements/Input/Input';
 import { useForm } from '../../util/hooks/useForm';
-import { VALIDATOR_REQUIRE } from '../../util/validators';
+import { VALIDATOR_REQUIRE, VALIDATOR_NONE } from '../../util/validators';
 import { useHttpClient } from '../../util/hooks/http-hook';
 import { AuthContext } from '../../util/context/auth-context';
 import LoadingAnimation from '../../lotties/LoadingAnimation/LoadingAnimation';
 import dot from './dot.svg'
+import ErrorModal from '../../shared/ErrorModal/ErrorModal';
+import MouseOverLabel from '../../util/MouseOverLabel';
+import pencil from '../../shared/Header/Dashboard/dashLeftImgs/pencil.svg';
 
 const dayVariants = {
     initial: {
@@ -74,6 +77,101 @@ const dayEditTransition = {
     velocity: 3
     
 }
+
+const moreOptionsVariants = {
+    initial: {
+        scale: .7,
+        x: '-40%',
+        opacity: 0.7
+
+
+
+    },
+    out: {
+
+
+        scale: 0.8,
+        x: '-200%',
+        opacity: 0
+
+
+
+    },
+    in: {
+
+        scale: 1,
+        x: '50%',
+        opacity: 1
+
+    }
+}
+
+const moreOptionsTransition = {
+    type: 'spring',
+    mass: 2.3,
+    damping: 93,
+    stiffness: 200,
+    velocity: 1
+    
+}
+
+const eventEditVariants = {
+    initial: {
+        scale: .9,
+        x: '-200%',
+        opacity: 0.7
+
+
+    },
+    out: {
+
+
+        scale: 0.8,
+        x: '-200%',
+        opacity: 0.7
+
+
+    },
+    in: {
+
+        scale: 1,
+        x: '0%',
+        opacity: 1
+    }
+}
+const eventEditVariants2 = {
+    initial: {
+        scale: .9,
+        x: '-200%',
+        opacity: 0.7
+
+
+    },
+    out: {
+
+
+        scale: 0.8,
+        x: '-200%',
+        opacity: 0.7
+
+
+    },
+    in: {
+
+        scale: 1,
+        x: '0%',
+        opacity: 1
+    }
+}
+
+const eventEditTransition = {
+    type: 'spring',
+    mass: .5,
+    damping: 50,
+    stiffness: 250,
+    velocity: 2
+    
+}
 const CalendarModal = (props) => {
     let today = new Date();
     let currentMonth = today.getMonth();
@@ -84,7 +182,7 @@ const CalendarModal = (props) => {
     
     const [monthChosen, setMonthChosen] = useState(null);
     const [yearChosen, setYearChosen] = useState(null);
-    const [monthEvents, setMonthEvents] = useState(null)
+    const [monthEvents, setMonthEvents] = useState({})
 
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
     const auth = useContext(AuthContext);
@@ -100,8 +198,43 @@ const CalendarModal = (props) => {
         day: {}
     });
 
+    const [moreOptionsEdit, setMoreOptionsEdit] = useState(false);
+
+    const [eventEdit, setEventEdit] = useState({
+        clicked: false,
+        event: {}
+    });
+
+
+    const [formState, inputHandler] = useForm({
+        title: {
+            value: '',
+            isValid: false
+        },
+        category: {
+            value: 'personal',
+            isValid: true
+        },
+        description: {
+            value: 'personal',
+            isValid: true
+        },
+        time: {
+            value: 'personal',
+            isValid: true
+        },
+        location: {
+            value: 'personal',
+            isValid: true
+        }
+    }, false)
+
     const editDayHandler = (day) => {
 
+        setEventEdit({
+            clicked: false,
+            event: {}
+        });
         if (day.day !== '') {
             if (isDayEdit.clicked && isDayEdit.day.day === day.day && isDayEdit.day.month === day.month && isDayEdit.day.year === day.year) {
                 setIsDayEdit((prevState) => {
@@ -116,41 +249,138 @@ const CalendarModal = (props) => {
                     day: day
                 })
             }
-        }
-        
-        
-
+        }        
     }
 
+    const moreOptionsHandler = () => {
+        setMoreOptionsEdit((prevState) => !prevState)
+    }
+    
     const submitDayEditHandler = async (event) => {
         event.preventDefault()
+        let curDate = parseInt(`${monthChosen}${yearChosen}`)
+        let day = parseInt(isDayEdit.day.day)
         let response;
+
         try {
-            response = await sendRequest(`http://localhost:5000/api/expense/`, 'PATCH',
+            response = await sendRequest(`http://localhost:5000/api/event/`, 'POST',
             JSON.stringify({
-                ammount: formState.inputs.ammount.value
+                monthYear: curDate,
+                day: day,
+                title: formState.inputs.title.value,
+                creator: auth.userId,
+                category: formState.inputs.category.value,
+                time: formState.inputs.time.value,
+                location: formState.inputs.location.value,
+                description: formState.inputs.description.value,
+
             }),
             {'Content-Type': 'application/json'}
             );
+
+            setMonthEvents((prevState) => {
+                if (prevState[curDate]) {
+                    console.log(prevState[curDate])
+                    if (prevState[curDate][day] && isDayEdit.day.events) {
+                        prevState[curDate][day].push({
+                            title: formState.inputs.title.value,
+                            category: formState.inputs.category.value
+                        })
+                        return {
+                            ...prevState,
+                            
+                        }
+                    } else {
+                            prevState[curDate][isDayEdit.day.day] = [{
+                            title: formState.inputs.title.value,
+                            category: formState.inputs.category.value
+                            }]
+                            return {
+                                ...prevState,
+                                
+                            }
+                    }
+                } else {
+                        prevState[curDate][isDayEdit.day.day] = [{
+                            title: formState.inputs.title.value,
+                            category: formState.inputs.category.value
+                    }]
+                    return {
+                        ...prevState,
+                        
+                    }
+                    
+                }
+            })
+            console.log(response)
             
             
                                    
-        } catch (err) {}
+        } catch (err) {
+            console.log(err)
+
+        }
     }
 
     const  cancelHandler = () => {
         setIsDayEdit({
             clicked: false,
             day: {}
+        });
+        setEventEdit({
+            clicked: false,
+            event: {}
+        });
+    };
+
+    const editSingleEvent = (event, item) => {
+        event.preventDefault();
+        event.cancelBubble = true
+        event.stopPropagation()
+        setIsDayEdit({
+            clicked: false,
+            event: {}
         })
+        setEditEventFurther(false);
+
+        if (eventEdit.clicked) {
+            if (eventEdit.event.title === item.title && eventEdit.event.category === item.category) {
+                setEventEdit((prevState) => {return {...prevState, clicked: false}})
+            } else {
+                setEventEdit({
+                    clicked: true,
+                    event: {
+                        title: item.title,
+                        category: item.category,
+                        time: item.time,
+                        description: item.description,
+                        location: item.location,
+                        
+                    }
+    
+                });
+            }
+        } else {
+            setEventEdit({
+                clicked: true,
+                event: {
+                    title: item.title,
+                    category: item.category,
+                    time: item.time,
+                    description: item.description,
+                    location: item.location,
+                }
+
+            });
+        }
     }
 
-    const [formState, inputHandler] = useForm({
-        ammount: {
-            value: '',
-            isValid: false
-        }
-    }, false)
+    const [editEventFurther, setEditEventFurther] = useState(false)
+    const editEventFurtherHandler = () => {
+        setEditEventFurther((prevState) => !prevState);
+    }
+
+
 
     const fetchEvents = async (curDate) => {
         let response;
@@ -190,7 +420,11 @@ const CalendarModal = (props) => {
                         if (monthEvents[curDate][i + 1]) {
                             curEvent = monthEvents[curDate][i - firstDay + 1].map((el) => {
                                 return {
-                                    title: el.title
+                                    title: el.title,
+                                    category: el.category,
+                                    time: el.time,
+                                    description: el.description,
+                                    location: el.location,
                                 }
                             })
                         }
@@ -222,7 +456,11 @@ const CalendarModal = (props) => {
                             if (monthEvents[curDate][i - firstDay + 1]) {
                                 curEvent = monthEvents[curDate][i - firstDay + 1].map((el) => {
                                     return {
-                                        title: el.title
+                                        title: el.title,
+                                        category: el.category,
+                                        time: el.time,
+                                        description: el.description,
+                                        location: el.location,
                                     }
                                 })
                             }
@@ -247,6 +485,53 @@ const CalendarModal = (props) => {
                 if (isDayEdit) {
                     if (isDayEdit.clicked === true && isDayEdit.day.day === day.day && isDayEdit.day.month === day.month && isDayEdit.day.year === day.year) {
                         let dateChosen = getMonthYearFromNumbered(day.month, day.day)
+
+                        let moreOptions = (
+                            <motion.div
+                            initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={moreOptionsVariants}
+                            transition={moreOptionsTransition}
+                            className="calendar-modal--dayedit--more-options"
+                            >
+                                <header className="calendar-modal--dayedit--head">
+                                    <h1 className="calendar-modal--dayedit--head">More Options...</h1>
+                                    <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
+                                </header>
+                                <Input
+                                    name="Description"
+                                    id="description"
+                                    onInput={inputHandler}
+                                    validator={VALIDATOR_NONE()}
+                                    errorText="Need atleast 1 character"
+                                    type="text"
+                                    class="calendar-modal--dayedit--input calinput-not"
+                                    errorClass="error-notNum"
+                                    />
+                                <Input
+                                    name="Location"
+                                    id="location"
+                                    onInput={inputHandler}
+                                    validator={VALIDATOR_NONE()}
+                                    errorText="Need atleast 1 character"
+                                    type="text"
+                                    class="calendar-modal--dayedit--input calinput-not"
+                                    errorClass="error-notNum"
+                                    />
+                                <Input
+                                    name="What time?"
+                                    id="time"
+                                    onInput={inputHandler}
+                                    validator={VALIDATOR_NONE()}
+                                    errorText="Need atleast 1 character"
+                                    type="text"
+                                    class="calendar-modal--dayedit--input calinput-not"
+                                    errorClass="error-notNum"
+                                    />
+                            </motion.div>
+                        )
+
                         dayEditElement = (
                             <motion.div
                             initial="initial"
@@ -263,8 +548,8 @@ const CalendarModal = (props) => {
 
                                 <form onSubmit={submitDayEditHandler} className="calendar-modal--dayedit--form">
                                 <Input
-                                            name="Caption"
-                                            id="subject"
+                                            name="category"
+                                            id="category"
                                             onInput={inputHandler}
                                             validator={VALIDATOR_REQUIRE()}
                                             errorText="Need atleast 1 character"
@@ -291,7 +576,7 @@ const CalendarModal = (props) => {
 
                                     <Input
                                     name="Caption"
-                                    id="subject"
+                                    id="title"
                                     onInput={inputHandler}
                                     validator={VALIDATOR_REQUIRE()}
                                     errorText="Need atleast 1 character"
@@ -299,11 +584,19 @@ const CalendarModal = (props) => {
                                     class="calendar-modal--dayedit--input"
                                     errorClass="error-notNum"
                                     />
-                                    
+
+                                {moreOptionsEdit && (
+                                    <AnimatePresence>
+                                        {moreOptionsEdit && moreOptions}
+                                    </AnimatePresence>
+                                )}                                    
 
                                     <button type="submit" className="btn btn-submit calendar-modal--dayedit--btn">Submit</button>
 
                                 </form>
+                                <button onClick={moreOptionsHandler} className="btn calendar-modal--dayedit--more">More Options</button>
+
+                                
 
                             </motion.div>
                         )
@@ -347,33 +640,77 @@ const CalendarModal = (props) => {
                             <span className="calendar-modal--text">{day.day}</span>
                             <ul className="calendar-modal--event-list">
                                 {day.events && day.events.length <=2 && day.events.map((el, index) => {
+                                    let label = (
+                                        <Fragment>
+                                            <h1>{el.category}</h1>
+                                            <p>{el.title}</p>
+                                        </Fragment>
+                                    )
                                         return (
-                                            <li
-                                            key={index}
-                                            className="calendar-modal--event-item">
-                                                <img src={dot}></img>
-                                                <span>{el.title}</span>
-                                            </li>
+                                            <MouseOverLabel
+                                                label={label}
+                                                labelClass="edit-label cal-mouseover"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                                key={index}
+                                            >
+                                                <li
+                                                onClick={(event) => editSingleEvent(event, el)}
+                                                key={index}
+                                                className="calendar-modal--event-item">
+                                                    <img src={dot}></img>
+                                                    <span>{el.title}</span>
+                                                </li>
+                                            </MouseOverLabel>
                                         )
                                     })}
 
                                 {day.events && day.events.length >= 3 && eventz.map((el, index) => {
                                     if (index <= 1) {
+                                        let label = (
+                                            <Fragment>
+                                                <h1>{el.category}</h1>
+                                                <p>{el.title}</p>
+                                            </Fragment>
+                                        )
                                         return (
+                                            <MouseOverLabel
+                                                label={label}
+                                                labelClass="edit-label cal-mouseover"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                                key={index}
+                                            >
                                             <li
+                                            onClick={(event) => editSingleEvent(event, el)}
                                             key={index}
                                             className="calendar-modal--event-item">
                                                 <img src={dot}></img>
                                                 <span>{el.title}</span>
                                             </li>
+                                            </MouseOverLabel>
                                         )
                                     } else {
+                                        let label = (
+                                            <Fragment>
+                                                <h1>{el.category}</h1>
+                                                <p>{el.title}</p>
+                                            </Fragment>
+                                        )
                                         return (
+                                            <MouseOverLabel
+                                                label={label}
+                                                labelClass="edit-label cal-mouseover"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                                key={index}
+                                            >
                                             <li
                                             key={index}
                                             className="btn calendar-modal--event-item--btn">
                                                 <button className="btn calendar-modal--event-item--btn">....View more</button>
                                             </li>
+                                            </MouseOverLabel>
                                         )   
                                     }
                                     
@@ -432,10 +769,125 @@ const CalendarModal = (props) => {
 
     }
 
+    // let content;
+    // if (isLoading) {
+    //     content = (
+    //     <Fragment>
+    //         <LoadingAnimation loading={isLoading}/>
+    //     </Fragment>)
+    // } else {
+    //     content = null;
+    // }
+
+    const submitEventEditHandler = async () => {
+
+    }
+
+    let editFurterElement = (
+        <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={eventEditVariants2}
+            transition={eventEditTransition}     
+            className='eventEditElement--further'  
+        >
+                <header className="calendar-modal--dayedit--head">
+                                    <button className="btn cal-cancel" onClick={() => setEditEventFurther(false)}><img src={close} alt=""/></button>
+                </header>
+            <form onSubmit={submitEventEditHandler} className="calendar-modal--dayedit--form">
+
+                <Input
+                name="New Caption"
+                id="location"
+                onInput={inputHandler}
+                validator={VALIDATOR_NONE()}
+                errorText="Need atleast 1 character"
+                type="text"
+                class="calendar-modal--dayedit--input calinput-not"
+                errorClass="error-notNum"                                    
+                />
+                <Input
+                name="New Location"
+                id="location"
+                onInput={inputHandler}
+                validator={VALIDATOR_NONE()}
+                errorText="Need atleast 1 character"
+                type="text"
+                class="calendar-modal--dayedit--input calinput-not"
+                errorClass="error-notNum"                                    
+                />
+                <Input
+                name="New Description"
+                id="location"
+                onInput={inputHandler}
+                validator={VALIDATOR_NONE()}
+                errorText="Need atleast 1 character"
+                type="text"
+                class="calendar-modal--dayedit--input calinput-not"
+                errorClass="error-notNum"                                    
+                />
+                <Input
+                name="New Time"
+                id="location"
+                onInput={inputHandler}
+                validator={VALIDATOR_NONE()}
+                errorText="Need atleast 1 character"
+                type="text"
+                class="calendar-modal--dayedit--input calinput-not"
+                errorClass="error-notNum"                                    
+                />
+                <button style={{marginTop: '8rem'}} type="submit" className="btn btn-submit calendar-modal--dayedit--btn">Submit</button>
+
+            </form>
+        </motion.div>
+    )
+
+    let eventEditElement = (
+        <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={eventEditVariants}
+            transition={eventEditTransition}     
+            className='eventEditElement'  
+        >
+            <header className="calendar-modal--dayedit--head">
+                <h1>{eventEdit.event.category}</h1>
+                <MouseOverLabel
+                    label='Edit'
+                    labelClass="edit-label cal-mouseover"
+                    visibleClass="vis"
+                    hiddenClass="hid"
+                >
+                    <button onClick={editEventFurtherHandler} className="btn cal-cancel"><img src={pencil} alt=""/></button>
+                </MouseOverLabel>
+                <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
+            </header>
+            <div>
+                <p>{eventEdit.event.title}</p>
+                {eventEdit.event.description && (<p>Description: {eventEdit.event.description}</p>)}
+                {eventEdit.event.time && (<p>Time: {eventEdit.event.time}</p>)}
+                {eventEdit.event.location && (<p>Location: {eventEdit.event.location}</p>)}
+            </div>
+            {editEventFurther && (
+                <AnimatePresence>
+                    {editFurterElement}
+                </AnimatePresence>
+            )}
+        </motion.div>
+    )
 
     return (
         <Fragment>
-            {isLoading && <LoadingAnimation/>}
+            
+            {eventEdit.clicked && (
+                <AnimatePresence>
+                    {eventEditElement}
+                </AnimatePresence>
+            )}
+            <ErrorModal error={error} clearError={clearError}/>
+            {isLoading && <LoadingAnimation loading={isLoading}/>}
 
             <header className="cal-header">
                 <h2 className="calendar-modal--head">Month of: {chosenMonthText} </h2>

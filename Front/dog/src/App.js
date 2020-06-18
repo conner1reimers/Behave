@@ -5,6 +5,7 @@ import './styles/base.scss';
 import { AuthContext } from './util/context/auth-context';
 import Sidebar from './shared/Sidebar/Sidebar';
 import HistoryPage from './Components/HistoryPage/HistoryPage';
+import Features from './shared/Firstpage components/Features';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -114,6 +115,10 @@ function App() {
                 <HistoryPage
                   budget={budgetState}
                 />
+              </Route>
+
+              <Route path={`/${userId}/todo`} exact>
+                <Features />
               </Route>
               
               {reDirect}

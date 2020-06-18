@@ -221,6 +221,7 @@ const DashLeft = (props) => {
             {'Content-Type': 'application/json'}
             );
             setEditAnimationState(false)
+            
             props.setEntireBudget((prevState) => {
                 let prev = prevState.expense.filter((el) => {
                     return el._id !== response.expense.id

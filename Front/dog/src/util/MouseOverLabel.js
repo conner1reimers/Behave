@@ -21,9 +21,16 @@ const MouseOverLabel = (props) => {
         complica()
         
     }
+    let content;
+
+    // if (props.label) {
+    //     content = (
+
+    //     )
+    // }
 
     return (
-        <div onMouseEnter={mouseOverHandler} onMouseLeave={mouseLeaveHandler}> {props.children}
+        <div className={`${props.class}`} style={{zIndex: 9999}} onMouseEnter={mouseOverHandler} onMouseLeave={mouseLeaveHandler}> {props.children}
             <span className={`${props.labelClass} ${isVis ? props.visibleClass : props.hiddenClass}`}>{props.label}</span>
         </div>
     )

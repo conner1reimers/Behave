@@ -30,7 +30,7 @@ const Sidebar = (props) => {
                                 </li>
         
                                 <li className="link">
-                                    <NavLink to="/pages"><Lottie2/></NavLink>
+                                    <NavLink to={`/${props.userId}/todo`}><Lottie2/></NavLink>
                                 </li>
         
                                 <li className="link">
