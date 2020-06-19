@@ -470,6 +470,9 @@
     /* Position the tooltip text - see examples below! */
     position: fixed;
     z-index: 999;
+    filter: drop-shadow(-2px -3px 1px #ebe7e8b2);
+    filter: drop-shadow(1px 2px 0px #f1f1f14d);
+
 }
 
 .rmlab {

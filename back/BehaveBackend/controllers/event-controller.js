@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Event = require('../models/events');
 const HttpError = require('../models/http-error');
 const {validationResult} = require('express-validator');
+const user = require('../models/user');
 
 //  NEED EVENTS IN THIS FORM
 
@@ -137,10 +138,10 @@ const createEvent = async (req, res, next) => {
 
     try {
         const sesh = await mongoose.startSession();
-        sesh.startTransaction()
-        await createdEvent.save({ session: sesh})
-        user.events.push(createdEvent)
-        await user.save({ session: sesh})
+        sesh.startTransaction();
+        await createdEvent.save({ session: sesh});
+        user.events.push(createdEvent);
+        await user.save({ session: sesh});
         await sesh.commitTransaction();
 
     } catch (err) {
@@ -148,10 +149,64 @@ const createEvent = async (req, res, next) => {
         return next(error);
     };
 
-    res.status(201).json({event: createdEvent})
+    res.status(201).json({event: createdEvent});
 }
 
+const getFirstEvent = async (req, res, next) => {
+    const userId = req.params.userId;
 
+    let userEvent;
+    if (!userId) {
+        const error = new HttpError('Finding user failed...', 500);
+        return next(error);
+    };
+
+    let user;
+    try {
+        user = await User.findById(userId).populate('events')
+    } catch (err) {
+        const error = new HttpError('Finding user events failed...', 500);
+        return next(error);
+    };
+    if (!user) {
+        const error = new HttpError('Finding user failed...', 500);
+        return next(error);
+    };
+
+
+
+    if (!user.events) {
+        userEvent = {};
+    } else if (user.events.length < 1) {
+        userEvent = {};
+    };
+
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    let currentDay = today.getDate();
+    let curDate = parseInt(`${currentMonth}${currentYear}`);
+
+
+    console.log(currentDay)
+    let filtered = user.events.filter((el) => {return (el.monthYear === curDate && el.day >= currentDay)}).sort((a,b) => {return a.day - b.day})
+    if (filtered.length >= 1) {
+        userEvent = filtered[0]
+    } else {
+        let newDate = parseInt(`${currentMonth + 1}${currentYear}`);
+        let newFiltered = user.events.filter((el) => {return el.monthYear === newDate}).sort((a,b) => {return a.day - b.day})
+        if (newFiltered.length >= 1) {
+            userEvent = filtered[0]
+        } else {
+            userEvent = {}
+        }
+    }
+
+    res.status(201).json({event: userEvent});
+
+
+}
 
 exports.createEvent = createEvent;
 exports.getEvents = getEvents;
+exports.getFirstEvent = getFirstEvent;

@@ -14,6 +14,7 @@ import GoalModalItem from '../../../Components/GoalModal/GoalModalItem';
 import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation';
 import { useHttpClient } from '../../../util/hooks/http-hook';
 import ErrorModal from '../../ErrorModal/ErrorModal';
+import { NavLink } from 'react-router-dom';
 
 
 const pageVariants = {
@@ -249,7 +250,7 @@ const DashRight = (props) => {
                     showCursor
                     loop ></Typed> <br/>
 
-                <button style={{marginLeft: '1.5rem'}} className="btn signup-btn btn-prod">See previous...</button>
+                    {auth.isLoggedIn && <NavLink to={`/${auth.userId}/todo`} className="btn signup-btn btn-prod">Todos...</NavLink>}
 
                 <ul style={{marginLeft: '1.5rem'}} className="expense-list">
                     {todoList}

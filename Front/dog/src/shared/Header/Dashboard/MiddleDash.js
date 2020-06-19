@@ -11,14 +11,16 @@ import ErrorModal from '../../ErrorModal/ErrorModal';
 import { BudgetContext } from '../../../util/context/budget-context';
 import { ResetContext } from '../../../util/context/reset-context';
 import Media from 'react-media';
-import forbidden from './dashLeftImgs/forbidden.svg'
+import trophy from './dashLeftImgs/trophy.svg'
+import stars from './dashLeftImgs/stars.svg'
 import { AnimatePresence, motion } from 'framer-motion';
+import arrow from './arrow.svg'
 
 const pageVariants = {
     initial: {
         scale: .2,
         opacity: 0,
-        x: '40%',
+        y: '40%',
         rotate: 15
 
 
@@ -26,9 +28,9 @@ const pageVariants = {
     out: {
 
 
-        scale: .3,
-        opacity: .4,
-        x: '70%',
+        scale: .2,
+        opacity: 0,
+        y: '70%',
         rotate: 15
 
 
@@ -37,7 +39,7 @@ const pageVariants = {
 
         scale: 0.9,
         opacity: 1,
-        x: '0%',
+        y: '0%',
         rotate: 0
     }
 }
@@ -49,6 +51,7 @@ const pageTransition = {
     stiffness: 1200
     
 }
+
 
 const MiddleDash = (props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
@@ -113,19 +116,37 @@ const MiddleDash = (props) => {
         }
     }
 
-    
+    // FETCH NEXT UPCOMING EVENT
+    const [firstUserEvent, setFirstUserEvent] = useState(null);
+    const fetchFirstEvent = useCallback(async () => {
+        if (auth.isLoggedIn) {
+            let response;
+            try {
+                response = await sendRequest(`http://localhost:5000/api/event/${auth.userId}`)
+                setFirstUserEvent(response.event)
+                console.log(response.event)
+        } catch (err) {}
+        
+        }
+    }, []);
+    useEffect(() => {
+        fetchFirstEvent()
+    }, []);
+
+    // BACK BUTTON FOR BUDGET EDITOR
     const backButton = (!budgetEdit && !incomeEdit && !expenseEdit) ? null
     : (
         <button onClick={goBack} className="back-btn">BACK</button>
     )
     
-    // let dad;
+    // PASSING THE DATA BACK;
     const passData = (data) => {
         // dad = data;
         setBudgetState(data);
     }
     let budgetAmt;
 
+    // SUBMIT BUDGET DATA FUNCTION
     const submitDataToBudget = async (event) => {
         event.preventDefault();
 
@@ -313,6 +334,8 @@ const MiddleDash = (props) => {
     let remaining;
 
     let expenseTotal;
+
+    // MIDDLE SETUP
     const setupBudgetDisplay = () => {
         expenseTotal = props.expenseTotal
 
@@ -390,7 +413,9 @@ const MiddleDash = (props) => {
         mappedChosenGoals = chosenGoals.map((goal, index) => {
             return (
             <li key={index} className="chosen-goals--item">
-                {goal.title}
+                <img src={trophy}/>
+                <p>{goal.title}</p>
+
             </li>
             )
         })
@@ -509,7 +534,7 @@ const MiddleDash = (props) => {
                 </div> */}
 
 
-                {chosenGoals.length > 0 &&  <button type="button" onClick={hideGoals} className="btn chosen-goals--hide"><img alt='' src={forbidden}></img></button>}
+                {chosenGoals.length > 0 &&  <button type="button" onClick={hideGoals} className="btn chosen-goals--hide"><img alt='' src={arrow}></img></button>}
                 <AnimatePresence exitBeforeEnter>
                     {chosenGoals.length > 0 && !goalsHidden && (
                     
@@ -520,11 +545,16 @@ const MiddleDash = (props) => {
                             exit="out"
                             variants={pageVariants}
                             transition={pageTransition}
-                            className="chosen-goals">
-                            <p>Top 3 goals:</p>
-                            <ul className="chosen-goals--list">
-                                {mappedChosenGoals}
-                            </ul>
+                            className="chosen-goals"
+                        >
+                                <div className="chosen-goals--head">
+                                    <img src={stars} alt=""/>
+                                    <span>Top 3 goals:</span>
+                                </div>
+                                <ul className="chosen-goals--list">
+                                    {mappedChosenGoals}
+                                </ul>
+                                
                         </motion.div>
                 
                     )}

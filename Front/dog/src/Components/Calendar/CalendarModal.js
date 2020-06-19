@@ -18,6 +18,7 @@ import family from './calendarPics/family.svg';
 import other from './calendarPics/other.svg';
 import travel from './calendarPics/travel.svg';
 import bday from './calendarPics/bday.svg';
+import moon from './calendarPics/moon.svg';
 
 
 
@@ -243,6 +244,10 @@ const CalendarModal = (props) => {
             clicked: false,
             event: {}
         });
+        setViewMoreEventsOptions({
+            clicked: false,
+            events: [{}]
+        });
         if (day.day !== '') {
             if (isDayEdit.clicked && isDayEdit.day.day === day.day && isDayEdit.day.month === day.month && isDayEdit.day.year === day.year) {
                 setIsDayEdit((prevState) => {
@@ -339,6 +344,10 @@ const CalendarModal = (props) => {
             clicked: false,
             event: {}
         });
+        setViewMoreEventsOptions({
+            clicked: false,
+            events: [{}]
+        });
     };
 
     const editSingleEvent = (event, item) => {
@@ -350,6 +359,11 @@ const CalendarModal = (props) => {
             event: {}
         })
         setEditEventFurther(false);
+
+        setViewMoreEventsOptions({
+            clicked: false,
+            events: [{}]
+        });
 
         if (eventEdit.clicked) {
             if (eventEdit.event.title === item.title && eventEdit.event.category === item.category) {
@@ -364,7 +378,7 @@ const CalendarModal = (props) => {
                     case 'travel': categoryEventImg = travel; break;
                     case 'friend': categoryEventImg = friend; break;
                     case 'birthday': categoryEventImg = bday; break;
-                    default: categoryEventImg = dot; break;
+                    default: categoryEventImg = moon; break;
                 }                
                 setEventEdit({
                     clicked: true,
@@ -390,7 +404,7 @@ const CalendarModal = (props) => {
                 case 'travel': categoryEventImg = travel; break;
                 case 'friend': categoryEventImg = friend; break;
                 case 'birthday': categoryEventImg = bday; break;
-                default: categoryEventImg = dot; break;
+                default: categoryEventImg = moon; break;
             }            
             setEventEdit({
                 clicked: true,
@@ -428,7 +442,43 @@ const CalendarModal = (props) => {
             let curDate = parseInt(`${monthChosen}${yearChosen}`)
             fetchEvents(curDate)
         }
-    }, [monthChosen, yearChosen])
+    }, [monthChosen, yearChosen]);
+
+    const [viewMoreEventsOptions, setViewMoreEventsOptions] = useState({
+        clicked: false,
+        events: [{}]
+    })
+    const viewMoreHandler = (event, dayEvents) => {
+        event.preventDefault();
+        event.cancelBubble = true
+        event.stopPropagation()
+        setIsDayEdit({
+            clicked: false,
+            event: {}
+        })
+        setEditEventFurther(false);
+
+        console.log(dayEvents)
+
+        if (viewMoreEventsOptions.clicked) {
+            if (viewMoreEventsOptions.events[0].title === dayEvents[0].title) {
+                setViewMoreEventsOptions(prevState => {return {...prevState, clicked: false}})
+                
+            } else {
+                setViewMoreEventsOptions({
+                    clicked: true,
+                    events: dayEvents
+                })
+            }
+        } else {
+            setViewMoreEventsOptions({
+                clicked: true,
+                events: dayEvents
+            })
+        }
+        
+
+    }
 
     const showCalendar = () => {
         // setMonthChosen(month)
@@ -451,12 +501,23 @@ const CalendarModal = (props) => {
                     if (monthEvents[curDate]) {
                         if (monthEvents[curDate][i + 1]) {
                             curEvent = monthEvents[curDate][i - firstDay + 1].map((el) => {
+                                let categoryEventImg;
+                                switch (el.category) {
+                                    case 'work': categoryEventImg = work; break;
+                                    case 'family': categoryEventImg = family;  break;
+                                    case 'other': categoryEventImg = other; break;
+                                    case 'travel': categoryEventImg = travel; break;
+                                    case 'friend': categoryEventImg = friend; break;
+                                    case 'birthday': categoryEventImg = bday; break;
+                                    default: categoryEventImg = moon; break;
+                                }   
                                 return {
                                     title: el.title,
                                     category: el.category,
                                     time: el.time,
                                     description: el.description,
                                     location: el.location,
+                                    pic: categoryEventImg
                                 }
                             })
                         }
@@ -487,12 +548,23 @@ const CalendarModal = (props) => {
                         if (monthEvents[curDate]) {
                             if (monthEvents[curDate][i - firstDay + 1]) {
                                 curEvent = monthEvents[curDate][i - firstDay + 1].map((el) => {
+                                    let categoryEventImg;
+                                    switch (el.category) {
+                                        case 'work': categoryEventImg = work; break;
+                                        case 'family': categoryEventImg = family;  break;
+                                        case 'other': categoryEventImg = other; break;
+                                        case 'travel': categoryEventImg = travel; break;
+                                        case 'friend': categoryEventImg = friend; break;
+                                        case 'birthday': categoryEventImg = bday; break;
+                                        default: categoryEventImg = moon; break;
+                                    }  
                                     return {
                                         title: el.title,
                                         category: el.category,
                                         time: el.time,
                                         description: el.description,
                                         location: el.location,
+                                        pic: categoryEventImg
                                     }
                                 })
                             }
@@ -674,8 +746,38 @@ const CalendarModal = (props) => {
                                 {day.events && day.events.length <=2 && day.events.map((el, index) => {
                                     let label = (
                                         <Fragment>
-                                            <h1>{el.category}</h1>
-                                            <p>{el.title}</p>
+                                            <header className="mouseover-main--header">
+                                                <img alt="" src={el.pic}/>
+                                                <h1>{el.category}</h1>
+                                            </header>
+                                            <div>
+                                                <div className="mouseover-main--info"> 
+                                                    <span>Title: </span> 
+                                                    <p> {el.title}</p>
+                                                </div>
+                                                
+                                                {el.description && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>Descr: </span> 
+                                                    <p> {el.description}</p>
+                                                </div>
+                                                )}
+
+                                                {el.time && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>time: </span> 
+                                                    <p> {el.time}</p>
+                                                </div>
+                                                )}
+                                                {el.location && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>location: </span> 
+                                                    <p> {el.location}</p>
+                                                </div>
+                                                )}
+                                            </div>
+
+
                                         </Fragment>
                                     )
                                     let categoryImg;
@@ -687,16 +789,17 @@ const CalendarModal = (props) => {
                                         case 'travel': categoryImg = travel; break;
                                         case 'friend': categoryImg = friend; break;
                                         case 'bday': categoryImg = bday; break;
-                                        default: console.log('default'); categoryImg = dot; break;
+                                        default: console.log('default'); categoryImg = moon; break;
                                     }
 
                                         return (
                                             <MouseOverLabel
                                                 label={label}
-                                                labelClass="edit-label cal-mouseover"
                                                 visibleClass="vis"
                                                 hiddenClass="hid"
                                                 key={index}
+                                                labelClass="edit-label cal-mouseover mouseover-main"
+                                                class="mouseover-main--outterDiv"
                                             >
                                                 <li
                                                 onClick={(event) => editSingleEvent(event, el)}
@@ -713,25 +816,56 @@ const CalendarModal = (props) => {
                                     if (index <= 1) {
 
                                         let label = (
-                                            <Fragment>
+                                        <Fragment>
+                                            <header className="mouseover-main--header">
+                                                <img alt="" src={el.pic}/>
                                                 <h1>{el.category}</h1>
-                                                <p>{el.title}</p>
-                                            </Fragment>
-                                        )
+                                            </header>
+                                            <div>
+                                                <div className="mouseover-main--info"> 
+                                                    <span>Title: </span> 
+                                                    <p> {el.title}</p>
+                                                </div>
+                                                
+                                                {el.description && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>Descr: </span> 
+                                                    <p> {el.description}</p>
+                                                </div>
+                                                )}
+
+                                                {el.time && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>time: </span> 
+                                                    <p> {el.time}</p>
+                                                </div>
+                                                )}
+                                                {el.location && (
+                                                <div className="mouseover-main--info"> 
+                                                    <span>location: </span> 
+                                                    <p> {el.location}</p>
+                                                </div>
+                                                )}
+                                            </div>
+
+
+                                        </Fragment>
+                                    )
                                         let categoryImg;
                                     switch (el.category) {
                                         case 'work': categoryImg = work; break;
                                         case 'family': categoryImg = family; break;
                                         case 'other': categoryImg = other; break;
                                         case 'travel': categoryImg = travel; break;
-                                        case 'friend': console.log('hi'); categoryImg = friend; break;
+                                        case 'friend': categoryImg = friend; break;
                                         case 'bday': categoryImg = bday; break;
-                                        default: console.log('default'); categoryImg = dot; break;
+                                        default: categoryImg = moon; break;
                                     }
                                         return (
                                             <MouseOverLabel
                                                 label={label}
-                                                labelClass="edit-label cal-mouseover"
+                                                labelClass="edit-label cal-mouseover mouseover-main"
+                                                class="mouseover-main--outterDiv"
                                                 visibleClass="vis"
                                                 hiddenClass="hid"
                                                 key={index}
@@ -748,14 +882,14 @@ const CalendarModal = (props) => {
                                     } else {
                                         let label = (
                                             <Fragment>
-                                                <h1>{el.category}</h1>
-                                                <p>{el.title}</p>
+                                                <h1>View all events on this day</h1>
+                                                
                                             </Fragment>
                                         )
                                         return (
                                             <MouseOverLabel
                                                 label={label}
-                                                labelClass="edit-label cal-mouseover"
+                                                labelClass="edit-label calendar-modal--viewmore-mouseover"
                                                 visibleClass="vis"
                                                 hiddenClass="hid"
                                                 key={index}
@@ -763,7 +897,7 @@ const CalendarModal = (props) => {
                                             <li
                                             key={index}
                                             className="btn calendar-modal--event-item--btn">
-                                                <button className="btn calendar-modal--event-item--btn">....View more</button>
+                                                <button onClick={(event) => viewMoreHandler(event, day.events)} className="btn calendar-modal--event-item--btn">....View more</button>
                                             </li>
                                             </MouseOverLabel>
                                         )   
@@ -913,23 +1047,24 @@ const CalendarModal = (props) => {
             className='eventEditElement'  
         >
             <header className="calendar-modal--dayedit--head">
-                <h1>{eventEdit.event.category}</h1>
+                <h1 style={{fontSize: '2.5rem', textTransform: 'capitalize'}} className="eventEditElement--cat-head">{eventEdit.event.category}</h1>
                 <MouseOverLabel
                     label='Edit'
                     labelClass="edit-label cal-mouseover"
                     visibleClass="vis"
                     hiddenClass="hid"
+                    class="calendar-modal--dayedit--head--mouseover eventedit-mouseover"
                 >
                     <button onClick={editEventFurtherHandler} className="btn cal-cancel"><img src={pencil} alt=""/></button>
                 </MouseOverLabel>
                 <img className="cal-eventedit-img" src={eventEdit.event.pic} alt=""/>
                 <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
             </header>
-            <div>
-                <p>{eventEdit.event.title}</p>
-                {eventEdit.event.description && (<p>Description: {eventEdit.event.description}</p>)}
-                {eventEdit.event.time && (<p>Time: {eventEdit.event.time}</p>)}
-                {eventEdit.event.location && (<p>Location: {eventEdit.event.location}</p>)}
+            <div className='eventEditElement--bottom'>
+                <p> <span>Title: </span> {eventEdit.event.title}</p>
+                {eventEdit.event.description && (<p><span>Description: </span> {eventEdit.event.description}</p>)}
+                {eventEdit.event.time && (<p><span>Time: </span> {eventEdit.event.time}</p>)}
+                {eventEdit.event.location && (<p><span>Location: </span> {eventEdit.event.location}</p>)}
             </div>
             {editEventFurther && (
                 <AnimatePresence>
@@ -939,16 +1074,59 @@ const CalendarModal = (props) => {
         </motion.div>
     )
 
+    let viewMoreElement = (
+        <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={eventEditVariants}
+            transition={eventEditTransition}     
+            className='viewmore'  
+        >
+            <header className="calendar-modal--dayedit--head">
+                
+                
+                <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
+            </header>
+            
+            <ul className="viewmore--list">
+                {viewMoreEventsOptions.clicked && viewMoreEventsOptions.events.map((el, index) => {
+                    return (
+                        <li
+                            key={index}
+                            className="viewmore--list-item"
+                        >
+                            <p> {el.title}</p>
+                            <img src={el.pic} alt=""/>
+                        </li>
+                    )
+                })}
+                        
+                        
+            </ul>
+
+            
+        </motion.div>
+    )
+
     return (
         <Fragment>
             
+            
+            <ErrorModal error={error} clearError={clearError}/>
+            {isLoading && <LoadingAnimation loading={isLoading}/>}
+
             {eventEdit.clicked && (
                 <AnimatePresence>
                     {eventEditElement}
                 </AnimatePresence>
             )}
-            <ErrorModal error={error} clearError={clearError}/>
-            {isLoading && <LoadingAnimation loading={isLoading}/>}
+
+            {viewMoreEventsOptions.clicked && (
+                <AnimatePresence>
+                    {viewMoreElement}
+                </AnimatePresence>
+            )}
 
             <header className="cal-header">
                 <h2 className="calendar-modal--head">Month of: {chosenMonthText} </h2>

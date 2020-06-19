@@ -27,6 +27,15 @@ $font-1: 'Baloo Bhaina 2';
 $font-2: 'Fira Sans';
 $font-3: 'Didact Gothic';
 
+@mixin beforeTrick{
+    content: '';
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+
 html {
     box-sizing: border-box;
 

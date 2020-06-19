@@ -89,10 +89,12 @@
     left: 3rem;
     color: rgb(255, 255, 255);
     font-family: $font-3;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-left: .5rem;
 
     &:hover {
-        color: white;
+        color: $color-light-1;
     }
 
 }

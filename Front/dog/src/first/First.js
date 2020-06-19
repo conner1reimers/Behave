@@ -29,6 +29,7 @@ const First = (props) => {
     const [userGoals, setUserGoals] = useState(null);
     const [userTodos, setUserTodos] = useState(null);
 
+
     const [passedUserBudget, setPassedUserBudget] = useState(null);
 
     const [userBudgetRemaining, setBudgetRemain] = useState(null);
@@ -205,7 +206,10 @@ const First = (props) => {
                 if (!mountedRef.current) return null
                 setUserTodos(response.todos)
         } catch (err) {}}
-    }, [auth.isLoggedIn, auth.userId, sendRequest])
+    }, [auth.isLoggedIn, auth.userId, sendRequest]);
+
+
+
 
     useEffect(() => {
         fetchBudget();
@@ -216,6 +220,7 @@ const First = (props) => {
             mountedRef.current = false;
         }
     }, [])
+
 
 
     const setBug = (budget) => {
@@ -242,6 +247,8 @@ const First = (props) => {
     useEffect(() => {
         passData();
     }, [passedUserBudget, passData]);
+
+    
 
     return (
         <BudgetContext.Provider

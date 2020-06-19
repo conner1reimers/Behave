@@ -3,7 +3,7 @@ const router = express.Router();
 const eventController = require('../controllers/event-controller');
 const {check} = require('express-validator');
 
-router.get('/:userId/:cmy/', eventController.getEvents)
+router.get('/:userId/:cmy/', eventController.getEvents);
 
 router.post('/',
     [
@@ -19,9 +19,9 @@ router.post('/',
         
 
     ],
-    eventController.createEvent)
+    eventController.createEvent);
 
 
-
+router.get('/:userId/', eventController.getFirstEvent);
 
 module.exports = router;
