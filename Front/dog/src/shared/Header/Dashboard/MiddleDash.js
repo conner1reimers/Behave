@@ -425,8 +425,25 @@ const MiddleDash = (props) => {
     return (
         <div className="middle">
                 <ErrorModal error={error} clearError={clearError}/>
-
                 {content}
+                {firstUserEvent && (
+                    <AnimatePresence exitBeforeEnter>
+                        {firstUserEvent && (
+                            <motion.div
+                            initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={pageVariants}
+                            transition={pageTransition}
+                            className="first-event"
+                            >   
+                                <span className="first-event--box"></span>
+                                <h1>Coming Up On Your Calendar:</h1>
+                                <p>{firstUserEvent.title}</p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                )}
                 <Media query="(max-width: 450px)">
                 <Modal
                     cancel={cancelHandler} 
