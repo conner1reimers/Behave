@@ -19,6 +19,7 @@ import other from './calendarPics/other.svg';
 import travel from './calendarPics/travel.svg';
 import bday from './calendarPics/bday.svg';
 import moon from './calendarPics/moon.svg';
+import trash from './calendarPics/trash.svg';
 
 
 
@@ -278,12 +279,13 @@ const CalendarModal = (props) => {
         try {
             response = await sendRequest(`http://localhost:5000/api/event/`, 'POST',
             JSON.stringify({
-                monthYear: curDate,
-                day: day,
+
                 title: formState.inputs.title.value,
                 creator: auth.userId,
                 category: formState.inputs.category.value,
                 time: formState.inputs.time.value,
+                monthYear: curDate,
+                day: day,
                 location: formState.inputs.location.value,
                 description: formState.inputs.description.value,
 
@@ -293,11 +295,16 @@ const CalendarModal = (props) => {
 
             setMonthEvents((prevState) => {
                 if (prevState[curDate]) {
-                    console.log(prevState[curDate])
                     if (prevState[curDate][day] && isDayEdit.day.events) {
                         prevState[curDate][day].push({
                             title: formState.inputs.title.value,
-                            category: formState.inputs.category.value
+                            category: formState.inputs.category.value,
+                            time: formState.inputs.time.value,
+                            monthYear: curDate,
+                            day: day,
+                            location: formState.inputs.location.value,
+                            description: formState.inputs.description.value,
+                            id: response.event._id
                         })
                         return {
                             ...prevState,
@@ -305,8 +312,14 @@ const CalendarModal = (props) => {
                         }
                     } else {
                             prevState[curDate][isDayEdit.day.day] = [{
-                            title: formState.inputs.title.value,
-                            category: formState.inputs.category.value
+                                title: formState.inputs.title.value,
+                                category: formState.inputs.category.value,
+                                time: formState.inputs.time.value,
+                                monthYear: curDate,
+                                day: day,
+                                location: formState.inputs.location.value,
+                                description: formState.inputs.description.value,
+                                id: response.event._id
                             }]
                             return {
                                 ...prevState,
@@ -316,7 +329,13 @@ const CalendarModal = (props) => {
                 } else {
                         prevState[curDate][isDayEdit.day.day] = [{
                             title: formState.inputs.title.value,
-                            category: formState.inputs.category.value
+                            category: formState.inputs.category.value,
+                            time: formState.inputs.time.value,
+                            monthYear: curDate,
+                            day: day,
+                            location: formState.inputs.location.value,
+                            description: formState.inputs.description.value,
+                            id: response.event._id
                     }]
                     return {
                         ...prevState,
@@ -325,12 +344,14 @@ const CalendarModal = (props) => {
                     
                 }
             })
-            console.log(response)
+            setIsDayEdit({
+                clicked: false,
+                day: {}
+            });
             
             
                                    
         } catch (err) {
-            console.log(err)
 
         }
     }
@@ -350,6 +371,33 @@ const CalendarModal = (props) => {
         });
     };
 
+    const deleteEventHandler = async () => {
+
+        let response;
+        let deleteId = eventEdit.event.id;
+        try {
+            response = await sendRequest(`http://localhost:5000/api/event/${deleteId}`, 'DELETE')
+            console.log(response);
+
+            setMonthEvents((prevState) => {
+                let curDate = parseInt(`${monthChosen}${yearChosen}`);
+                let day = parseInt(eventEdit.event.day);
+                prevState[curDate][day] = prevState[curDate][day].filter((el) => {
+                    return el.id !== deleteId
+                })
+                return {
+                    ...prevState
+                }            
+            });
+
+            setEventEdit({
+                clicked: false,
+                event: {}
+            });
+            setEditEventFurther(false);
+        } catch (err) {}
+    }
+
     const editSingleEvent = (event, item) => {
         event.preventDefault();
         event.cancelBubble = true
@@ -364,6 +412,7 @@ const CalendarModal = (props) => {
             clicked: false,
             events: [{}]
         });
+        
 
         if (eventEdit.clicked) {
             if (eventEdit.event.title === item.title && eventEdit.event.category === item.category) {
@@ -388,8 +437,9 @@ const CalendarModal = (props) => {
                         time: item.time,
                         description: item.description,
                         location: item.location,
-                        pic: categoryEventImg
-                        
+                        pic: categoryEventImg,
+                        id: item.id,
+                        day: item.day
                     }
     
                 });
@@ -414,7 +464,9 @@ const CalendarModal = (props) => {
                     time: item.time,
                     description: item.description,
                     location: item.location,
-                    pic: categoryEventImg
+                    pic: categoryEventImg,
+                    id: item.id,
+                    day: item.day
                 }
 
             });
@@ -426,15 +478,13 @@ const CalendarModal = (props) => {
         setEditEventFurther((prevState) => !prevState);
     }
 
-
-
     const fetchEvents = async (curDate) => {
         let response;
         try {
             response = await sendRequest(`http://localhost:5000/api/event/${auth.userId}/${curDate}`);               
             setMonthEvents(response.events)                               
         } catch (err) {
-            console.log(err)
+            
         }
     }
     useEffect(() => {
@@ -443,6 +493,8 @@ const CalendarModal = (props) => {
             fetchEvents(curDate)
         }
     }, [monthChosen, yearChosen]);
+
+
 
     const [viewMoreEventsOptions, setViewMoreEventsOptions] = useState({
         clicked: false,
@@ -517,7 +569,9 @@ const CalendarModal = (props) => {
                                     time: el.time,
                                     description: el.description,
                                     location: el.location,
-                                    pic: categoryEventImg
+                                    pic: categoryEventImg,
+                                    id: el.id,
+                                    day: el.day
                                 }
                             })
                         }
@@ -564,7 +618,9 @@ const CalendarModal = (props) => {
                                         time: el.time,
                                         description: el.description,
                                         location: el.location,
-                                        pic: categoryEventImg
+                                        pic: categoryEventImg,
+                                        id: el.id,
+                                        day: el.day
                                     }
                                 })
                             }
@@ -711,11 +767,12 @@ const CalendarModal = (props) => {
             let i = 0;
             if (day.events) {
                 for (const events of day.events) {
+                    if (i >= 3) break;
+
                     eventz.push(events);
+                    
+                    
                     i += 1;
-                    if (i >= 3) {
-                        break
-                    }
                 }
                 
             }
@@ -789,7 +846,7 @@ const CalendarModal = (props) => {
                                         case 'travel': categoryImg = travel; break;
                                         case 'friend': categoryImg = friend; break;
                                         case 'bday': categoryImg = bday; break;
-                                        default: console.log('default'); categoryImg = moon; break;
+                                        default: categoryImg = moon; break;
                                     }
 
                                         return (
@@ -879,7 +936,7 @@ const CalendarModal = (props) => {
                                             </li>
                                             </MouseOverLabel>
                                         )
-                                    } else {
+                                    } else if (index >= 2) {
                                         let label = (
                                             <Fragment>
                                                 <h1>View all events on this day</h1>
@@ -968,7 +1025,55 @@ const CalendarModal = (props) => {
     //     content = null;
     // }
 
-    const submitEventEditHandler = async () => {
+    const submitEventEditHandler = async (event) => {
+        event.preventDefault();
+        let curDate = parseInt(`${monthChosen}${yearChosen}`);
+        let day = parseInt(eventEdit.event.day);
+        let response;
+
+        const time = (formState.inputs.time.value === '') ? eventEdit.event.time : formState.inputs.time.value;
+        const title = (formState.inputs.title.value === '') ? eventEdit.event.title : formState.inputs.title.value;
+        const description = (formState.inputs.description.value === '') ? eventEdit.event.description : formState.inputs.description.value;
+        const location = (formState.inputs.location.value === '') ? eventEdit.event.location : formState.inputs.location.value;
+
+        try {
+            response = await sendRequest(`http://localhost:5000/api/event/${eventEdit.event.id}`, 'PATCH',
+            JSON.stringify({
+                title: title,
+                time: time,
+                location: location,
+                description: description,
+
+            }),
+            {'Content-Type': 'application/json'}
+            );
+            
+            setMonthEvents((prevState) => {
+                prevState[curDate][day] = prevState[curDate][day].filter((el) => 
+                    {return el.id !== eventEdit.event.id});
+
+                prevState[curDate][day].push({
+                    category: eventEdit.event.category,
+                    id: eventEdit.event.id,
+                    title: title,
+                    time: time,
+                    location: location,
+                    description: description,   
+                    monthYear: curDate,
+                    day: day,
+                })
+                return {
+                    ...prevState,
+                }
+            })
+            setEditEventFurther(false);
+
+            setEventEdit({
+                clicked: false,
+                event: {}
+            });
+
+        }catch (err) {}
 
     }
 
@@ -982,13 +1087,13 @@ const CalendarModal = (props) => {
             className='eventEditElement--further'  
         >
                 <header className="calendar-modal--dayedit--head">
-                                    <button className="btn cal-cancel" onClick={() => setEditEventFurther(false)}><img src={close} alt=""/></button>
+                    <button className="btn cal-cancel" onClick={() => setEditEventFurther(false)}><img src={close} alt=""/></button>
                 </header>
-            <form onSubmit={submitEventEditHandler} className="calendar-modal--dayedit--form">
+            <form onSubmit={(event) => submitEventEditHandler(event)} className="calendar-modal--dayedit--form">
 
                 <Input
                 name="New Caption"
-                id="location"
+                id="title"
                 onInput={inputHandler}
                 validator={VALIDATOR_NONE()}
                 errorText="Need atleast 1 character"
@@ -1008,7 +1113,7 @@ const CalendarModal = (props) => {
                 />
                 <Input
                 name="New Description"
-                id="location"
+                id="description"
                 onInput={inputHandler}
                 validator={VALIDATOR_NONE()}
                 errorText="Need atleast 1 character"
@@ -1018,7 +1123,7 @@ const CalendarModal = (props) => {
                 />
                 <Input
                 name="New Time"
-                id="location"
+                id="time"
                 onInput={inputHandler}
                 validator={VALIDATOR_NONE()}
                 errorText="Need atleast 1 character"
@@ -1034,6 +1139,7 @@ const CalendarModal = (props) => {
 
     let categoryEventImg;
 
+
                                 
 
 
@@ -1046,7 +1152,7 @@ const CalendarModal = (props) => {
             transition={eventEditTransition}     
             className='eventEditElement'  
         >
-            <header className="calendar-modal--dayedit--head">
+            <header className="eventEditElement--head">
                 <h1 style={{fontSize: '2.5rem', textTransform: 'capitalize'}} className="eventEditElement--cat-head">{eventEdit.event.category}</h1>
                 <MouseOverLabel
                     label='Edit'
@@ -1055,16 +1161,19 @@ const CalendarModal = (props) => {
                     hiddenClass="hid"
                     class="calendar-modal--dayedit--head--mouseover eventedit-mouseover"
                 >
-                    <button onClick={editEventFurtherHandler} className="btn cal-cancel"><img src={pencil} alt=""/></button>
+                    <button onClick={editEventFurtherHandler} className="btn cal-cancel cal-pencil"><img src={pencil} alt=""/></button>
                 </MouseOverLabel>
-                <img className="cal-eventedit-img" src={eventEdit.event.pic} alt=""/>
-                <button className="btn cal-cancel" onClick={cancelHandler}><img src={close} alt=""/></button>
+                <img className="cal-eventedit-img cal-picevent" src={eventEdit.event.pic} alt=""/>
+                <button className="btn cal-cancel cal-close" onClick={cancelHandler}><img src={close} alt=""/></button>
             </header>
             <div className='eventEditElement--bottom'>
-                <p> <span>Title: </span> {eventEdit.event.title}</p>
+                <p> {eventEdit.event.title}</p>
                 {eventEdit.event.description && (<p><span>Description: </span> {eventEdit.event.description}</p>)}
                 {eventEdit.event.time && (<p><span>Time: </span> {eventEdit.event.time}</p>)}
                 {eventEdit.event.location && (<p><span>Location: </span> {eventEdit.event.location}</p>)}
+                <button onClick={deleteEventHandler} className="btn eventEditElement--trash">
+                    <img src={trash} alt="" />
+                </button>
             </div>
             {editEventFurther && (
                 <AnimatePresence>
@@ -1082,6 +1191,7 @@ const CalendarModal = (props) => {
             variants={eventEditVariants}
             transition={eventEditTransition}     
             className='viewmore'  
+            
         >
             <header className="calendar-modal--dayedit--head">
                 
@@ -1093,6 +1203,7 @@ const CalendarModal = (props) => {
                 {viewMoreEventsOptions.clicked && viewMoreEventsOptions.events.map((el, index) => {
                     return (
                         <li
+                            onClick={(event) => editSingleEvent(event, el)}
                             key={index}
                             className="viewmore--list-item"
                         >

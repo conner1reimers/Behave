@@ -21,7 +21,12 @@ router.post('/',
     ],
     eventController.createEvent);
 
+router.patch('/:eventId/',
+    eventController.updateEvent);
 
 router.get('/:userId/', eventController.getFirstEvent);
+router.delete('/:eventId/', eventController.deleteEvent);
+
+
 
 module.exports = router;

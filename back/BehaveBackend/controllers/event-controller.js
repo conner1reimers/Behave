@@ -68,6 +68,8 @@ const getEvents = async (req, res, next) => {
                             time: el.time,
                             description: el.description,
                             location: el.location,
+                            id: el._id,
+                            day: el.day
 
                         })
                     } else {
@@ -77,6 +79,9 @@ const getEvents = async (req, res, next) => {
                             time: el.time,
                             description: el.description,
                             location: el.location,
+                            id: el._id,
+                            day: el.day
+
                         }]
                     }
                     
@@ -203,10 +208,71 @@ const getFirstEvent = async (req, res, next) => {
     }
 
     res.status(201).json({event: userEvent});
+}
 
+const updateEvent = async (req, res, next) => {
+    const { title, description, time, location} = req.body;
+    const eventId = req.params.eventId;
+
+    try {
+        event = await Event.findById(eventId);
+    } catch (err) {
+        const error = new HttpError('Error while finding event in database..');
+        return next(error);
+    };
+
+    event.title = (title && title!=='') ? title : event.title;
+    event.description = (description && description!=='') ? description : event.description;
+    event.time = (time && time!=='') ? time : event.time;
+    event.location = (location && location!=='') ? location : event.location;
+
+
+    try {
+
+        await event.save();
+    } catch (err) {
+        const error = new HttpError('Error while saving event..');
+        return next(error);
+    };
+
+    res.status(200).json({event: event.toObject({ getters: true})});
+
+}
+
+const deleteEvent = async (req, res, next) => {
+    const eventId = req.params.eventId;
+    let event;
+
+    try {
+        event = await Event.findById(eventId).populate('creator');
+    } catch (error) {
+        error = new HttpError('Couldnt delete...', 500);
+        return next(error);
+    }
+
+    if (!event) {
+        const error = new HttpError('could not find event for this id... ', 404)
+        return next(error);
+    };
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await event.remove({session: sess});
+        event.creator.events.pull(event);
+        await event.creator.save({session: sess});       
+        await sess.commitTransaction();
+
+    } catch (error) {
+        error = new HttpError('Couldnt delete wow', 500);
+        return next(error);
+    }
+    res.status(200).json({message: 'Deleted Event.'})
 
 }
 
 exports.createEvent = createEvent;
 exports.getEvents = getEvents;
 exports.getFirstEvent = getFirstEvent;
+exports.updateEvent = updateEvent;
+exports.deleteEvent = deleteEvent;

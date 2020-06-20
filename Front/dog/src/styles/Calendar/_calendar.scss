@@ -1,3 +1,10 @@
+@mixin header {
+    display: flex;
+    height: 5rem;
+    font-family: $font-3;
+    width: 100%;           
+}
+
 .cal-header {
     display: flex;
 }
@@ -411,27 +418,63 @@
     position: absolute;
     filter: drop-shadow(3px -3px .51px rgba(141, 135, 135, 0.048));
     background-color: #f8f8f8f1;
-    border-radius: .3rem;
+    border-radius: .5rem;
     left: -1rem;
     top: 9rem;
     max-height: 70vh;
     max-width: 45vw;
     z-index: 99999;
 
+    &--head {
+        @include header;
+        align-content: center;
+        padding: 1rem 1rem;
+        h1 {
+            color: #5a5657bb;
+            font-family: $font-3;
+            justify-self: flex-start;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-left: 2rem;
+            align-self: center;
+
+        }
+        img {
+            align-self: center;
+        }
+        button {
+            align-self: center;
+            margin-left: auto;
+
+        }
+    }
+
+    &--cat-head {
+        font-size: 5rem;
+    }
     
     &--bottom {
-        margin-left: 2rem;
-        margin-top: 5rem;
+
         color: $color-grey;
-        
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        background-color: #43887bbb;
+        overflow: hidden;
+        border-radius: .6rem;
+
         p {
             font-family: $font-3;
+            position: relative;
+            left: 2.5rem;
+            top: 1.5rem;
             font-size: 2rem;
             margin: 4rem 0;
             display: grid;
             grid-template-columns: 50% 50%;
             text-transform: capitalize;
-            color: #3d3f3ace;
+            justify-self: flex-start;
+            color: #ffffffe7;
 
 
 
@@ -440,13 +483,32 @@
                 font-family: $font-3;
                 font-size: 2rem;
                 margin-right: 3rem;
-                color: #3d3f3ace;
+                color: #ffffffc9;
 
             }
         }
 
     }
 
+    &--trash {
+
+        justify-self: flex-end;
+        align-self: center;
+        margin-top: auto;
+        position: relative;
+        width: 100%;
+        border-radius: .2rem;
+        background-color: #f8f8f8f1;
+
+        img {
+            height: 4rem;
+            width: 4rem;
+        }
+
+        &:hover {
+            background-color: rgb(201, 195, 195);
+        }
+    }
     &--further {
         position: absolute;
         background-color: #f1f1f196;
@@ -617,4 +679,14 @@
             cursor: pointer;
         }
     }
+}
+
+.cal-pencil {
+    position: relative;
+    bottom: 1.2rem;
+}
+
+.cal-picevent {
+    transform: scale(1.4);
+    position: relative;
 }

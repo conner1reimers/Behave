@@ -15,6 +15,12 @@ import trophy from './dashLeftImgs/trophy.svg'
 import stars from './dashLeftImgs/stars.svg'
 import { AnimatePresence, motion } from 'framer-motion';
 import arrow from './arrow.svg'
+import calendar from './dashLeftImgs/calendar.svg'
+import calendar2 from './dashLeftImgs/calendar2.svg'
+import clock from './dashLeftImgs/clock.svg'
+import menu from './dashLeftImgs/menu.svg'
+
+import MouseOverLabel from '../../../util/MouseOverLabel';
 
 const pageVariants = {
     initial: {
@@ -52,7 +58,40 @@ const pageTransition = {
     
 }
 
+const showVariants = {
+    initial: {
+        scale: .2,
+        opacity: 0,
+        x: '400%',
+        rotate: 15
 
+
+    },
+    out: {
+
+
+        scale: .2,
+        opacity: 0,
+        x: '500%',
+        rotate: 15
+
+
+    },
+    in: {
+
+        scale: 1,
+        opacity: 1,
+        x: '0%',
+        rotate: 0
+    }
+}
+const showTransition = {
+    type: 'spring',
+    mass: 3.1,
+    damping: 40,
+    stiffness: 100
+    
+}
 const MiddleDash = (props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
     const [incomeEdit, setIncomeEdit] = useState(false);
@@ -117,6 +156,7 @@ const MiddleDash = (props) => {
     }
 
     // FETCH NEXT UPCOMING EVENT
+    const [hideUserEvent, setHideUserEvent] = useState(false);
     const [firstUserEvent, setFirstUserEvent] = useState(null);
     const fetchFirstEvent = useCallback(async () => {
         if (auth.isLoggedIn) {
@@ -395,6 +435,10 @@ const MiddleDash = (props) => {
 
     }, [props.expenseTotal, props.userBudget, props.userExpense])
 
+    const hideEventHandler = () => {
+        setHideUserEvent((prevState) => !prevState);
+    }
+
     let goals = props.goals;
 
 
@@ -426,9 +470,10 @@ const MiddleDash = (props) => {
         <div className="middle">
                 <ErrorModal error={error} clearError={clearError}/>
                 {content}
+
                 {firstUserEvent && (
                     <AnimatePresence exitBeforeEnter>
-                        {firstUserEvent && (
+                        {firstUserEvent && !hideUserEvent && (
                             <motion.div
                             initial="initial"
                             animate="in"
@@ -438,12 +483,56 @@ const MiddleDash = (props) => {
                             className="first-event"
                             >   
                                 <span className="first-event--box"></span>
-                                <h1>Coming Up On Your Calendar:</h1>
-                                <p>{firstUserEvent.title}</p>
+
+                                <header className="first-event--head">
+                                    <img src={calendar2} alt=""/>
+                                    <h1>Coming Up On Your Calendar:</h1>
+                                    <MouseOverLabel
+                                    label="Hide Upcoming Event"
+                                    visibleClass="vis"
+                                    hiddenClass="hid"
+                                    labelClass="first-event--mouseover"
+                                    // class="mouseover-main--outterDiv"
+                                    >
+                                        <button onClick={hideEventHandler} className="btn first-event--btn">
+                                            <img src={menu} alt=""/>
+                                        </button>
+                                    </MouseOverLabel>
+                                </header>
+                                
+                                <div className="first-event--content">
+                                    <img src={clock} alt=""/>
+                                    <p>{firstUserEvent.title}</p>
+                                </div>
+                                
                             </motion.div>
                         )}
                     </AnimatePresence>
                 )}
+
+                <AnimatePresence exitBeforeEnter>
+                    {hideUserEvent && (
+                        <motion.button
+                            initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={showVariants}
+                            transition={showTransition}
+                            className="showevent-button"
+                            onClick={hideEventHandler}
+                        >
+                            <MouseOverLabel
+                            label="Show Upcoming Event"
+                            visibleClass="vis"
+                            hiddenClass="hid"
+                            labelClass="showevent-button--mouseover"
+                                >
+                                <img src={menu} alt=""/>
+                            </MouseOverLabel>
+                            
+                        </motion.button>
+                    )}
+                </AnimatePresence>
                 <Media query="(max-width: 450px)">
                 <Modal
                     cancel={cancelHandler} 

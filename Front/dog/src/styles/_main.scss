@@ -35,6 +35,20 @@ $font-3: 'Didact Gothic';
     width: 100%;
 }
 
+@mixin mouseover($color, $fontColor) {
+
+    background-color: $color;
+    font-weight: 600;
+    color: $fontColor;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: fixed;
+    z-index: 999;
+    filter: drop-shadow(-2px -3px 1px #ebe7e8b2);
+    filter: drop-shadow(1px 2px 0px #f1f1f14d);
+}
 
 html {
     box-sizing: border-box;
