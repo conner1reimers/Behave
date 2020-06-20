@@ -7,14 +7,13 @@ import Sidebar from './shared/Sidebar/Sidebar';
 import HistoryPage from './Components/HistoryPage/HistoryPage';
 import Features from './shared/Firstpage components/Features';
 
-function App() {
+const App = React.memo(() => {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
 
 
   const [openLogin, setOpenLogin] = useState(false);
-  const [isOnSignupMode, setIsonSignup] = useState(false);
-  const [ontoNextSignup, setOntoNextSignup] = useState(false);
+
 
   const [budgetState, setBudgetState] = useState(false);
 
@@ -47,26 +46,22 @@ function App() {
     // checkHome();
   }, []);
 
-  const toggleLogin = (event) => {
+  const toggleLogin = useCallback((event) => {
     if(!!token) {
         logout()
     } else {
-        setOpenLogin(!openLogin)
-        setIsonSignup(false)
-        setOntoNextSignup(false)
+        setOpenLogin((prevState) => !prevState)
+
     }
     
-  }
+  }, [])
     
   const home = userId 
   ? (
     <Route path="/:userId/home" exact>
       <First 
-      ontoNextSignup={ontoNextSignup}
-      setOntoNextSignup={setOntoNextSignup}
-      setIsonSignup={setIsonSignup}
+
       openLogin={openLogin} 
-      isOnSignupMode={isOnSignupMode} 
       toggleLogin={toggleLogin}
       setOpenLogin={setOpenLogin}
       passData={passData}
@@ -77,11 +72,8 @@ function App() {
   : (
     <Route path="/" exact>
        <First 
-      ontoNextSignup={ontoNextSignup}
-      setOntoNextSignup={setOntoNextSignup}
-      setIsonSignup={setIsonSignup}
+
       openLogin={openLogin} 
-      isOnSignupMode={isOnSignupMode} 
       toggleLogin={toggleLogin}
       setOpenLogin={setOpenLogin}
       passData={passData}
@@ -130,6 +122,6 @@ function App() {
       </div>
     </AuthContext.Provider>
   );
-}
+})
 
 export default App;

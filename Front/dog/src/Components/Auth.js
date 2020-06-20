@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react'
+import React, { useState, useEffect, useContext, Fragment, useCallback, useRef } from 'react'
 import Modal from '../shared/UIElements/Modal/Modal';
 import Input from '../shared/UIElements/Input/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_EMAIL } from '../util/validators';
@@ -8,9 +8,10 @@ import { AuthContext } from '../util/context/auth-context';
 import ErrorModal from '../shared/ErrorModal/ErrorModal';
 import Media from 'react-media';
 
-const Auth = (props) => {
+const Auth = React.memo((props) => {
     const auth = useContext(AuthContext);
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
+
 
     const [formState, inputHandler, checkPass, setData] = useForm({
         email: {
@@ -28,9 +29,12 @@ const Auth = (props) => {
     }, false);
 
     const [isMatchedPass, setIsMatchedPass] = useState(true);
+    const [isOnSignupMode, setIsonSignup] = useState(false);
+    const [ontoNextSignup, setOntoNextSignup] = useState(false);
 
-    const switchModeHandlr = () => {
-        if(!props.isOnSignupMode) {
+
+    const switchModeHandlr = useCallback(() => {
+        if(!isOnSignupMode) {
             setData(
                 {   
                     email: {
@@ -63,8 +67,9 @@ const Auth = (props) => {
                     },
                 }, false)
         }
-        props.setIsonSignup(prevMode => !prevMode)   
-    }
+        setIsonSignup((prevState) => !prevState)   
+    }, [setIsonSignup])
+
 
     const loginFooter = (
         <footer className={`modal-footer`}>
@@ -80,9 +85,9 @@ const Auth = (props) => {
         </footer>)
     
 
-    const submitHandlr = async (event) => {
+    const submitHandlr = useCallback(async (event) => {
         event.preventDefault();
-        if (!props.isOnSignupMode) {
+        if (!isOnSignupMode) {
             try {
                 const responseData = await sendRequest('http://localhost:5000/api/users/login', 'POST',
                 JSON.stringify({
@@ -97,10 +102,10 @@ const Auth = (props) => {
             } catch (err) {}
         }
 
-        if (props.isOnSignupMode && formState.inputs.email.isValid && !props.ontoNextSignup) {
+        if (isOnSignupMode && formState.inputs.email.isValid && !ontoNextSignup) {
             signUpHandler(formState.inputs.email.value)
 
-        } else if (props.isOnSignupMode && formState.isValid && props.ontoNextSignup) {
+        } else if (isOnSignupMode && formState.isValid && ontoNextSignup) {
             if (!formState.isMatchedPass) {
                 setIsMatchedPass(false)
             }
@@ -121,11 +126,11 @@ const Auth = (props) => {
         }
         
 
-    }
+    }, [isOnSignupMode, formState])
 
-    const signUpHandler = (email) => {
-        
-        props.setOntoNextSignup((prevState) => !prevState)
+    const signUpHandler = useCallback((email) => {
+        console.log('onto the next')
+        setOntoNextSignup((prevState) => !prevState)
         setData({
             email: {
                 value: email,
@@ -141,13 +146,13 @@ const Auth = (props) => {
             }
             
         }, false)
-    }
+    }, [setOntoNextSignup])
 
-    const cancelHandlr = (eve) => {
+    const cancelHandlr = useCallback((eve) => {
         props.toggleLogin(eve);
-        props.setOntoNextSignup((prevState) => !prevState);
+        setOntoNextSignup((prevState) => !prevState);
         setIsMatchedPass(true)
-    }
+    }, [])
 
     const ontoNextSignupFooter = (
         <footer className={`modal-footer`}>
@@ -158,7 +163,7 @@ const Auth = (props) => {
 
 
     let modalInfo;
-    modalInfo = props.isOnSignupMode ? (
+    modalInfo = isOnSignupMode ? (
         <Modal 
                 cancel={props.toggleLogin} 
                 show={props.openLogin}
@@ -221,9 +226,9 @@ const Auth = (props) => {
             checkPass(formState.inputs.password.value, formState.inputs.passwordConfirm.value)
         }
 
-    }, [props.ontoNextSignup, formState.inputs.password.value, formState.inputs.passwordConfirm.value])
+    }, [ontoNextSignup, formState.inputs.password.value, formState.inputs.passwordConfirm.value])
 
-    if(props.ontoNextSignup === true){
+    if(ontoNextSignup){
         modalInfo = (
             <Modal 
                     cancel={props.toggleLogin} 
@@ -263,7 +268,7 @@ const Auth = (props) => {
         )
     }
 
-    if (props.ontoNextSignup && !isMatchedPass){
+    if (ontoNextSignup && !isMatchedPass){
         modalInfo = (
             <Modal 
                     cancel={props.toggleLogin} 
@@ -304,12 +309,15 @@ const Auth = (props) => {
                         </Modal>
         )
     }
-
+    const renders = useRef(0);
+    
     return (
     <Fragment>
         <ErrorModal error={error} clearError={clearError}/>
+        <div className="auth-renders">renders: {renders.current++}</div>
+
         {modalInfo}
     </Fragment>)
-}
+})
 
 export default Auth

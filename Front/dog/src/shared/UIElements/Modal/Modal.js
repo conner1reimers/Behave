@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useEffect } from 'react'
+import React, { Fragment, useRef, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom';
 import { motion, AnimatePresence, useAnimation, useMotionValue } from 'framer-motion';
 import Backdrop from './Backdrop';
@@ -47,20 +47,20 @@ const pageTransition = {
 
 const transition = { duration: .3, loop: false, ease: 'easeIn' };
 
-const Modal = (props) => {
+const Modal = React.memo((props) => {
 
     const scale = useMotionValue(1)
     const animation = useAnimation()
     const containerRef = useRef(null)
 
-    const toggleAnimation = () => {
+    const toggleAnimation = useCallback(() => {
         animation.start({
             scale: [1, 1.3, 1],
             x: [0, 22, 0],
             rotate: [0, 2, 0],
             transition
         })
-    };
+    }, []);
     
     useEffect(() => {
         toggleAnimation()
@@ -121,6 +121,9 @@ const Modal = (props) => {
 
     const classModal = props.calendar ? null : 'modal'
 
+    const renders = useRef(0);
+    
+
     const modalContent = (
         <motion.div 
         initial="initial"
@@ -143,7 +146,10 @@ const Modal = (props) => {
 
     return ReactDOM.createPortal(
         <Fragment>
+
             <AnimatePresence exitBeforeEnter>
+            {props.show &&     <div className="modal-renders">modal: {renders.current++}</div>
+}
 
                 {props.show && modalContent}
                 
@@ -152,6 +158,6 @@ const Modal = (props) => {
             {props.show && <Backdrop onClick={props.cancel}/>}
         </Fragment>, document.getElementById('modal-hook')
     )
-}
+})
 
 export default Modal

@@ -1,4 +1,4 @@
-import React, { useContext, Fragment, useState, useEffect } from 'react'
+import React, { useContext, Fragment, useState, useEffect, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
 import Lottie1 from './LottieLinks/Lottie1';
 import Lottie2 from './LottieLinks/Lottie2';
@@ -11,7 +11,7 @@ import { AuthContext } from '../../util/context/auth-context';
 const Sidebar = (props) => {
     const [content, setContent] = useState(null)
 
-    const setItems = () => {
+    const setItems = useCallback(() => {
         
         setTimeout(() => {
             setContent(
@@ -52,11 +52,11 @@ const Sidebar = (props) => {
             )
         }, 100);
 
-    }
+    }, [props.isLoggedIn, props.userId, props.toggle]);
 
     useEffect(() => {
         setItems()
-    }, [props.userId, props.isLoggedIn])
+    }, [props.userId, props.isLoggedIn, setItems])
     
     
     return content

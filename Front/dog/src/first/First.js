@@ -1,4 +1,4 @@
-import React, {useState, useContext, useCallback, useEffect, useRef } from 'react'
+import React, {useState, useContext, useCallback, useEffect, useRef, useMemo } from 'react'
 import Header from '../shared/Header/Header'
 import Features from '../shared/Firstpage components/Features'
 import { AnimatePresence } from 'framer-motion';
@@ -12,7 +12,7 @@ import { ResetContext } from '../util/context/reset-context';
 
 
 
-const First = (props) => {
+const First = React.memo((props) => {
     const mountedRef = useRef(true);
 
     const [, updateState] = useState();
@@ -103,9 +103,9 @@ const First = (props) => {
             }}
         
 
-    }, [auth.isLoggedIn, auth.userId, sendRequest])
+    }, [auth.isLoggedIn, auth.userId])
 
-    const createExpensesArray = (expenses) => {
+    const createExpensesArray = useCallback((expenses) => {
         if (expenses.length > 0) {
             let techExp = expenses.map((el) => {
                 if (el.title === 'tech') {
@@ -180,7 +180,7 @@ const First = (props) => {
             return totalExpenses;
         }
         
-    };
+    }, []);
 
 
     const fetchGoals = useCallback(async () => {
@@ -219,24 +219,24 @@ const First = (props) => {
         return () => {
             mountedRef.current = false;
         }
+    }, [auth.userId]);
+
+
+
+    const setBug = useCallback((budget) => {
+        setUserBudget(budget)
     }, [])
 
-
-
-    const setBug = (budget) => {
-        setUserBudget(budget)
-    }
-
-    const setExp = (budget) => {
+    const setExp = useCallback((budget) => {
         setUserExpense(budget)
-    }
+    }, [])
 
-    const setInc = (budget) => {
+    const setInc = useCallback((budget) => {
         setUserIncome(budget)
-    }
-    const setTodo = (todos) => {
+    }, [])
+    const setTodo = useCallback((todos) => {
         setUserTodos(todos)
-    }
+    }, [])
 
 
     const passData = useCallback(() => {
@@ -248,7 +248,8 @@ const First = (props) => {
         passData();
     }, [passedUserBudget, passData]);
 
-    
+    const renders = useRef(0);
+
 
     return (
         <BudgetContext.Provider
@@ -269,18 +270,18 @@ const First = (props) => {
         >
             <ErrorModal error={error} clearError={clearError}/>
             {props.openLogin && <MoneyAni/>}
+
+            {/* <div className="app-renders">renders: {renders.current++}</div> */}
+
         
-            <AnimatePresence>
-                <Auth 
-                    ontoNextSignup={props.ontoNextSignup}
-                    setOntoNextSignup={props.setOntoNextSignup}
-                    setIsonSignup={props.setIsonSignup}
+            
+            <Auth 
+                    
                     openLogin={props.openLogin} 
-                    isOnSignupMode={props.isOnSignupMode} 
                     toggleLogin={props.toggleLogin}
                     setOpenLogin={props.setOpenLogin}
                 />
-            </AnimatePresence>
+            
 
 
             <ResetContext.Provider 
@@ -321,6 +322,6 @@ const First = (props) => {
 
         </BudgetContext.Provider>
     )
-}
+})
 
 export default First;

@@ -50,6 +50,34 @@ $font-3: 'Didact Gothic';
     filter: drop-shadow(1px 2px 0px #f1f1f14d);
 }
 
+@mixin renders {
+    position: absolute;
+    left: -2rem;
+    font-size: 8rem;
+    color: grey;
+}
+
+.app-renders {
+    @include renders;
+    top: 23vh;
+
+}
+.auth-renders {
+    @include renders;
+    top: 23vh;
+
+    left: 8vw;
+    z-index: 999;
+}
+
+.modal-renders {
+    @include renders;
+    left: 8vw;
+    top: 50vh;
+    z-index: 999;
+    color: blue;
+}
+
 html {
     box-sizing: border-box;
 
