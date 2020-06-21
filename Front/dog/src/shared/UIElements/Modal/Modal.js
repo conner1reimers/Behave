@@ -6,7 +6,7 @@ const modalImg = require('../../../styles/UI/ass.png')
 
 const pageVariants = {
     initial: {
-        x: "-50%",
+        translateX: "-50%",
         scale: 1,
         opacity: 1,
 
@@ -14,13 +14,13 @@ const pageVariants = {
     },
     out: {
 
-        x: 0,
+        translateX: 0,
         scale: 0,
         opacity: 0,
 
     },
     in: {
-        x: 0,
+        translateX: 0,
         scale: 1,
         opacity: 1,
 
