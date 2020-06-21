@@ -17,9 +17,7 @@ const Sidebar = (props) => {
             setContent(
                 <div className="sidebar">
                     
-                    <div className="sidebar-logo">
-                        <NavLink to={`/${props.userId}/home`}><Lottie6/></NavLink>
-                    </div>
+                    
         
                     <div className="sidebar-links">
                         <ul className="nav-links">
