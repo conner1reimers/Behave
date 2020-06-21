@@ -5,7 +5,6 @@ import DashRight from './Dashboard/DashRight';
 import Monies from '../../lotties/Monies/Monies';
 
 const Header = (props) => {
-    const [modalOpen, setModalOpen] = useState(false)
 
 
     
@@ -26,8 +25,7 @@ const Header = (props) => {
             />
             <MiddleDash 
                 toggle={props.toggle} 
-                setModalOpen={setModalOpen} 
-                modalOpen={modalOpen} 
+                
                 userBudget={props.userBudget}
                 userIncome={props.userIncome}
                 userExpense={props.userExpense} 
@@ -52,7 +50,7 @@ const Header = (props) => {
                 setGoals={props.setGoals}
 
             />
-            <Monies toggle={props.toggle} setModalOpen={setModalOpen}/>
+            <Monies toggle={props.toggle}/>
         </header>
     )
 }

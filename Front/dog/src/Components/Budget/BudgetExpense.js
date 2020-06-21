@@ -4,7 +4,7 @@ import Input from '../../shared/UIElements/Input/Input';
 import { VALIDATOR_NUMBER, VALIDATOR_REQUIRE, VALIDATOR_NONE } from '../../util/validators';
 
 
-const BudgetExpense = (props) => {
+const BudgetExpense = React.memo((props) => {
     
     const [formState, inputHandler] = useForm({
         "expense": {
@@ -58,6 +58,9 @@ const BudgetExpense = (props) => {
                 />
         </div>
     )
-}
+}, (prevProps, nextProps) => {
+    
+    return true;
+})
 
 export default BudgetExpense

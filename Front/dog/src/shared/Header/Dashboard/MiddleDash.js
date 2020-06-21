@@ -21,6 +21,7 @@ import clock from './dashLeftImgs/clock.svg'
 import menu from './dashLeftImgs/menu.svg'
 
 import MouseOverLabel from '../../../util/MouseOverLabel';
+import HideEvent from './HideEvent/HideEvent';
 
 const pageVariants = {
     initial: {
@@ -58,41 +59,8 @@ const pageTransition = {
     
 }
 
-const showVariants = {
-    initial: {
-        scale: .2,
-        opacity: 0,
-        x: '400%',
-        rotate: 15
 
-
-    },
-    out: {
-
-
-        scale: .2,
-        opacity: 0,
-        x: '500%',
-        rotate: 15
-
-
-    },
-    in: {
-
-        scale: 1,
-        opacity: 1,
-        x: '0%',
-        rotate: 0
-    }
-}
-const showTransition = {
-    type: 'spring',
-    mass: 3.1,
-    damping: 40,
-    stiffness: 100
-    
-}
-const MiddleDash = (props) => {
+const MiddleDash = React.memo((props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
     const [incomeEdit, setIncomeEdit] = useState(false);
     const [expenseEdit, setExpenseEdit] = useState(false);
@@ -101,6 +69,7 @@ const MiddleDash = (props) => {
     const [justSubmitted, setJustSubmitted] = useState(null);
 
     const [goalsHidden, setGoalsHidden] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
 
     const reset = useContext(ResetContext)
@@ -126,7 +95,7 @@ const MiddleDash = (props) => {
 
     const cancelHandler = () => {
         setBudgetEdit(false);
-        props.setModalOpen(false);
+        setModalOpen(false);
         setExpenseEdit(false);
         setIncomeEdit(false);
         setJustSubmitted(false);
@@ -149,7 +118,7 @@ const MiddleDash = (props) => {
 
     const budgetOpenHandlr = () => {
         if(auth.isLoggedIn) {
-            props.setModalOpen(true)
+            setModalOpen(true)
         } else {
             props.toggle()
         }
@@ -435,9 +404,9 @@ const MiddleDash = (props) => {
 
     }, [props.expenseTotal, props.userBudget, props.userExpense])
 
-    const hideEventHandler = () => {
+    const hideEventHandler = useCallback(() => {
         setHideUserEvent((prevState) => !prevState);
-    }
+    }, [])
 
     let goals = props.goals;
 
@@ -510,29 +479,9 @@ const MiddleDash = (props) => {
                     </AnimatePresence>
                 )}
 
-                <AnimatePresence exitBeforeEnter>
                     {hideUserEvent && (
-                        <motion.button
-                            initial="initial"
-                            animate="in"
-                            exit="out"
-                            variants={showVariants}
-                            transition={showTransition}
-                            className="showevent-button"
-                            onClick={hideEventHandler}
-                        >
-                            <MouseOverLabel
-                            label="Show Upcoming Event"
-                            visibleClass="vis"
-                            hiddenClass="hid"
-                            labelClass="showevent-button--mouseover"
-                                >
-                                <img src={menu} alt=""/>
-                            </MouseOverLabel>
-                            
-                        </motion.button>
+                        <HideEvent hideEventHandler={hideEventHandler}/>
                     )}
-                </AnimatePresence>
                 <Media query="(max-width: 450px)">
                 <Modal
                     cancel={cancelHandler} 
@@ -548,11 +497,11 @@ const MiddleDash = (props) => {
                         userBudget={props.userBudget}  
 
                         />}
-                    show={props.modalOpen}
+                    show={modalOpen}
                     >
                         <BudgetEditor 
-                            setModalOpen={props.setModalOpen} 
-                            modalOpen={props.modalOpen}
+                            setModalOpen={setModalOpen} 
+                            modalOpen={modalOpen}
                             editIncomeToggle={editIncome}
                             editBudgetToggle={editBudget}
                             editExpenseToggle={editExpense}
@@ -584,13 +533,13 @@ const MiddleDash = (props) => {
                         userBudget={props.userBudget}  
 
                         />}
-                    show={props.modalOpen}
+                    show={modalOpen}
                     img="moni"
                     art
                     >
                         <BudgetEditor 
-                            setModalOpen={props.setModalOpen} 
-                            modalOpen={props.modalOpen}
+                            setModalOpen={setModalOpen} 
+                            modalOpen={modalOpen}
                             editIncomeToggle={editIncome}
                             editBudgetToggle={editBudget}
                             editExpenseToggle={editExpense}
@@ -669,6 +618,6 @@ const MiddleDash = (props) => {
 
         </div>
     )
-}
+})
 
 export default MiddleDash

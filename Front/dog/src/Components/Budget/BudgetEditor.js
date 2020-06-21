@@ -4,7 +4,7 @@ import BudgetMonthly from './BudgetMonthly';
 import BudgetIncomes from './BudgetIncomes';
 import BudgetExpense from './BudgetExpense';
 
-const BudgetEditor = (props) => {
+const BudgetEditor = React.memo((props) => {
     
     let budgetModal;
 
@@ -45,6 +45,15 @@ const BudgetEditor = (props) => {
             {budgetModal}
         </div>
     )
-}
+}, (prevProps, nextProps) => {
+    if (prevProps.budgetEdit !== nextProps.budgetEdit) {
+        return false;
+    } else if (prevProps.incomeEdit !== nextProps.incomeEdit) {
+        return false;
+    } else if (prevProps.expenseEdit !== nextProps.expenseEdit) {
+        return false;
+    }
+    return true;
+})
 
 export default BudgetEditor

@@ -9,7 +9,6 @@ const pageVariants = {
         x: "-50%",
         scale: 1,
         opacity: 1,
-        rotate: 10
 
 
     },
@@ -18,14 +17,12 @@ const pageVariants = {
         x: 0,
         scale: 0,
         opacity: 0,
-        rotate: 99
 
     },
     in: {
         x: 0,
         scale: 1,
         opacity: 1,
-        rotate: 0
 
 
     }
@@ -148,8 +145,7 @@ const Modal = React.memo((props) => {
         <Fragment>
 
             <AnimatePresence exitBeforeEnter>
-            {props.show &&     <div className="modal-renders">modal: {renders.current++}</div>
-}
+
 
                 {props.show && modalContent}
                 
@@ -158,6 +154,14 @@ const Modal = React.memo((props) => {
             {props.show && <Backdrop onClick={props.cancel}/>}
         </Fragment>, document.getElementById('modal-hook')
     )
+}, (prevProps, nextProps) => {
+    if (prevProps.show !== nextProps.show) {
+        return false;
+    }
+    if (prevProps.children !== nextProps.children) {
+        return false;
+    }
+    return true;
 })
 
 export default Modal

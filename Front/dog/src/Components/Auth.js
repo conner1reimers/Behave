@@ -314,7 +314,6 @@ const Auth = React.memo((props) => {
     return (
     <Fragment>
         <ErrorModal error={error} clearError={clearError}/>
-        <div className="auth-renders">renders: {renders.current++}</div>
 
         {modalInfo}
     </Fragment>)
