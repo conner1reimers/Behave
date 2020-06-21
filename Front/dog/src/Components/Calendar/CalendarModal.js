@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useCallback, useContext } from 'react'
+import React, { Fragment, useState, useEffect, useCallback, useContext, useMemo } from 'react'
 import getMonthYear, { getMonthYearNumbered, getMonthYearFromNumbered } from '../../util/getMonthYear'
 import { AnimatePresence, motion } from 'framer-motion';
 import close from './close.svg'
@@ -20,8 +20,7 @@ import travel from './calendarPics/travel.svg';
 import bday from './calendarPics/bday.svg';
 import moon from './calendarPics/moon.svg';
 import trash from './calendarPics/trash.svg';
-
-
+import {uuid} from 'uuidv4';
 
 const dayVariants = {
     initial: {
@@ -532,6 +531,12 @@ const CalendarModal = (props) => {
 
     }
 
+
+    let curMonthObject = []
+
+    const setCurMonthObject = () => {
+
+    }
     const showCalendar = () => {
         // setMonthChosen(month)
         let firstDay = (new Date(yearChosen, monthChosen)).getDay();
@@ -539,10 +544,6 @@ const CalendarModal = (props) => {
 
         const curDate = parseInt(`${monthChosen}${yearChosen}`)
 
-        // if (events[curDate]) {
-        //     event = events[curDate][1].title
-        // }
-       
         const curMonthObject = [];
 
 
@@ -583,7 +584,8 @@ const CalendarModal = (props) => {
                     day: i + 1,
                     events: curEvent,
                     month: monthChosen,
-                    year: yearChosen
+                    year: yearChosen,
+                    dayId: uuid()
                 }
             }
         } else {
@@ -594,7 +596,8 @@ const CalendarModal = (props) => {
                         day: '',
                         events: null,
                         month: monthChosen,
-                        year: yearChosen
+                        year: yearChosen,
+                        dayId: uuid()
                     }
                 } else {
                     let curEvent = null;
@@ -631,15 +634,13 @@ const CalendarModal = (props) => {
                         day: (i + 1) - firstDay,
                         events: curEvent,
                         month: monthChosen,
-                        year: yearChosen
+                        year: yearChosen,
+                        dayId: uuid()
                     }
                 }
             }
         }
         
-            
-        
-
         daysMapped = curMonthObject.map((day, index) => {
             let dayEditElement;
                 if (isDayEdit) {
@@ -784,7 +785,6 @@ const CalendarModal = (props) => {
 
                 >
                 <AnimatePresence 
-                    key={index}
                     exitBeforeEnter
                 >
                     <motion.li
@@ -793,7 +793,6 @@ const CalendarModal = (props) => {
                             exit="out"
                             variants={dayVariants}
                             transition={dayTransition}
-                            key={index}
                             className="calendar-modal--dayitem"
                             onClick={() => editDayHandler(day)}
                         
@@ -973,9 +972,10 @@ const CalendarModal = (props) => {
             </Fragment>)})
 
         chosenMonthText = getMonthYearFromNumbered(monthChosen, yearChosen);
-    }
-
+    };
     showCalendar(currentMonth, currentYear)
+
+
 
 
 

@@ -1,54 +1,40 @@
-import React, { useContext } from 'react'
-import Lottie from 'react-lottie';
-import animationData from './moneyStack.json';
+import React, { useContext, useState } from 'react'
+
 import { AuthContext } from '../../util/context/auth-context';
+import BudgetModal from '../../shared/Header/Dashboard/BudgetModal';
+import Stacker from './Stacker';
 
 
 const Monies = (props) => {
-    let _lottieHeartRef;
     const auth = useContext(AuthContext)
 
     const budgetOpenHandlr = () => {
         if (auth.isLoggedIn) {
-            props.setModalOpen(true)
+            setModalOpen(true)
         } else {
             props.toggle()
         }
         
     }
+    const [modalOpen, setModalOpen] = useState(false);
+
+
+
+
     
-    const onRefLottie = (ref) => {
-        _lottieHeartRef = ref;
-    } 
-
-
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-        };
 
         return (
             <div className="money-stack" >
-                        <div className="stacker">
-                                    <Lottie
-                                ref={onRefLottie}
-                                options={defaultOptions}
-                                height={100}
-                                isClickToPauseDisabled={true}
-
-                                width={100}
-                                />
-                        </div>
+                        <Stacker />
+                        
 
                         <div className="budget-btn-container">
                             <button onClick={budgetOpenHandlr} className="edit-btn learn-more">
                                 Edit budgets
                             </button>
                         </div>
+
+                        <BudgetModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
 
             </div>
 
