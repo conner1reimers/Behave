@@ -182,7 +182,6 @@ const MiddleDash = React.memo((props) => {
 
     let goals = props.goals;
 
-
     let chosenGoals;
     if (goals) {
         chosenGoals = goals.filter((goal) => {
@@ -197,7 +196,7 @@ const MiddleDash = React.memo((props) => {
     if (chosenGoals) {
         mappedChosenGoals = chosenGoals.map((goal, index) => {
             return (
-            <li key={index} className="chosen-goals--item">
+            <li key={goal._id} className="chosen-goals--item">
                 <img src={trophy}/>
                 <p>{goal.title}</p>
 

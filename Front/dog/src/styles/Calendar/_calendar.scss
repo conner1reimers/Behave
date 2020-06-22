@@ -260,6 +260,15 @@
 
         min-height: 55vh;
         width: 60vw;
+
+        
+           
+        filter: drop-shadow(2px 3.5px .1px $color-shadow);
+            
+            
+            //#f5f5f0
+          
+          
         
 
         &--head {
@@ -416,7 +425,7 @@
 
 .eventEditElement {
     position: absolute;
-    filter: drop-shadow(3px -3px .51px rgba(141, 135, 135, 0.048));
+    filter: drop-shadow(3px -3px .51px rgba(141, 135, 135, 0.158));
     background-color: #f8f8f8f1;
     border-radius: .5rem;
     left: -1rem;
@@ -424,6 +433,24 @@
     max-height: 70vh;
     max-width: 45vw;
     z-index: 99999;
+
+    
+      &::before {
+        @include beforeTrick;
+        position: absolute;
+        width: 100%;
+        height: 107%;
+        left: 0rem;
+        top: 0rem;
+        background-color: #ffffff;
+        z-index: -1;
+        border-radius: .7rem;
+        filter: drop-shadow(-4.3px 2.5px .1px rgba(255, 255, 255, 0.623));
+
+        border: 1px solid rgba(198, 201, 200, 0.116);
+    
+    
+      }
 
     &--head {
         @include header;
@@ -619,8 +646,8 @@
 }
 
 .viewmore {
-    background-color: #ffffff8e;
-    border-radius: .6rem;
+    background-color: #ffffffc0;
+    border-radius: .7rem;
     max-height: 50vh;
     max-width: 20vw;
     position: absolute;
@@ -629,12 +656,48 @@
     z-index: 999;
     filter: drop-shadow(1px 3px 1px rgba(131, 30, 89, 0.075));
 
+    &--box {
+        @include beforeTrick;
+        width: 100%;
+        height: 100%;
+        padding: 2rem 6rem;
+        filter: drop-shadow(1px 2.5px .1px $color-shadow);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #c5e4b6d7;
+        overflow: visible;
+        border-radius: .7rem;
+    
+    
+        
+        
+        //#f5f5f0
+      }
+      &::before {
+        @include beforeTrick;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0rem;
+        top: 0rem;
+        background-color: #e9e9e9e1;
+        z-index: 2;
+        border-radius: .7rem;
+
+        border: 1px solid rgba(198, 201, 200, 0.116);
+        filter: drop-shadow(4.3px 2.5px .1px $color-shadow);
+    
+    
+      }
+
     &--list {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-content: center;
         height: 100%;
+        width: 100%;
         position: absolute;
         top: -5%;
         z-index: 5;
@@ -646,6 +709,7 @@
         grid-template-rows: 100%;
         margin-top: 3rem;
         justify-content: center;
+        border-radius: .7rem;
 
         p {
             font-family: $font-3;
@@ -670,6 +734,9 @@
         img {
             height: 6rem;
             width: 6rem;
+            justify-self: end;
+            position: relative;
+            right: 3rem;
 
     
         }
@@ -690,3 +757,24 @@
     transform: scale(1.4);
     position: relative;
 }
+
+@media only screen and (max-width: 900px) {
+    .cal-modal {
+        height: 98vh;
+        width: 92vw;
+        left: 4vw;
+    }
+
+
+    .calendar-modal {
+        
+    }
+  }
+
+@media only screen and (max-height: 730px) {
+    .calendar-modal--days--oftheweek {
+        top: -3rem;
+    }
+  }
+
+  

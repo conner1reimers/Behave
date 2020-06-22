@@ -68,9 +68,11 @@ const DashRight = (props) => {
     const [todoSelect, setTodoSelect] = useState(null);
 
 
+
+
     const goalsModalOpen = () => {
         if(auth.isLoggedIn) {
-            setModalOpen(true)
+            setModalOpen((prevState) => !prevState)
         } else {
             props.toggle()
         }
@@ -142,7 +144,6 @@ const DashRight = (props) => {
         }
     }}
     let newGoal;
-    let goals = props.goals;
 
 
 
@@ -163,8 +164,9 @@ const DashRight = (props) => {
                 
             )
         newGoal = response.goal
-        goals.push(newGoal)
-        props.setGoals(goals)
+        let goals = props.goals;
+        goals.push(newGoal);
+        props.setGoals(goals);
         forceUpdate()
         
         } catch (err) {}
@@ -228,7 +230,7 @@ const DashRight = (props) => {
                         
                         <GoalModalItem 
                             setGoals={props.setGoals} 
-                            goals={goals}
+                            goals={props.goals}
                             goalSubmit={goalSubmit}
                         />
                     </div>
@@ -261,4 +263,4 @@ const DashRight = (props) => {
     )
 }
 
-export default DashRight
+export default React.memo(DashRight)

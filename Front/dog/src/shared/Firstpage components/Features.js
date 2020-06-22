@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback, useState, useEffect } from 'react'
 import { useForm } from '../../util/hooks/useForm'
 import Input from '../UIElements/Input/Input'
 import { VALIDATOR_REQUIRE, VALIDATOR_NONE } from '../../util/validators';
@@ -20,6 +20,9 @@ const Features = (props) => {
     const auth = useContext(AuthContext);
     const reset = useContext(ResetContext)
 
+    const [userTodos, setUserTodos] = useState(null);
+    
+
     const [formState, inputHandler] = useForm({
         task: {value: '', isValid: false},
         urgency: {value: 'important', isValid: true},
@@ -29,6 +32,20 @@ const Features = (props) => {
 
     const curMonth = getMonthYear();
 
+    const fetchTodos = useCallback(async () => {
+        if (auth.isLoggedIn) {
+            let response;
+            try {
+                response = await sendRequest(`http://localhost:5000/api/todo/${auth.userId}`)
+                
+                setUserTodos(response.todos)
+        } catch (err) {}}
+    }, [auth.isLoggedIn, auth.userId, sendRequest]);
+
+    useEffect(() => {
+        fetchTodos()
+    }, [])
+    
     const todoSubmit = async (event) => {
         event.preventDefault();
 
@@ -101,7 +118,7 @@ const Features = (props) => {
             </div>
 
             <div className="back">
-                <TodoItem todos={props.todos} />
+                <TodoItem todos={userTodos} />
             </div>
         </div>
     )

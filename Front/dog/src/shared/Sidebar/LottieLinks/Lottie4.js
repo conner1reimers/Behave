@@ -39,7 +39,8 @@ const Lottie4 = () => {
         autoplay: false,
         animationData: animationData,
         rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
+            preserveAspectRatio: "xMidYMid slice",
+            progressiveLoad: true
         }
         };
 

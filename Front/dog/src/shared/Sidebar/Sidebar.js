@@ -8,7 +8,7 @@ import Lottie4 from './LottieLinks/Lottie4';
 import Lottie5 from './LottieLinks/Lottie5';
 import { AuthContext } from '../../util/context/auth-context';
 
-const Sidebar = (props) => {
+const Sidebar = React.memo((props) => {
     const [content, setContent] = useState(null)
 
     const setItems = useCallback(() => {
@@ -58,7 +58,7 @@ const Sidebar = (props) => {
     
     
     return content
-}
+})
 
 
 

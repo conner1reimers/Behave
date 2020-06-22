@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react'
+import React, { useContext, useEffect, Fragment, useCallback } from 'react'
 import { useHttpClient } from '../../util/hooks/http-hook';
 import { AuthContext } from '../../util/context/auth-context';
 import ErrorModal from '../../shared/ErrorModal/ErrorModal';
@@ -12,7 +12,7 @@ const GoalModalItem = (props) => {
 
     
     
-    const chooseGoal = async (chosen, id, title) => {
+    const chooseGoal = useCallback(async (chosen, id, title) => {
         
         let response
         try {
@@ -52,21 +52,22 @@ const GoalModalItem = (props) => {
         
 
         } catch {}
-    }
+    })
 
 
     let goalList = null;
+    console.log(props.goals)
 
-    const setGoals = () => {
+    const setGoals = (goal) => {
         if (props.goals) {
-            goalList = props.goals.map((goal, index) => {
+            goalList = goal.map((goal, index) => {
                 if (goal.chosen) {
                     goalClass = 'goal-item--chose'
                 } 
                 else {goalClass = null;}
                 return (
                 <li 
-                    key={index}
+                    key={goal._id}
                     onClick={() => chooseGoal(goal.chosen, goal._id, goal.title)}
                     className={`goal-item ${goalClass}`}
                 >
@@ -77,10 +78,11 @@ const GoalModalItem = (props) => {
         }
     }
 
-    setGoals();
+    setGoals(props.goals)
     
+
     useEffect(() => {
-        setGoals()
+        setGoals(props.goals)
     }, [props.goals])
 
     
@@ -96,4 +98,4 @@ const GoalModalItem = (props) => {
     )
 }
 
-export default GoalModalItem
+export default React.memo(GoalModalItem)

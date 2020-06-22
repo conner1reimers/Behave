@@ -21,6 +21,7 @@ import bday from './calendarPics/bday.svg';
 import moon from './calendarPics/moon.svg';
 import trash from './calendarPics/trash.svg';
 import {uuid} from 'uuidv4';
+import DayEditModal from './CalendarUI/DayEditModal';
 
 const dayVariants = {
     initial: {
@@ -643,9 +644,10 @@ const CalendarModal = (props) => {
         
         daysMapped = curMonthObject.map((day, index) => {
             let dayEditElement;
+            let dateChosen
                 if (isDayEdit) {
                     if (isDayEdit.clicked === true && isDayEdit.day.day === day.day && isDayEdit.day.month === day.month && isDayEdit.day.year === day.year) {
-                        let dateChosen = getMonthYearFromNumbered(day.month, day.day)
+                        dateChosen = getMonthYearFromNumbered(day.month, day.day)
 
                         let moreOptions = (
                             <motion.div
@@ -692,6 +694,7 @@ const CalendarModal = (props) => {
                                     />
                             </motion.div>
                         )
+                        
 
                         dayEditElement = (
                             <motion.div
@@ -784,6 +787,11 @@ const CalendarModal = (props) => {
                 key={index}
 
                 >
+                {isDayEdit.clicked && (
+                    <AnimatePresence exitBeforeEnter>
+                        {dayEditElement}
+                    </AnimatePresence>
+                )}
                 <AnimatePresence 
                     exitBeforeEnter
                 >
@@ -964,11 +972,7 @@ const CalendarModal = (props) => {
                         </motion.li>
                         </AnimatePresence>
 
-                        {isDayEdit.clicked && (
-                                <AnimatePresence exitBeforeEnter>
-                                    {dayEditElement}
-                                </AnimatePresence>
-                        )}
+                        
             </Fragment>)})
 
         chosenMonthText = getMonthYearFromNumbered(monthChosen, yearChosen);
@@ -1193,6 +1197,7 @@ const CalendarModal = (props) => {
             className='viewmore'  
             
         >
+            <span className="viewmore--box"/>
             <header className="calendar-modal--dayedit--head">
                 
                 
@@ -1239,6 +1244,18 @@ const CalendarModal = (props) => {
                 </AnimatePresence>
             )}
 
+                        {/* {isDayEdit.clicked && (
+                                <AnimatePresence exitBeforeEnter>
+                                    <DayEditModal 
+                                    cancelHandler={cancelHandler} 
+                                    inputHandler={inputHandler}
+                                    moreOptionsHandler={moreOptionsHandler}
+                                    submitDayEditHandler={submitDayEditHandler}
+                                    dateChosen={isDayEdit.day.day}
+                        />
+                                </AnimatePresence>
+                        )} */}
+
             <header className="cal-header">
                 <h2 className="calendar-modal--head">Month of: {chosenMonthText} </h2>
                 <button className="btn btn-submit calendar-modal--btn" onClick={prevMonth}>PREV</button>
@@ -1260,4 +1277,4 @@ const CalendarModal = (props) => {
     )
 }
 
-export default CalendarModal
+export default React.memo(CalendarModal)

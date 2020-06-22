@@ -260,6 +260,13 @@ body {
         margin-left: 8rem;
     }
 
+    
+
+  }
+  @media only screen and (max-width: 350px) {
+    .dashboard-container {
+        grid-template-rows: 85vh .3fr 1fr 1.5fr ;
+    }
   }
 .loading {
 

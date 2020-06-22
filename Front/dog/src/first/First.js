@@ -9,6 +9,7 @@ import { useHttpClient } from '../util/hooks/http-hook';
 import ErrorModal from '../shared/ErrorModal/ErrorModal';
 import { BudgetContext } from '../util/context/budget-context';
 import { ResetContext } from '../util/context/reset-context';
+import { uuid } from 'uuidv4';
 
 
 
@@ -26,8 +27,8 @@ const First = React.memo((props) => {
     const [userBudget, setUserBudget] = useState(null);
     const [userIncome, setUserIncome] = useState(null);
     const [userExpense, setUserExpense] = useState(null);
+    
     const [userGoals, setUserGoals] = useState(null);
-    const [userTodos, setUserTodos] = useState(null);
 
 
     const [passedUserBudget, setPassedUserBudget] = useState(null);
@@ -162,19 +163,26 @@ const First = React.memo((props) => {
     
             let totalExpenses = [
             {   title: 'food',
-                ammount: foodExp
+                ammount: foodExp,
+                id: uuid()
             },{ title: 'bills',
-                ammount: billExp
+                ammount: billExp,
+                id: uuid()
             },{ title: 'kids',
-                ammount: kidExp
+                ammount: kidExp,
+                id: uuid()
             },{ title: 'tech',
-                ammount: techExp
+                ammount: techExp,
+                id: uuid()
             },{ title: 'supplies',
-                ammount: supplyExp
+                ammount: supplyExp,
+                id: uuid()
             },{ title: 'entertainment',
-                ammount: entertainExp
+                ammount: entertainExp,
+                id: uuid()
             },{ title: 'other',
-                ammount: otherExp
+                ammount: otherExp,
+                id: uuid()
             }].filter(el => el.ammount !== 0)
     
             return totalExpenses;
@@ -198,15 +206,7 @@ const First = React.memo((props) => {
             }}
     }, [auth.isLoggedIn, auth.userId, sendRequest])
 
-    const fetchTodos = useCallback(async () => {
-        if (auth.isLoggedIn) {
-            let response;
-            try {
-                response = await sendRequest(`http://localhost:5000/api/todo/${auth.userId}`)
-                if (!mountedRef.current) return null
-                setUserTodos(response.todos)
-        } catch (err) {}}
-    }, [auth.isLoggedIn, auth.userId, sendRequest]);
+
 
 
 
@@ -214,7 +214,6 @@ const First = React.memo((props) => {
     useEffect(() => {
         fetchBudget();
         fetchGoals();
-        fetchTodos();
 
         return () => {
             mountedRef.current = false;
@@ -234,9 +233,7 @@ const First = React.memo((props) => {
     const setInc = useCallback((budget) => {
         setUserIncome(budget)
     }, [])
-    const setTodo = useCallback((todos) => {
-        setUserTodos(todos)
-    }, [])
+
 
 
     const passData = useCallback(() => {
@@ -262,8 +259,6 @@ const First = React.memo((props) => {
                 income: userIncome,
                 addedExpenseArray: userExpenseTotal,
                 setAddedUpExpenses: setExpenseTotal,
-                todos: userTodos,
-                setTodos: setTodo,
                 entireBudget: passedUserBudget
 
             }}
@@ -311,8 +306,6 @@ const First = React.memo((props) => {
                 entireBudget={passedUserBudget}
                 setEntireBudget={setPassedUserBudget}
                 createExpensesArray={createExpensesArray}
-                todos={userTodos} 
-                setTodo={setUserTodos}
 
             />
             

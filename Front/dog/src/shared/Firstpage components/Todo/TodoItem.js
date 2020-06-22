@@ -189,13 +189,15 @@ const TodoItem = (props) => {
 
 
     let todos;
+    console.log(props.todos)
+
     const setTodos = () => {
         if (props.todos) {
             todos = props.todos
         } else {
             todos = [{}];
         };
-
+    
         if (todos.length > 0) {
             toDoList = todos.map((todo, index) => {
                 if (todo.urgency === "important") {
@@ -253,10 +255,10 @@ const TodoItem = (props) => {
                             }
                         }
                     }
-
+                   
                     return (
                         <AnimatePresence exitBeforeEnter
-                        key={index}
+                        key={todo._id}
                         >
                             <motion.li 
                                 animate="in"
@@ -266,11 +268,13 @@ const TodoItem = (props) => {
                                 transition={pageTransition}                      
                                 onClick={(event) => deleteHandlr(event, todo.id)}
                                 className="todo-itemz"
+                                
                                 >
                                     <ToDoSingle task={todo.task} urgency={todo.urgency} urgencyClass={urgencyClass} />
+                                    
                                     {isDelete.clicked && !isEdit &&(
                                             <AnimatePresence
-                                                key={todo.id}
+                                                
                                                 exitBeforeEnter
                                             >
                                                 {deleteElement}

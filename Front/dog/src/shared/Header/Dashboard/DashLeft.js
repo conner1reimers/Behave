@@ -509,6 +509,7 @@ const DashLeft = (props) => {
         
         if (props.userExpense) {
             expenses = props.userExpense;
+            
         } else {
             expenses = []
         }
@@ -580,12 +581,11 @@ const DashLeft = (props) => {
 
                     return (
                         <AnimatePresence
-                            key={index}
+                            key={expense.id}
                             exitBeforeEnter
                         >
                             <motion.li
                                     className="expense-item"
-                                    key={index}
                                     style={overflowHide}
                                     initial="initial"
                                     animate="in"
