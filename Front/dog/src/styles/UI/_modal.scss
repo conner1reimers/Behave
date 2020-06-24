@@ -280,9 +280,10 @@
     flex-direction: column;
     justify-content: space-between;
     font-size: 5rem;
-    filter: drop-shadow(2px 3px .5px rgba(242, 245, 248, 0.144));
-    filter: drop-shadow(0px 2px 0px rgba(255, 255, 255, 0.219));
+    filter: drop-shadow(-3px 2px 0px rgba(133, 131, 131, 0.247));
     overflow: hidden;
+
+    
 
     
 }
@@ -317,18 +318,18 @@
     width: 20%;
     margin: 2rem;
     align-self: center;
-    color: $color-grey;
-    border-radius: .1rem;
+    color: rgba(29, 28, 28, 0.856);
+    border-radius: .5rem;
     background: none;
-    border: 2px solid #405565d7;
-    transition: color .1s ease-in-out, background .4s ease;
+    border: 1.5px solid rgba(29, 28, 28, 0.253);
+    transition: color .2s ease-in-out, background .2s ease;
 
 
 
     &:hover {
-        color: $color-orange;
-        transition: color .1s ease-in-out, background .4s ease;
-        background-color: #405565d7;
+        color: $color-light-1;
+        transition: color .2s ease-in-out, background .2s ease;
+        background-color: rgba(29, 28, 28, 0.418);
 
     }
 
@@ -339,16 +340,18 @@
     font-family: $font-1;
     padding: .6rem 1rem;
     text-align: center;
-    background-color: #405565d7;
+    background-color: rgba(29, 28, 28, 0.856);
     font-weight: 300;
     font-size: 2rem;
 
     & span {
-        color: rgb(196, 60, 60);
+        color: rgba(255, 255, 255, 0.945);
+
+        // color: rgba(196, 60, 60, 0.945);
         font-weight: 600;
         font-family: $font-1;
         font-size: 2.5rem;
-        letter-spacing: .4rem;
+        letter-spacing: .15rem;
         text-transform: capitalize;
         margin-left: 1rem;
     }
@@ -356,7 +359,7 @@
 }
 
 .err {
-    color: #405565;
+    color: rgba(29, 28, 28, 0.856);
     font-family: $font-2;
     text-align: start;
     line-height: 3rem;
@@ -366,7 +369,7 @@
 
 
     &--box {
-        background-color: rgba(24, 44, 7, 0);
+        background-color: rgba(0, 0, 0, 0);
         padding: 2rem 10rem;
         border-radius: 4px;
         align-self: center;
@@ -375,7 +378,7 @@
     }
 }
 .errorBefore {
-    background-color: #4055650e;
+    background-color: #0000000e;
     position: fixed;
     min-width: 25vw;
     top: 20vh;

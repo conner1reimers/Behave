@@ -163,7 +163,7 @@ const editExpenseTransition = {
 
 
 
-const DashLeft = (props) => {
+const DashLeft = React.memo((props) => {
     const dateNow = getMonthYear();
 
     const [modalOpen, setModalOpen] = useState(false)
@@ -506,7 +506,6 @@ const DashLeft = (props) => {
     );
 
     const setExpenses = () => {
-        
         if (props.userExpense) {
             expenses = props.userExpense;
             
@@ -726,6 +725,6 @@ const DashLeft = (props) => {
             </div>                                        
         </div>
     )
-}
+})
 
 export default DashLeft

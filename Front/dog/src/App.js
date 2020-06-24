@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, memo } from 'react';
+import React, { useState, useCallback, useEffect, memo, useMemo, useRef } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import First from './first/First';
 import './styles/base.scss';
@@ -55,6 +55,8 @@ const App = React.memo(() => {
     }
     
   }, [])
+
+
     
   const home = userId 
   ? (
@@ -79,9 +81,10 @@ const App = React.memo(() => {
       passData={passData}
       />
     </Route>
-  );
+  ); 
 
   const reDirect = userId ? <Redirect to={`/${userId}/home`} /> : <Redirect to='/' />
+  const renders = useRef(0);
 
   return (
     <AuthContext.Provider
@@ -95,6 +98,8 @@ const App = React.memo(() => {
       }}
     >
       <div className="container">
+
+            {/* <div className="app-renders">renders: {renders.current++}</div> */}
 
         <BrowserRouter>
         <Sidebar isLoggedIn={!!token} userId={userId} toggle={toggleLogin} />

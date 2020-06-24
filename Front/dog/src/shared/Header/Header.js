@@ -50,7 +50,11 @@ const Header = (props) => {
                 setGoals={props.setGoals}
 
             />
-            <Monies toggle={props.toggle}/>
+            <Monies                     
+                setUserExpense={props.setUserExpense}
+                userBudget={props.userBudget} 
+                toggle={props.toggle}
+            />
         </header>
     )
 }

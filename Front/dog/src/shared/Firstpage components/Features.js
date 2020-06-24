@@ -11,6 +11,13 @@ import ErrorModal from '../ErrorModal/ErrorModal';
 import LoadingAnimation from '../../lotties/LoadingAnimation/LoadingAnimation';
 import { BudgetContext } from '../../util/context/budget-context';
 import { ResetContext } from '../../util/context/reset-context';
+import { ReactComponent as BellIcon } from './icons/bell.svg';
+import { ReactComponent as ArrowIcon } from './icons/arrow.svg';
+import { ReactComponent as BoltIcon } from './icons/bolt.svg';
+import { ReactComponent as CarotIcon } from './icons/caret.svg';
+import { ReactComponent as CogIcon } from './icons/cog.svg';
+import { AnimatePresence, motion } from 'framer-motion';
+import {CSSTransition} from 'react-transition-group';
 
 const Features = (props) => {
 
@@ -71,10 +78,154 @@ const Features = (props) => {
         } catch (err) {}
     }
 
+    const [open, setOpen] = useState(false);
+
+
+    function NavBar(props) {
+
+        return (
+            <nav className="navbar">
+                <ul className="navbar-nav"> {props.children} </ul>
+            </nav>
+        )
+    }
+
+    function NavItem(props) {
+        
+        return (
+            <li className="nav-item">
+                <a href="#" className="icon-button" onClick={() => {props.openMenu && setOpen((prevState) => !prevState)}}>
+                    {props.icon}
+                </a>
+
+                {open && props.children}
+            </li>
+        )
+    }
+
+    const pageVariants = {
+        initial: {
+            translateX: "-50%",
+            scale: 1,
+            opacity: 1,
+    
+    
+        },
+        out: {
+    
+            translateX: 0,
+            scale: 0,
+            opacity: 0,
+    
+        },
+        in: {
+            translateX: 0,
+            scale: 1,
+            opacity: 1,
+    
+    
+        }
+    }
+
+    const pageTransition = {
+        type: 'spring',
+        mass: 2.5,
+        damping: 40,
+        stiffness: 600
+        
+    }
+    function DropdownMenu(props) {
+        const [activeMenu, setActiveMenu] = useState('main');
+        const [menuHeight, setMenuHeight] = useState(null);
+
+        function calcHeight(el) {
+            const height = el.offsetHeight;
+            setMenuHeight(height);
+        }
+
+        function DropdownItem(props) {
+
+            return (
+                <a href="#" className="menu-item" onClick={() => {props.goToMenu && setActiveMenu(props.goToMenu)}}>
+
+                    {props.leftIcon && <span className="icon-button">{props.leftIcon}</span>}
+
+                    {props.children}
+
+                    {props.rightIcon && <span className="icon-button icon-right">{props.rightIcon}</span>}
+
+                </a>
+            )
+        }
+
+        return (
+            <AnimatePresence exitBeforeEnter>
+                <motion.div 
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition} 
+                    className="nav-dropdown"
+                    style={{
+                        height: menuHeight
+                    }}
+                >
+                    <CSSTransition
+                        in={activeMenu === 'main'}
+                        unmountOnExit
+                        timeout={500}
+                        classNames="menu-primary"
+                        onEnter={calcHeight}
+                    >
+                        <div className="menu">
+                            <DropdownItem goToMenu="settings">My Profile</DropdownItem>
+                            <DropdownItem goToMenu="settings" leftIcon={<CarotIcon/>}>Left Profile</DropdownItem>
+                            <DropdownItem goToMenu="settings" leftIcon={<CogIcon/>} rightIcon={<CarotIcon/>}>Right Profile</DropdownItem>
+                        </div>
+                    </CSSTransition>
+
+                    <CSSTransition
+                        in={activeMenu === 'settings'}
+                        unmountOnExit
+                        timeout={500}
+                        classNames="menu-secondary"
+                        onEnter={calcHeight}
+
+                    >
+                        <div className="menu">
+                            <DropdownItem goToMenu="main">SETTINGS</DropdownItem>
+                            <DropdownItem goToMenu="main" leftIcon={<CarotIcon/>}>SETTINGS</DropdownItem>
+                            <DropdownItem goToMenu="main" leftIcon={<CogIcon/>} rightIcon={<CarotIcon/>}>SETTINGS</DropdownItem>
+                            <DropdownItem goToMenu="main">SETTINGS</DropdownItem>
+                            <DropdownItem goToMenu="main">SETTINGS</DropdownItem>
+
+                        </div>
+                    </CSSTransition>
+
+                </motion.div>
+            </AnimatePresence>
+        )
+    }
+
+
+    const dropdownElement = (
+        <NavBar>
+            <NavItem icon={<BellIcon/>}/>
+            <NavItem icon={<ArrowIcon/>}/>
+            <NavItem icon={<BoltIcon/>}/>
+
+            <NavItem openMenu icon={<BellIcon/>}>
+                <DropdownMenu/>
+            </NavItem>
+        </NavBar>
+    )
+
     return (
         <div className="todo">
             
             <div className="todo-contained">
+            {dropdownElement}
                 <div className="heading-todo">
                     <h1 className="todo-head">Todo </h1>
                     <TodoLottie/>

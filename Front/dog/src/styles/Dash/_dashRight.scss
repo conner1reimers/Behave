@@ -217,7 +217,8 @@
         flex-direction: column;
         align-content: space-between;
         justify-content: space-between;
-        
+        min-width: 150%;
+        overflow-y: scroll;
 
         &--item {
             margin: 2rem;

@@ -34,7 +34,12 @@ const Monies = (props) => {
                             </button>
                         </div>
 
-                        <BudgetModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+                        <BudgetModal 
+                            setExp={props.setUserExpense}
+                            userBudget={props.userBudget} 
+                            modalOpen={modalOpen} 
+                            setModalOpen={setModalOpen}
+                        />
 
             </div>
 

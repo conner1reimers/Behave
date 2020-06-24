@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react'
+import React, { Fragment, useState, useContext, useEffect, useRef } from 'react'
 import Media from 'react-media'
 import Modal from '../../UIElements/Modal/Modal'
 import BudgetEditor from '../../../Components/Budget/BudgetEditor'
@@ -7,6 +7,10 @@ import { BudgetContext } from '../../../util/context/budget-context'
 import { useHttpClient } from '../../../util/hooks/http-hook'
 import BudgetFooter from '../../../Components/Budget/BudgetFooter';
 import IncomeIcon from '../../../lotties/EditBudgetIcons/IncomeIcon'
+import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation'
+import createExpensesArray from '../../../util/createExpenseArray'
+import { ResetContext } from '../../../util/context/reset-context'
+import { uuid } from 'uuidv4'
 
 const BudgetModal = (props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
@@ -14,6 +18,7 @@ const BudgetModal = (props) => {
     const [expenseEdit, setExpenseEdit] = useState(false);
     const [budgetState, setBudgetState] = useState(null);
 
+    let reset = useContext(ResetContext);
     const editBudget = () => {
         setBudgetEdit(true);
         setJustSubmitted(false);
@@ -63,6 +68,13 @@ const BudgetModal = (props) => {
         <button onClick={goBack} className="back-btn">BACK</button>
     )
 
+    const mountedRef = useRef(true);
+    useEffect(() => {
+
+        return(() => {
+            mountedRef.current = false;
+        })
+    }, [])
 
     let budgetAmt;
     const submitDataToBudget = async (event) => {
@@ -78,46 +90,48 @@ const BudgetModal = (props) => {
         const curMonth = month + year
 
         if (budgetEdit && !incomeEdit && !expenseEdit) {
-            let response
+            let response;
+
             if (props.userBudget) {
                 budgetAmt = props.userBudget.ammount
+            }
 
-        }
+            setJustSubmitted(false);
+            try {
+                response = await sendRequest('http://localhost:5000/api/budget', 'POST',
+                    JSON.stringify({
+                        month: curMonth,
+                        ammount: budgetState.inputs.ammount.value,
+                        creator: auth.userId
 
-        setJustSubmitted(false);
-        try {
-            response = await sendRequest('http://localhost:5000/api/budget', 'POST',
-                JSON.stringify({
-                    month: curMonth,
-                    ammount: budgetState.inputs.ammount.value,
-                    creator: auth.userId
+                    }),
+                    {
+                        'Content-Type': 'application/json',
+                        
+                    });
+                if (!mountedRef.current) return null;
 
-                }),
-                {
-                    'Content-Type': 'application/json',
-                    
-                });
-            setJustSubmitted(true);
-            if (props.expenseTotal > 0) {
-                budgetAmt = budgetState.inputs.ammount.value - props.expenseTotal;
-                const newBudget = ({
-                    month: curMonth,
-                    ammount: budgetState.inputs.ammount.value,
-                    creator: auth.userId
-                });
-                bugetContext.setBug(newBudget);
-            } else {
-                budgetAmt = budgetState.inputs.ammount.value;
-                const newBudget = ({
-                    month: curMonth,
-                    ammount: budgetAmt,
-                    creator: auth.userId
-                });
-                bugetContext.setBug(newBudget);
-            };
-            
+                setJustSubmitted(true);
+                if (props.expenseTotal > 0) {
+                    budgetAmt = budgetState.inputs.ammount.value - props.expenseTotal;
+                    const newBudget = ({
+                        month: curMonth,
+                        ammount: budgetState.inputs.ammount.value,
+                        creator: auth.userId
+                    });
+                    bugetContext.setBug(newBudget);
+                } else {
+                    budgetAmt = budgetState.inputs.ammount.value;
+                    const newBudget = ({
+                        month: curMonth,
+                        ammount: budgetAmt,
+                        creator: auth.userId
+                    });
+                    bugetContext.setBug(newBudget);
+                };
+                
 
-        } catch(err) {}
+            } catch(err) {}
         
 
     } else if (!budgetEdit && incomeEdit && !expenseEdit) {
@@ -137,6 +151,7 @@ const BudgetModal = (props) => {
                     'Content-Type': 'application/json',
                     
                 });
+                if (!mountedRef.current) return null;
                 setJustSubmitted(true);
 
         } catch(err) {}
@@ -156,92 +171,40 @@ const BudgetModal = (props) => {
                     'Content-Type': 'application/json',
                     
                 })
+                if (!mountedRef.current) return null;
+                console.log(response)
+                console.log(props.userExpense)
+
                 setJustSubmitted(true);
-                let expense = response.expense
-                let expenses = props.userExpense
-                expenses.push(expense)
-                
-
-                let techExp = expenses.map((el) => {
-                    if (el.title === 'tech') {
-                        return el
-                    } else {
-                        return {title: 'tech', ammount: 0}}
-                });
-                let kidExp = expenses.map((el) => {
-                    if (el.title === 'kids') {
-                        return el
-                    } else {
-                        return {title: 'kids', ammount: 0}}
-                });
-                let billExp = expenses.map((el) => {
-                    if (el.title === 'bills') {
-                        return el
-                    } else {
-                        return {title: 'bills', ammount: 0}}
-                });
-                let entertainExp = expenses.map((el) => {
-                    if (el.title === 'entertainment') {
-                        return el
-                    } else {
-                        return {title: 'entertainment', ammount: 0}}
-                });
-                let foodExp = expenses.map((el) => {
-                    if (el.title === 'food') {
-                        return el
-                    } else {
-                        return {title: 'food', ammount: 0}}
-                });
-                let otherExp = expenses.map((el) => {
-                    if (el.title === 'other') {
-                        return el
-                    } else {
-                        return {title: 'other', ammount: 0}
+                props.setExp((prevState) => {
+                    let check = false;
+                    if(prevState.length >= 1) {
+                        prevState.map((el, indx) => {
+                            
+                            if (response.expense.title === el.title) {
+                                prevState[indx].ammount += response.expense.ammount
+                                check = true;
+                            } else if ((indx === prevState.length - 1) && !check) {
+                                prevState[indx + 1] = {
+                                    title: response.expense.title, 
+                                    ammount: response.expense.ammount,
+                                    id: uuid()
+                                }
+                                
+                            };
+                        }) 
+                        return [...prevState]
+                    } 
+                    else {
+                        return [...prevState, {
+                            title: response.expense.title,
+                            ammount: response.expense.ammount,
+                            id: uuid()
+                        }]
                     }
-                });
-                let supplyExp = expenses.map((el) => {
-                    if (el.title === 'supplies') {
-                        return el
-                    } else {
-                        return {title: 'supplies', ammount: 0}
-                    }
-                });
 
-                techExp = techExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                kidExp = kidExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                foodExp = foodExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                entertainExp = entertainExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                supplyExp = supplyExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                otherExp = otherExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-                billExp = billExp.filter(el => el !== undefined).map(el => el.ammount).reduce((acc, cur) => acc + cur)
-
-                let totalExpenses = [
-                {   title: 'food',
-                    ammount: foodExp
-                },{ title: 'bills',
-                    ammount: billExp
-                },{ title: 'kids',
-                    ammount: kidExp
-                },{ title: 'tech',
-                    ammount: techExp
-                },{ title: 'supplies',
-                    ammount: supplyExp
-                },{ title: 'entertainment',
-                    ammount: entertainExp
-                },{ title: 'other',
-                    ammount: otherExp
-                }]
-                totalExpenses = totalExpenses.filter(el => el.ammount !== 0)
-                // bugetContext.setAddedUpExpenses(totalExpenses)
-
-                let expenseTotalArray = expenses.map((el) => {
-                    return el.ammount
                 })
-
-                bugetContext.setExp(totalExpenses)
-                const added = expenseTotalArray.reduce((cur, acc) => {return cur + acc});
-                bugetContext.setAddedUpExpenses(added)
-
+                console.log(props.userExpense)
 
 
                 
@@ -250,6 +213,7 @@ const BudgetModal = (props) => {
     return (
         <Fragment>
             <Media query="(max-width: 450px)">
+                
                     <Modal
                         cancel={cancelHandler} 
                         onSubmit={submitDataToBudget}
@@ -266,6 +230,7 @@ const BudgetModal = (props) => {
                             />}
                         show={props.modalOpen}
                         >
+                            {isLoading && <LoadingAnimation loading={isLoading} />}
                             <BudgetEditor 
                                 setModalOpen={props.setModalOpen} 
                                 modalOpen={props.modalOpen}
@@ -286,6 +251,7 @@ const BudgetModal = (props) => {
                 </Media>
 
                 <Media query="(min-width: 450px)">
+
                     <Modal
                         cancel={cancelHandler} 
                         onSubmit={submitDataToBudget}
@@ -304,6 +270,8 @@ const BudgetModal = (props) => {
                         img="moni"
                         art
                         >
+                            {isLoading && <LoadingAnimation loading={isLoading} />}
+
                             <BudgetEditor 
                                 setModalOpen={props.setModalOpen} 
                                 modalOpen={props.modalOpen}

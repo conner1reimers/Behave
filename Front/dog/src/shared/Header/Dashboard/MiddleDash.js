@@ -15,6 +15,7 @@ import arrow from './arrow.svg'
 import HideEvent from './FirstEvent/HideEvent';
 import BudgetModal from './BudgetModal';
 import FirstEvent from './FirstEvent/FirstEvent';
+import {optionHandler} from '../../../util/myUtil.js';
 
 const pageVariants = {
     initial: {
@@ -66,18 +67,9 @@ const MiddleDash = React.memo((props) => {
 
 
     const auth = useContext(AuthContext)
-    const bugetContext = useContext(BudgetContext)
 
     const { isLoading, error, sendRequest, clearError} = useHttpClient();
 
-
-    const goBack = (event) => {
-        event.preventDefault();
-        setBudgetEdit(false);
-        setExpenseEdit(false);
-        setIncomeEdit(false);
-        setJustSubmitted(false);
-    }
 
     const hideGoals = () => {
         setGoalsHidden((prevState) => !prevState);
@@ -191,15 +183,22 @@ const MiddleDash = React.memo((props) => {
         chosenGoals = []
     }
 
+    const [editGoal, setEditGoal] = useState({
+        clicked: false,
+        data: {}
+    });
+
+
 
     let mappedChosenGoals;
     if (chosenGoals) {
-        mappedChosenGoals = chosenGoals.map((goal, index) => {
+        mappedChosenGoals = chosenGoals.map((goal) => {
             return (
-            <li key={goal._id} className="chosen-goals--item">
+            <li key={goal._id} 
+            onClick={() => optionHandler(editGoal, setEditGoal, goal,"_id")}
+            className="chosen-goals--item">
                 <img src={trophy}/>
                 <p>{goal.title}</p>
-
             </li>
             )
         })
@@ -227,6 +226,8 @@ const MiddleDash = React.memo((props) => {
                 <BudgetModal
                     modalOpen={modalOpen}
                     setModalOpen={setModalOpen}
+                    userBudget={props.userBudget}
+                    setExp={props.setUserExpense}
                 />
 
 

@@ -213,12 +213,10 @@
 }
 
 .choose-month-ani {
-    height: 5rem;
-    width: 5rem;
-    background-color: blue;
+
     border-radius: 1rem;
     top: .4em;
-    left: -5.5rem;
+    left: -11.5rem;
     position: absolute;
     overflow: hidden;
     text-align: center;
@@ -226,6 +224,11 @@
     padding: 2rem;
     justify-content: center;
     align-items: center;
+
+    img {
+        height: 7rem;
+        width: 7rem;
+    }
 
 
 }
@@ -260,5 +263,143 @@
     border-top-right-radius: .6rem;
     border-bottom-right-radius: .6rem;
 
+
+}
+
+$nav-size: 6rem;
+$button-size: calc($nav-size * .5);
+$border-raidus: .8rem;
+$border: 1px solid #474a4d;
+$speed: 500ms;
+$bg: #242526;
+.navbar {
+    min-width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    left: 20rem;
+    top: 2rem;
+    background-color: $bg;
+    font-size: 9rem;
+    padding: 0 1rem;
+    margin: 0;
+    border: $border;
+
+}
+.navbar-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    list-style: none;
+}
+.nav-item {
+    width: calc(6rem * 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+
+.icon-button {
+    width: $button-size;
+    height: $button-size;
+    background-color: rgba(68, 68, 68, 0.39);
+    border-radius: 50%;
+    padding: 1.5rem;
+    margin: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 300ms;
+
+    svg {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    &:hover {
+        filter: brightness(1.2);
+    }
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 8.5rem;
+    width: 30rem;
+    transform: translateX(-40%);
+    padding: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    background-color: $bg;
+    transition: height $speed ease;
+    border: $border;
+}
+
+.menu-item {
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: $border-raidus;
+    transition: background $speed;
+    text-decoration: none;
+    color: white;
+    
+
+    &:hover {
+        background-color: rgba(77, 71, 71, 0.514);
+    }
+}
+
+.icon-right {
+    margin-left: auto;
+    
+}
+
+.menu-primary-enter {
+    position: absolute;
+    transform: translateX(-110%);
+}
+.menu-primary-enter-active {
+    position: absolute;
+    transform: translateX(0%);
+    transition: all $speed ease;
+
+}
+.menu-primary-exit {
+    position: absolute;
+
+
+}
+.menu-primary-exit-active {
+    position: absolute;
+    transform: translateX(-110%);
+    transition: all $speed ease;
+
+}
+
+.menu-secondary-enter {
+    position: absolute;
+    transform: translateX(110%);
+}
+.menu-secondary-enter-active {
+    position: absolute;
+    transform: translateX(0%);
+    transition: all $speed ease;
+
+}
+.menu-secondary-exit {
+    position: absolute;
+
+
+}
+
+.menu-secondary-exit-active {
+    position: absolute;
+    transform: translateX(180%);
+    transition: all $speed ease;
 
 }

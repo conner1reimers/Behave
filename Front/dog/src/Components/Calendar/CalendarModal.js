@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useCallback, useContext, useMemo } from 'react'
+import React, { Fragment, useState, useEffect, useCallback, useContext, useMemo, useRef } from 'react'
 import getMonthYear, { getMonthYearNumbered, getMonthYearFromNumbered } from '../../util/getMonthYear'
 import { AnimatePresence, motion } from 'framer-motion';
 import close from './close.svg'
@@ -215,6 +215,15 @@ const CalendarModal = (props) => {
         event: {}
     });
 
+    const mountedRef = useRef(true);
+    useEffect(() => {
+
+        return(() => {
+            mountedRef.current = false;
+        })
+    }, [])
+
+    
 
     const [formState, inputHandler] = useForm({
         title: {
@@ -292,6 +301,7 @@ const CalendarModal = (props) => {
             }),
             {'Content-Type': 'application/json'}
             );
+            if (!mountedRef.current) return null;
 
             setMonthEvents((prevState) => {
                 if (prevState[curDate]) {
@@ -378,6 +388,7 @@ const CalendarModal = (props) => {
         try {
             response = await sendRequest(`http://localhost:5000/api/event/${deleteId}`, 'DELETE')
             console.log(response);
+            if (!mountedRef.current) return null;
 
             setMonthEvents((prevState) => {
                 let curDate = parseInt(`${monthChosen}${yearChosen}`);
@@ -481,7 +492,8 @@ const CalendarModal = (props) => {
     const fetchEvents = async (curDate) => {
         let response;
         try {
-            response = await sendRequest(`http://localhost:5000/api/event/${auth.userId}/${curDate}`);               
+            response = await sendRequest(`http://localhost:5000/api/event/${auth.userId}/${curDate}`);    
+            if (!mountedRef.current) return null;           
             setMonthEvents(response.events)                               
         } catch (err) {
             
@@ -1051,6 +1063,7 @@ const CalendarModal = (props) => {
             }),
             {'Content-Type': 'application/json'}
             );
+            if (!mountedRef.current) return null;
             
             setMonthEvents((prevState) => {
                 prevState[curDate][day] = prevState[curDate][day].filter((el) => 
