@@ -18,13 +18,16 @@ const Sidebar = React.memo((props) => {
                 <div className="sidebar">
                     
                     
-        
                     <div className="sidebar-links">
                         <ul className="nav-links">
                             {props.isLoggedIn &&
                             <Fragment>
                                 <li className="link">
                                     <NavLink to={`/${props.userId}/history`}><Lottie1/></NavLink>
+                                </li>
+
+                                <li className="link">
+                                    <NavLink to={`/${props.userId}/newpage`}><Lottie1/></NavLink>
                                 </li>
         
                                 <li className="link">

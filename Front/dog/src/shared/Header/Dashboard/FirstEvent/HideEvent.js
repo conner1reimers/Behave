@@ -48,7 +48,7 @@ const HideEvent = React.memo((props) => {
                             exit="out"
                             variants={showVariants}
                             transition={showTransition}
-                            className="showevent-button"
+                            className="showevent-button first-event--hide"
                             onClick={props.hideEventHandler}
                         >
                             <MouseOverLabel

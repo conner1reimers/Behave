@@ -6,6 +6,7 @@ import { AuthContext } from './util/context/auth-context';
 import Sidebar from './shared/Sidebar/Sidebar';
 import HistoryPage from './Components/HistoryPage/HistoryPage';
 import Features from './shared/Firstpage components/Features';
+import NewPage from './Components/Experiment/NewPage';
 
 const App = React.memo(() => {
   const [userId, setUserId] = useState(null);
@@ -117,7 +118,10 @@ const App = React.memo(() => {
               <Route path={`/${userId}/todo`} exact>
                 <Features />
               </Route>
-              
+              <Route path={`/${userId}/newpage`} exact>
+                <NewPage/>
+              </Route>
+
               {reDirect}
 
             </Switch>

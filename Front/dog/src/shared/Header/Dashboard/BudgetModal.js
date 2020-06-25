@@ -11,6 +11,9 @@ import LoadingAnimation from '../../../lotties/LoadingAnimation/LoadingAnimation
 import createExpensesArray from '../../../util/createExpenseArray'
 import { ResetContext } from '../../../util/context/reset-context'
 import { uuid } from 'uuidv4'
+import {produce} from 'immer'
+import { getExpenseTotal } from '../../../util/myUtil'
+
 
 const BudgetModal = (props) => {
     const [budgetEdit, setBudgetEdit] = useState(false);
@@ -172,39 +175,76 @@ const BudgetModal = (props) => {
                     
                 })
                 if (!mountedRef.current) return null;
-                console.log(response)
-                console.log(props.userExpense)
-
                 setJustSubmitted(true);
+
                 props.setExp((prevState) => {
-                    let check = false;
-                    if(prevState.length >= 1) {
-                        prevState.map((el, indx) => {
-                            
-                            if (response.expense.title === el.title) {
-                                prevState[indx].ammount += response.expense.ammount
-                                check = true;
-                            } else if ((indx === prevState.length - 1) && !check) {
-                                prevState[indx + 1] = {
-                                    title: response.expense.title, 
-                                    ammount: response.expense.ammount,
-                                    id: uuid()
-                                }
-                                
-                            };
-                        }) 
-                        return [...prevState]
-                    } 
-                    else {
-                        return [...prevState, {
-                            title: response.expense.title,
-                            ammount: response.expense.ammount,
-                            id: uuid()
-                        }]
+                    
+                    return produce(prevState, (draftState) => {
+                        if (draftState.length >= 1) {
+                            let check = false;
+                            prevState.map((el, indx) => {
+                                if (response.expense.title === el.title) {
+                                    draftState[indx].ammount += response.expense.ammount;
+                                    check = true;
+                                } else if ((indx === draftState.length - 1) && !check) {
+                                    draftState[indx + 1] = {
+                                        title: response.expense.title, 
+                                        ammount: response.expense.ammount,
+                                        id: uuid()
+                                    }  
+                                };
+                            })
+                        } else {
+                            draftState.push({
+                                title: response.expense.title, 
+                                ammount: response.expense.ammount,
+                                id: uuid()
+                            })
+                        }
+
+                    })
+                })
+
+                props.setExpTotal((prevState) => {
+                    if (prevState > 0) {
+                        return prevState += response.expense.ammount
+                    } else {
+                        return response.expense.ammount
                     }
 
+                    
                 })
-                console.log(props.userExpense)
+
+
+                // props.setExp((prevState) => {
+                //     let check = false;
+                //     if(prevState.length >= 1) {
+                //         prevState.map((el, indx) => {
+                            
+                //             if (response.expense.title === el.title) {
+                //                 prevState[indx].ammount += response.expense.ammount
+                //                 check = true;
+                //             } else if ((indx === prevState.length - 1) && !check) {
+                //                 prevState[indx + 1] = {
+                //                     title: response.expense.title, 
+                //                     ammount: response.expense.ammount,
+                //                     id: uuid()
+                //                 }
+                                
+                //             };
+                //         }) 
+                //         return [...prevState]
+                //     } 
+                //     else {
+                //         return [...prevState, {
+                //             title: response.expense.title,
+                //             ammount: response.expense.ammount,
+                //             id: uuid()
+                //         }]
+                //     }
+
+                // })
+                
 
 
                 

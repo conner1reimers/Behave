@@ -25,3 +25,10 @@ export const optionHandler = (state, setState, load, compareValue) => {
     }
 }
 
+export const getExpenseTotal = (expense) => {
+    let expenseTotalArray = expense.map((el) => {
+        return el.ammount
+    })
+    return expenseTotalArray.reduce((acc, cur) => acc + cur);
+}
+

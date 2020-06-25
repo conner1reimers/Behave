@@ -15,6 +15,77 @@
     filter: drop-shadow(3px 5px 1.2px #b8bbb730);
 
 }
+@media only screen and (max-width: 450px) {
+    .modal {
+        right: 0rem;
+        width: 80vw; 
+        left: 4rem;
+        top: 5rem;
+        height: 40%;
+        position: fixed;
+        overflow-y: scroll;
+
+    }
+}
+@media only screen and (max-width: 450px) {
+    .modal {
+        right: 0rem;
+        width: 80vw; 
+        left: 3.5rem;
+        top: 6rem;
+        min-height: 80vh;
+        position: fixed;
+        overflow-y: scroll;
+
+    }
+}
+@media only screen and (max-width: 750px) and (min-width: 450px) {
+    .modal {
+        position: fixed;
+
+        right: 28rem;
+        width: 80vw; 
+        left: 7rem;
+        top: 10rem;
+        min-height: 60%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .modal {
+        right: 25rem;
+        min-width: 60vw; 
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .modal {
+        right: 20rem;
+        min-width: 60vw; 
+    }
+}
+
+
+@media only screen and (min-width: 1500px) {
+    .modal {
+        left: 30rem;
+        max-width: 30vw; 
+    }
+}
+
+@media only screen and (min-width: 1700px) {
+    .modal {
+        left: 40rem;
+        max-width: 30vw; 
+    }
+}
+@media only screen and (min-width: 2400px) {
+    .modal {
+        left: 50rem;
+        max-width: 30vw; 
+    }
+}
+
 
 .art {
     height: 100%;
@@ -112,6 +183,12 @@
     }
 }
 
+@media only screen and (max-width: 500px) {
+    .form-input {
+
+    }
+}
+
 .input-label {
     position: absolute;
     margin-left: 2rem;
@@ -167,81 +244,13 @@
     font-size: 2rem;
     background: none;
     color: $color-light-1;
+
     &:hover {
         color: $color-secondary;
 
     }
 
 
-}
-@media only screen and (max-width: 450px) {
-    .modal {
-        right: 0rem;
-        width: 80vw; 
-        left: 4rem;
-        top: 5rem;
-        height: 40%;
-        position: fixed;
-        overflow-y: scroll;
-
-    }
-}
-@media only screen and (max-width: 375px) {
-    .modal {
-        right: 0rem;
-        width: 80vw; 
-        left: 3.5rem;
-        top: 6rem;
-        min-height: 80vh;
-        position: fixed;
-        overflow-y: scroll;
-
-    }
-}
-@media only screen and (max-width: 750px) and (min-width: 450px) {
-    .modal {
-        position: fixed;
-
-        right: 28rem;
-        width: 80vw; 
-        left: 7rem;
-        top: 10rem;
-        height: 60%;
-    }
-}
-@media only screen and (max-width: 1000px) {
-    .modal {
-        right: 25rem;
-        min-width: 60vw; 
-    }
-}
-
-@media only screen and (min-width: 1000px) {
-    .modal {
-        right: 20rem;
-        min-width: 60vw; 
-    }
-}
-
-
-@media only screen and (min-width: 1500px) {
-    .modal {
-        left: 30rem;
-        max-width: 30vw; 
-    }
-}
-
-@media only screen and (min-width: 1700px) {
-    .modal {
-        left: 40rem;
-        max-width: 30vw; 
-    }
-}
-@media only screen and (min-width: 2400px) {
-    .modal {
-        left: 50rem;
-        max-width: 30vw; 
-    }
 }
 
 
@@ -457,5 +466,28 @@
 
 #btn {
     justify-self: center;
+}
+
+
+@media only screen and (max-height: 650px) {
+
+    .modal-form {
+        position: relative;
+        &:not(.btn-not) {
+            top: 6rem;
+        }
+        
+    }
+    .modal-content {
+        height: 100%;
+    }
+    .budget-maker {
+        height: 100%;
+    }
+
+    .footer-budget {
+        position: relative;
+        top: -9rem;
+    }
 }
 

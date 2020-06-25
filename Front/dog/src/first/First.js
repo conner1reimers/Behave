@@ -10,6 +10,7 @@ import ErrorModal from '../shared/ErrorModal/ErrorModal';
 import { BudgetContext } from '../util/context/budget-context';
 import { ResetContext } from '../util/context/reset-context';
 import createExpensesArray from '../util/createExpenseArray';
+import { getExpenseTotal } from '../util/myUtil';
 
 
 
@@ -24,11 +25,11 @@ const First = React.memo((props) => {
 
     const auth = useContext(AuthContext);
 
-    const [userBudget, setUserBudget] = useState(null);
-    const [userIncome, setUserIncome] = useState(null);
-    const [userExpense, setUserExpense] = useState(null);
+    const [userBudget, setUserBudget] = useState([]);
+    const [userIncome, setUserIncome] = useState([]);
+    const [userExpense, setUserExpense] = useState([]);
     
-    const [userGoals, setUserGoals] = useState(null);
+    const [userGoals, setUserGoals] = useState([]);
 
 
     const [passedUserBudget, setPassedUserBudget] = useState(null);
@@ -39,7 +40,7 @@ const First = React.memo((props) => {
     const [userIncomeTotal, setIncomeTotal] = useState(null);
     const [userExpenseTotal, setExpenseTotal] = useState(null);
 
-
+    console.log(userExpense)
     const fetchBudget = useCallback(async () => {
         if (auth.isLoggedIn) {
             let response;
@@ -59,18 +60,17 @@ const First = React.memo((props) => {
                     income: response.allIncomes,
                     expense: response.allExpenses
                 })
-                expenseTotalArray = response.expense.map((el) => {
-                    return el.ammount
-                })
-                expenseTotal = expenseTotalArray.reduce((acc, cur) => acc + cur);
+                
+                setExpenseTotal(getExpenseTotal(response.expense))
+                setUserExpense(createExpensesArray(response.expense));
                 
 
                 if ((!response.expense) || (response.expense.length < 1) ) {
-                    setUserExpense([{}])
+                    setUserExpense([])
                 } 
 
                 if ((!response.income === 'not found') || (response.income.length < 1)) {
-                    setUserIncome([{}])
+                    setUserIncome([])
                 } else {
                     setUserIncome(response.income)
                 }            
@@ -83,9 +83,6 @@ const First = React.memo((props) => {
 
                 setIncomeTotal(incomeTotal);
 
-                let expenses = createExpensesArray(response.expense);
-                setUserExpense(expenses);
-                setExpenseTotal(expenseTotal);
 
                 let budgetRemaining;
                 if (expenseTotal > 1 && response.budget) {
@@ -211,7 +208,6 @@ const First = React.memo((props) => {
                 setUserIncome={setUserIncome}
 
                 remain={userBudgetRemaining}
-                setExpenseTotal={setExpenseTotal}
 
                 userIncomeTotal={userIncomeTotal}
                 userExpenseTotal={userExpenseTotal}

@@ -53,7 +53,7 @@ const getBudgets = async (req, res, next) => {
     }
     if (user.incomes) {
         if (user.incomes.length < 1) {
-            existingIncomes = [{}]
+            existingIncomes = []
 
         } else {
             existingIncomes = user.incomes.filter((income) => {
@@ -63,7 +63,7 @@ const getBudgets = async (req, res, next) => {
     }
     if (user.expenses) {
         if (user.expenses.length < 1) {
-            existingExpenses = [{}]
+            existingExpenses = []
 
         } else {
             existingExpenses = user.expenses.filter((expense) => {
@@ -78,10 +78,14 @@ const getBudgets = async (req, res, next) => {
         
         try {
             budget = await Budget.findById(budgetId);
-            allBudgets = user.budgets.map((el) => {return el});
-            allExpenses = user.expenses.map((el) => {return el});
-            allIncomes = user.incomes.map((el) => {return el})
+            
 
+
+            allBudgets = user.budgets;
+            allExpenses = user.expenses;
+            allIncomes = user.incomes;
+            console.log(allBudgets)
+            console.log(user.budgets)
 
         } catch (err) {
             const error = new HttpError('Fetching budget failed...', 500);

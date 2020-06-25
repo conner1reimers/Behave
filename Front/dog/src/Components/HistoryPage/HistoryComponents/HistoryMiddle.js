@@ -88,7 +88,7 @@ const HistoryMiddle = (props) => {
                             borderRadius: '.6rem',
                             transition: 'all .2s',
                             filter: 'drop-shadow(1px 1px .5px #b8bbb76e)',
-                            backgroundColor: 'rgba(64, 110, 102, 0.849)'
+                            backgroundColor: 'rgba(39, 42, 43, 0.637)'
 
                         }}
                     >
@@ -131,7 +131,8 @@ const HistoryMiddle = (props) => {
                             borderRadius: '.6rem',
                             transition: 'all .2s',
                             filter: 'drop-shadow(1px 1px .5px #b8bbb76e)',
-                            backgroundColor: 'rgba(64, 110, 102, 0.749)'
+                            backgroundColor: 'rgba(39, 42, 43, 0.637)'
+
 
                         }}
                     >

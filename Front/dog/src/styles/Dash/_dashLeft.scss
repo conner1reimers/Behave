@@ -69,7 +69,6 @@
     border-radius: 1rem;
     margin: 1rem 3rem;
     margin-bottom: 5rem;
-
     grid-row: 2 / 3;
     & button {
         padding: 0;
@@ -130,7 +129,7 @@
         display: flex;
         cursor: pointer;
         text-align: center;
-        filter: drop-shadow(3px 1px 1px #b8bbb785);
+        filter: drop-shadow(3px 1px 1px #b8bbb731);
 
         & p {
             font-size: 3rem;
@@ -142,7 +141,7 @@
 
     }
     & :hover.event-container{
-        filter: drop-shadow(4px 5px 1px #b8bbb785);
+        filter: drop-shadow(2px 3px 1px #b8bbb749);
 
         transition: all .4s;
 

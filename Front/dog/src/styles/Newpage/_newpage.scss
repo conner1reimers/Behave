@@ -1,0 +1,100 @@
+
+
+.newpage {
+    grid-row: 2 / 4;
+    grid-column: 1 / 5;
+    height: 100%;
+    width: 100%;
+    background-color: $color-white;
+
+    &--box-container {
+        height: 100%;
+        width: 100%;    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+//#445e5f
+//
+//##44af91
+//#5b9ba3
+@mixin headMix {
+    font-size: 3rem;
+    color: #f5f5f0e0;
+    font-family: $font-3;
+    font-weight: 600;
+    font-variant: normal;
+}
+    &--boxClasses {
+        background-color: #2c343af1;
+        overflow: hidden;
+        z-index: 2;
+        border-radius: .13rem;
+
+        filter: drop-shadow(3px 2px 1px #e3e9e9);
+
+       &--content {
+        height: 80%;
+        width: 80%;
+        background-color: #c2c9c723;
+        margin: 5rem;
+       }
+       &--content2 {
+           margin: 5rem;
+       }
+    }
+
+    &--btn {
+        height: 4rem;
+        height: 4rem;
+        background: none;
+        color: #445e5f;
+        font-size: 1.6rem;
+        background-color: #2C343A;
+        border-radius: .13rem;
+    }
+
+    &--box1 {
+        width: 50%;
+        height: 50%;
+        margin: 10rem;
+        p {
+            @include headMix;
+    
+        }
+
+        &--contentclass {
+
+
+        }
+
+    }
+
+    &--box2 {
+        width: 50%;
+        height: 50%;
+        margin: 10rem;
+        p {
+            @include headMix;
+
+    
+        }
+
+        &--contentclass {
+            
+        }
+
+    }
+
+
+}
+
+.bob {
+    @include beforeTrick;
+    height: 50%;
+    background-color: #f5f5f0;
+    filter: drop-shadow(3px -9px 1px #bae5dd85);
+    z-index: 1;
+    border-radius: .13rem;
+
+}

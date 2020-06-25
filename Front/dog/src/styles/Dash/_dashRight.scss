@@ -8,6 +8,9 @@
 
     &-goals { 
         margin-left: 2rem;
+        @include textshad0(rgba(209, 202, 202, 0.459));
+        font-weight: 600;
+        
     }
 }
 
@@ -55,13 +58,13 @@
         text-align: center;
         transition: all .4s;
         width: 15rem;
-        filter: drop-shadow(3px 1px 1px #b8bbb785);
+        filter: drop-shadow(3px 1px 1px #b8bbb742);
+        transition: all .4s;
 
 
 
     }
     & :hover.goals-contain{
-        filter: drop-shadow(4px 3px 1px #b8bbb785);
 
         transition: all .4s;
 
@@ -69,7 +72,7 @@
     }
     & :hover > #goal {
         color: $color-light-1;
-        transition: all .5s;
+        transition: all .4s;
 
         
     }

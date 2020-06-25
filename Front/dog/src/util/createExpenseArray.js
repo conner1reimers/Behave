@@ -81,6 +81,8 @@ const createExpensesArray = (expenses) => {
         }].filter(el => el.ammount !== 0)
 
         return totalExpenses;
+    } else {
+        return []
     }
     
 };

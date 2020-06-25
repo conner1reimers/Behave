@@ -3,6 +3,8 @@ import MiddleDash from './Dashboard/MiddleDash';
 import DashLeft from './Dashboard/DashLeft';
 import DashRight from './Dashboard/DashRight';
 import Monies from '../../lotties/Monies/Monies';
+import Media from 'react-media';
+import ChosenGoals from './Dashboard/ChosenGoals';
 
 const Header = (props) => {
 
@@ -37,6 +39,7 @@ const Header = (props) => {
                 reamain={props.remain}
                 incomeTotal={props.userIncomeTotal}
                 expenseTotal={props.userExpenseTotal}
+                setExpenseTotal={props.setExpenseTotal}
 
                 goals={props.goals}
 
@@ -54,7 +57,13 @@ const Header = (props) => {
                 setUserExpense={props.setUserExpense}
                 userBudget={props.userBudget} 
                 toggle={props.toggle}
+                expense={props.userExpense}
+                setExpenseTotal={props.setExpenseTotal}
+
             />
+            <Media query="(max-height: 1000px) and (max-width: 750px">
+                <ChosenGoals goals={props.goals}/>
+            </Media>
         </header>
     )
 }

@@ -34,6 +34,10 @@ $font-3: 'Didact Gothic';
     height: 100%;
     width: 100%;
 }
+@mixin textshad0($color){
+    font-variant: small-caps;
+    text-shadow: .1rem .3rem .6rem $color;
+}
 
 @mixin mouseover($color, $fontColor) {
 
@@ -221,7 +225,21 @@ body {
     border-color: rgba(0,0,0,.2);
 }
 
+@media only screen and (max-height: 650px) and (min-width: 900px) {
+    .container {
+        grid-template-rows: 10vh repeat(6, 39.8vh) repeat(3, 100vh);
+        grid-template-columns: repeat(3, min-content);
+    }
+    .dashboard-container {
+        grid-row: 2 / 8;
+        grid-template-columns: 60vw 40vw;
+        grid-template-rows: 70vh .3fr 1fr 1.5fr ;
+        grid-gap: 1rem;
+        max-width: 100%;
 
+    }
+    
+}
 
 
 @media only screen and (max-width: 750px) {
