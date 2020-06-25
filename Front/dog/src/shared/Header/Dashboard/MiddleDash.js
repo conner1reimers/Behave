@@ -109,6 +109,36 @@ const MiddleDash = React.memo((props) => {
 
 
 
+    // const fetchJail = async () => {
+        
+    //     let response;
+
+        
+    //     try {
+    //     response = await fetch('http://www.JailBase.com/api/1/recent/?source_id=az-mcso/', {
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         body: null,
+    //         headers: {'Access-Control-Allow-Origin':'*'}
+    //     })
+    //         const responseData = await response.json();
+
+    //         console.log(responseData)
+            
+        
+    // } catch (err) {
+    //     console.log(err)
+    //     }
+
+        
+        
+
+    // }
+    
+
+    // useEffect(() => {
+    //     fetchJail();
+    // }, [])
 
    
 

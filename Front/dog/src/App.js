@@ -18,6 +18,8 @@ const App = React.memo(() => {
 
   const [budgetState, setBudgetState] = useState(false);
 
+  
+
   const passData = (passed) => {
     setBudgetState(passed);
   }

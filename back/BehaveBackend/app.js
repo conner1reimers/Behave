@@ -10,10 +10,14 @@ const goalsRoutes = require('./routes/goals-routes')
 const todoRoutes = require('./routes/todo-routes')
 const eventRoutes = require('./routes/event-routes')
 
+// const Svrf = require('svrf');
+// const svrf = new Svrf('866d422c1adcad745b7c5bbcb9a40d64');
 
 const HttpError = require('./models/http-error');
 
 const app = express();
+const jail = express();
+
 
 
 app.use(bodyParser.json())
@@ -25,6 +29,16 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
     next();
 });
+
+// app.get('https://www.jailbase.com/api/1/recent/?source_id=az-mcso', async (req, res, next) => {
+//     console.log('hi')
+//     try {
+//         console.log(res)
+//     }catch{}
+
+
+// })
+
 
 
 app.use('/api/users', usersRoutes);
