@@ -300,18 +300,25 @@ $color-shadow: rgba(165, 170, 170, 0.637);
   width: 100%;
   transform: translateY(-1rem);
   border-radius: 1rem;
-  padding: 4rem 2rem;
+  padding: 4rem 4rem;
   justify-content: center;
   align-items: center;
-  border: 3px solid #505a521f;
+  border: 1px solid #505a521f;
   margin-bottom: 3rem;
   transform: scale(.9);
+
+  button {
+    position: absolute;
+    right: -17em;
+    top: 0em;
+
+  }
   &::before {
     @include beforeTrick;
     filter: drop-shadow(-3.5px 4.5px 1px #e8eee6bb);
     background-color: #f0f0eb52;
     box-shadow: -4px 3px 2px 2px rgba(253, 253, 253, 0.192);
-
+    z-index: -1;
     
   }
 
@@ -363,10 +370,8 @@ $color-shadow: rgba(165, 170, 170, 0.637);
     align-content: end;
     border-radius: 44rem;
     font-size: 1.4rem;
-    transition: all .2s;
     position: relative;
     // left: 6.5vw;
-    top: 1vh;
     z-index: 5;
     transform: rotate(90deg);
     background: none;
@@ -829,6 +834,8 @@ $color-shadow: rgba(165, 170, 170, 0.637);
   }}
 } 
 
+
+
 @media only screen and (max-width: 750px) {
 
   .first-event {
@@ -883,6 +890,8 @@ $color-shadow: rgba(165, 170, 170, 0.637);
 
   }}
 } 
+
+
 @media only screen and (max-width: 350px) {
 
   .first-event {
@@ -916,4 +925,11 @@ $color-shadow: rgba(165, 170, 170, 0.637);
     left: 0;
     
   }
+}
+
+
+.hidelabel-goals {
+  position: absolute;
+  color: $color-white;
+  transform: rotate(270deg) translateY(-17vh) translateX(6rem);
 }

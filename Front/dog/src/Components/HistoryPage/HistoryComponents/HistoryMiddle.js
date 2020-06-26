@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
+import { ListItem, Typography, ThemeProvider, createMuiTheme, List } from '@material-ui/core';
 
 
 
@@ -30,8 +31,7 @@ const deleteTransition = {
     velocity: 1.5,
     mass: 2.5,
     damping: 30,
-    stiffness: 700
-
+    stiffness: 100
 
     
 }
@@ -40,6 +40,30 @@ const HistoryMiddle = (props) => {
 
     const [expenseChosen, setExpenseChosen] = useState(true);
     const [incomeChosen, setIncomeChose] = useState(false);
+
+    const theme = createMuiTheme();
+
+    theme.typography.h1 = {
+        fontSize: '1.8rem',
+        '@media (min-width:600px)': {
+            fontSize: '2.5rem',
+        },
+    }
+    theme.typography.h2 = {
+        fontSize: '1.8rem',
+        '@media (min-width:600px)': {
+            fontSize: '2.5rem',
+        },
+    }
+    theme.typography.h3 = {
+        fontSize: '1.8rem',
+        '@media (min-width:600px)': {
+            fontSize: '2.5rem',
+        },
+        [theme.breakpoints.up('md')]: {
+            fontSize: '2.4rem',
+        },
+        };
 
     const chosenMonth = props.chosenMonth;
 
@@ -83,25 +107,14 @@ const HistoryMiddle = (props) => {
                         exit="out"
                         variants={deleteVariants}
                         transition={deleteTransition}
-                        className="history--middle--expense-item"
-                        style={{
-                            borderRadius: '.6rem',
-                            transition: 'all .2s',
-                            filter: 'drop-shadow(1px 1px .5px #b8bbb76e)',
-                            backgroundColor: 'rgba(39, 42, 43, 0.637)'
-
-                        }}
+                        className="history--middle--expense-item--inner"
+                        
                     >
                         <span className="history--middle--expense-item--info-title">
                             {el.title}
                         </span>
                         <span 
-                        style={{
-                            marginRight: '2.5rem',
-                            color: '#90cb97',
-                            width: '15rem'
-                    
-                    }}
+                        
                         className="history--middle--expense-item--info-ammount">
                             {`$ ${el.ammount.toFixed(2)}`}
                         </span>
@@ -126,26 +139,14 @@ const HistoryMiddle = (props) => {
                         exit="out"
                         variants={deleteVariants}
                         transition={deleteTransition}
-                        className="history--middle--expense-item"
-                        style={{
-                            borderRadius: '.6rem',
-                            transition: 'all .2s',
-                            filter: 'drop-shadow(1px 1px .5px #b8bbb76e)',
-                            backgroundColor: 'rgba(39, 42, 43, 0.637)'
-
-
-                        }}
+                        className="history--middle--expense-item--inner"
+                        
                     >
                         <span className="history--middle--expense-item--info-title">
                             {el.title}
                         </span>
                         <span 
-                        style={{
-                            marginRight: '2.5rem',
-                            color: '#90cb97',
-                            width: '15rem'
-                    
-                    }}
+                        
                         className="history--middle--expense-item--info-ammount">
                             {`$ ${el.ammount.toFixed(2)}`}
                         </span>
@@ -162,7 +163,7 @@ const HistoryMiddle = (props) => {
 
 
     return (
-        <Fragment>
+        <ThemeProvider theme={theme}>
             <div className="history--middle">
 
                 <div className="history--middle--head-contain">
@@ -174,33 +175,32 @@ const HistoryMiddle = (props) => {
                     </h1>
                 </div>
 
-                <ul className="history--middle--expense-list">
-                    <li
+                <List component="ul" className="history--middle--expense-list">
+                    <ListItem
                         className="history--middle--expense-item"
                     >
-                        <span className="history--middle--expense-item--info-title title-word">Title</span>
-                        <span className="history--middle--expense-item--info-ammount title-word">Ammount</span>
-                    </li>
+                        <Typography variant="h1" component="h2" className="history--middle--expense-item--info-title title-word">Title</Typography>
+                        <Typography variant="h1" component="h2" className="history--middle--expense-item--info-ammount title-word--ammount">Ammount</Typography>
+                    </ListItem>
 
                     {content}
                     <div className="backlist"></div>
                     <div className="backlist2"></div>
 
-                </ul>
+                </List>
                 
 
             </div>
 
             <div className="history--right">
 
-                ed
     
             </div>
 
             <div className="history--right--lower">
-                    geg
+                   
                 </div>
-        </Fragment>
+        </ThemeProvider>
     )
 }
 

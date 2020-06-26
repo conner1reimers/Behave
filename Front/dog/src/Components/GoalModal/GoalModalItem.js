@@ -2,6 +2,7 @@ import React, { useContext, useEffect, Fragment, useCallback } from 'react'
 import { useHttpClient } from '../../util/hooks/http-hook';
 import { AuthContext } from '../../util/context/auth-context';
 import ErrorModal from '../../shared/ErrorModal/ErrorModal';
+import businesss from '../../shared/Header/Dashboard/dashLeftImgs/businesss.png';
 
 const GoalModalItem = (props) => {
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
@@ -71,7 +72,10 @@ const GoalModalItem = (props) => {
                     onClick={() => chooseGoal(goal.chosen, goal._id, goal.title)}
                     className={`goal-item ${goalClass}`}
                 >
-                    <p>{goal.title}</p>
+                    <p> 
+                        <img src={businesss} alt="" />
+                        <span>{goal.title}</span>
+                        </p>
                 </li>
                 )
             })

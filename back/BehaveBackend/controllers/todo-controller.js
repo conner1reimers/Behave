@@ -78,5 +78,40 @@ const createTodo = async (req, res, next) => {
 }
 
 
+const deleteTodo = async (req, res, next) => {
+    const todoId = req.params.todoId;
+    let todo;
+
+    console.log(todoId)
+    try {
+        todo = await Todo.findById(todoId).populate('creator');
+    } catch (error) {
+        error = new HttpError('Couldnt delete... !!!!!', 500);
+        return next(error);
+    }
+
+    if (!todo) {
+        const error = new HttpError('could not find todo for this id... ', 404)
+        return next(error);
+    };
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await todo.remove({session: sess});
+        todo.creator.todos.pull(todo);
+        await todo.creator.save({session: sess});       
+        await sess.commitTransaction();
+
+    } catch (error) {
+        error = new HttpError('Couldnt delete wow', 500);
+        return next(error);
+    }
+    res.status(200).json({message: 'Deleted todo.'})
+
+}
+
+
 exports.createTodo = createTodo;
 exports.getTodo = getTodo;
+exports.deleteTodo = deleteTodo;

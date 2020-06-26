@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Goals = require('../models/goals');
 const HttpError = require('../models/http-error');
+const { validationResult } = require('express-validator');
 
 
 const getGoals = async (req, res, next) => {
@@ -20,13 +21,13 @@ const getGoals = async (req, res, next) => {
 
     if (user.goals) {
         if (user.goals.length < 1) {
-            goal = [{}]
+            goal = []
         } else {
             goal = user.goals;
             
         }
     } else {
-        goal = [{}]
+        goal = []
     }
     res.status(201).json({goals: goal})
 };
@@ -108,12 +109,21 @@ const chooseGoal = async (req, res, next) => {
 
 
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        next(new HttpError('Invalid inputs passed...', 422))
+    };
 
 
 }
 
 const createGoal = async (req, res, next) => {
     const {title, chosen, creator} = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        next(new HttpError('Sorry, must a max of 20 characters...'))
+    }
 
     const createdGoal = new Goals({
         title,
@@ -132,6 +142,11 @@ const createGoal = async (req, res, next) => {
 
     if (!user) {
         const error = new HttpError('Creating budget failed...', 500);
+        return next(error);
+    }
+
+    if (user.goals.length >= 8) {
+        const error = new HttpError('Sorry... You can only save up to 8 goals', 500);
         return next(error);
     }
 

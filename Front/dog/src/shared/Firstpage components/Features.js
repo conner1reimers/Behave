@@ -134,6 +134,8 @@ const Features = (props) => {
         stiffness: 600
         
     }
+
+
     function DropdownMenu(props) {
         const [activeMenu, setActiveMenu] = useState('main');
         const [menuHeight, setMenuHeight] = useState(null);
@@ -225,7 +227,7 @@ const Features = (props) => {
         <div className="todo">
             
             <div className="todo-contained">
-            {dropdownElement}
+            
                 <div className="heading-todo">
                     <h1 className="todo-head">Todo </h1>
                     <TodoLottie/>
@@ -250,10 +252,11 @@ const Features = (props) => {
                         type="text"
                         validator={VALIDATOR_REQUIRE()}
                         />
+                       
 
                     <Input 
                         onInput={inputHandler}
-                        dropdownClass="formitem-todo urgency" 
+                        dropdownClass="formitem-todo-dropdown urgency" 
                         type="input-options" 
                         cat="todo-urgency"
                         id="urgency"

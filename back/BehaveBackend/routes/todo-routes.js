@@ -23,5 +23,7 @@ router.post('/',
 
 ], todoController.createTodo)
 
+router.delete('/:todoId/', todoController.deleteTodo);
+
 
 module.exports = router;

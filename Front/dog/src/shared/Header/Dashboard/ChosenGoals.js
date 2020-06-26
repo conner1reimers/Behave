@@ -4,6 +4,7 @@ import trophy from './dashLeftImgs/trophy.svg'
 import stars from './dashLeftImgs/stars.svg'
 import arrow from './arrow.svg'
 import { optionHandler } from '../../../util/myUtil';
+import MouseOverLabel from '../../../util/MouseOverLabel';
 const pageVariants = {
     initial: {
         scale: .2,
@@ -49,9 +50,9 @@ const pageVariants2 = {
 
     },
     out: {
-        opacity: 0.5,
-        y: '70%',
-        rotate: 15
+        opacity: 0,
+        y: '600%',
+        rotate: -135
 
 
     },
@@ -71,7 +72,8 @@ const pageTransition2 = {
 } 
 const ChosenGoals = (props) => {
     let goals = props.goals;
-    const [goalsHidden, setGoalsHidden] = useState(false);
+    const [goalsHidden, setGoalsHidden] = useState(true);
+    
     const hideGoals = () => {
         setGoalsHidden((prevState) => !prevState);
     }
@@ -93,7 +95,7 @@ const ChosenGoals = (props) => {
         mappedChosenGoals = chosenGoals.map((goal) => {
             return (
             <li key={goal._id} 
-            onClick={() => optionHandler(editGoal, setEditGoal, goal,"_id")}
+            onClick={() => {optionHandler(editGoal, setEditGoal, goal,"_id");}}
             className="chosen-goals--item">
                 <img src={trophy}/>
                 <p>{goal.title}</p>
@@ -108,15 +110,25 @@ const ChosenGoals = (props) => {
             <AnimatePresence exitBeforeEnter>
 
             {chosenGoals.length > 0 && goalsHidden && (
-                <motion.button
-                            initial="initial"
-                            animate="in"
-                            exit="out"
-                            variants={pageVariants2}
-                            transition={pageTransition2}
-                type="button" onClick={hideGoals} className="btn chosen-goals--hide">
-                    <img alt='' src={arrow}></img>
-                </motion.button>
+                
+                    <motion.button
+                                initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageVariants2}
+                                transition={pageTransition2}
+                                type="button" onClick={hideGoals} 
+                                className="btn chosen-goals--hide">
+                        
+                        <MouseOverLabel
+                        label="Show goals"
+                        labelClass="edit-label hidelabel-goals"
+                        visibleClass="vis"
+                        hiddenClass="hid"
+                        >
+                                <img alt='' src={arrow}></img>
+                        </MouseOverLabel>
+                    </motion.button>
             )}
 
             </AnimatePresence>
@@ -138,10 +150,18 @@ const ChosenGoals = (props) => {
                                 </div>
                                 <ul className="chosen-goals--list">
                                     {mappedChosenGoals}
-                                </ul>
-                                <motion.button type="button" onClick={hideGoals} style={{position: 'absolute'}} className="btn chosen-goals--hide">
-                                    <img alt='' src={arrow}></img>
+                                    <motion.button type="button" onClick={hideGoals} className="btn chosen-goals--hide">
+                                    <MouseOverLabel
+                                label="Hide goals"
+                                labelClass="edit-label hidelabel-goals"
+                                visibleClass="vis"
+                                hiddenClass="hid"
+                                >
+                                    <img alt='' src={arrow}></img></MouseOverLabel>
                                 </motion.button>
+
+                                </ul>
+                                
                                 
                         </motion.div>
                 

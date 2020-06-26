@@ -22,7 +22,7 @@
 }
 
 .back {
-    grid-row: 4 / 6;
+    grid-row: 3 / 6;
     grid-column: 1 / 6;
 }
 
@@ -37,7 +37,7 @@
     margin: 0 25%;
     margin-bottom: 3rem;
     padding: 1rem 1rem;
-    background-color: #42815052;
+    background-color: rgba(30, 31, 30, 0.952);
     color: rgb(255, 255, 255);
     border-radius: .6rem;
     filter: drop-shadow(2px 1px .5px #06070610);
@@ -76,15 +76,29 @@
     }
 
     &--delete {
-
+        position: absolute;
+        right: -36rem;
         width: 15vw;
-        height: 12vh;
-        overflow: hidden;
+        height: 13vh;
+        overflow: visible;
+        background-color: rgba(30, 31, 30, 0.952);
         display: flex;
         flex-direction: column;
         // border: rgba(28, 73, 113, 0.233);
         // border-radius: 5px;
-        box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.103);
+        box-shadow: 0 5px 5px -5px rgba(241, 236, 236, 0.103);
+
+
+
+        h1 {
+            color: $color-white;
+            font-family: $font-1;
+            font-size: 2.1rem;
+        }
+        img {
+            
+            filter: brightness(5);
+        }
         
     }
     &--deleteHead {
@@ -100,6 +114,24 @@
 }
 
 .checkmark {
+
+    &--label {
+        position: absolute;
+        top: -1vh;
+        right: -10rem;
+        background-color: black;
+        z-index: 9999;
+        color: $color-white;
+    }
+    &--label-2 {
+        position: absolute;
+        left: -.2vw;
+        top: -1rem;
+        background-color: black;
+        z-index: 9999;
+        color: $color-white;
+
+    }
     
     &--box {
 
@@ -113,7 +145,6 @@
         right: 8rem;
         top: 4.9rem;
         &:hover {
-            filter: saturate(333%);
         }
         
     }
@@ -137,6 +168,8 @@
     font-weight: 400;
     width: 2rem;
     margin-right: 22rem;
+    transition: all .2s ease;
+
 
 }
 .todo-typed {
@@ -202,7 +235,7 @@
 
 .todo-contained {
     display: grid;
-    grid-row: 1 / 4;
+    grid-row: 1 / 3;
     grid-column: 1 / 6;
     grid-template-rows: repeat(2, 35%);
     grid-template-columns: repeat(5, 20%);
@@ -267,27 +300,50 @@
     }
     
 }
+
+
+
 .formitem-todo {
     width: 100%;
+    position: relative;
+    background-color: $color-white;
+    height: 79%;
+    top: .4rem;
+
+    &-dropdown {
+        position: relative;
+        @include NewDropdown($color-white);
+        
+
+    }
 }
 .todo-btn {
     font-size: 2rem;
     background-color: #e18b5b;
     grid-column: 4 / 5;
     grid-row: 2 / 3;
-    width: 50%;
-    color: white;
+    color: $color-white;
+    display: flex;
     justify-self: center;
+    align-items: center;
     transition: all .2s;
     margin-left: 3rem;
-    transform: translateY(-.5rem);
-
-    
+    transform: translateY(1.5rem);
+    filter: drop-shadow(3px 2px 1px #e18a5b42);
+    height: 70%;
+    width: 50%;
 
     &:hover {
         color: rgb(218, 210, 210);
         background-color: #cf8c68d0;
         transition: all .2s;
+    }
+    span {
+        align-self: center;
+        justify-self: center;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
     }
     
    
@@ -383,24 +439,36 @@ $shadowColor: rgba(0, 0, 0, 0.089);
     }}
 
 }
+
+@media only screen and (max-height: 450px) {
+    .radio-todo {
+        top: -3 + 4rem;
+    }
+}
+
+@media only screen and (min-height: 450px) {
+    .radio-todo {
+        top: -1 + 4rem;
+    }
+}
 @media only screen and (min-height: 680px) {
     .radio-todo {
-        top: 4rem;
+        top: 2 + 4rem;
     }
 }
 @media only screen and (min-height: 750px) {
     .radio-todo {
-        top: 5rem;
+        top: 3 + 4rem;
     }
 }
-@media only screen and (min-height: 800px) {
+@media only screen and (min-height: 750px) {
     .radio-todo {
-        top: 6rem;
+        top: 4rem;
     }
 }
 @media only screen and (min-height: 900px) {
     .radio-todo {
-        top: 8.5rem;
+        top: 6.5rem;
     }
 }
 
@@ -473,6 +541,16 @@ $shadowColor: rgba(0, 0, 0, 0.089);
     }
 }
 
+@media only screen and (max-height: 750px) {
+
+    .todo-contained {
+        grid-row: 1 / 4;
+    }
+
+    .back {
+        grid-row: 4 / 6;
+    }
+}
 
 
 
@@ -490,18 +568,50 @@ $shadowColor: rgba(0, 0, 0, 0.089);
 
 
 @media only screen and (max-width: 750px) {
+
+    .todo-contained {
+        grid-row: 1 / 4;
+    }
+    .back {
+        grid-row: 5 / span 2;
+    }
     .todo-form {
+        position: relative;
         grid-column: 1 / 6;
         grid-row: 2 / span 2;
-        display: grid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: yellowgreen;
         grid-template-columns: 33vw 33vw 33vw;
         grid-template-rows: repeat(3, 50%);
-        transform: translateY(-6rem);
+        transform: translateY(6rem);
         
     }
+    .todo-btn {
+        height: 10%;
+    }
 
+    .formitem-todo {
+        position: absolute;
+        top: 3vh;
+        right: 11vw;
+        width: 60vw;
+        height: 5vh;
+
+    }
     .radio-todo {
-        grid-column: 2 / 3;
+        align-self: flex-start;
+        left: 70vw;
+        min-width: 20rem;
+        position: absolute;
+        z-index: 999;
+
+    }
+    .formitem-todo-dropdown {
+        position: relative;
+        top: 23vh;
+        transform: translateX(-28em);
     }
     .task {
         grid-column: 1/-1;
@@ -529,11 +639,21 @@ $shadowColor: rgba(0, 0, 0, 0.089);
     .todo-head {
         margin-bottom: -8rem;
     }
+    .back {
+        grid-column: 1 / 9;
+    }
 
     .todo-under {
-        
+        width: 100%;
+        position: relative;
+        right: 6em;
     }
     .back {
-        grid-row: 5 / 9;
+        grid-row: 4 / 9;
     }
+}
+
+@media only screen and (max-width: 550px) {
+
+
 }

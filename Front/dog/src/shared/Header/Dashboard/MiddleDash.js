@@ -189,11 +189,11 @@ const MiddleDash = React.memo((props) => {
                     </div>
                 </div>
 
-            {/* <Media query="(min-height: 600px) and (min-width: 750px">
+            <Media query="(min-height: 600px) and (min-width: 750px">
 
-                        <ChosenGoals goals={props.goals}/>
+                <ChosenGoals goals={props.goals}/>
                 
-            </Media> */}
+            </Media>
 
         </div>
     )

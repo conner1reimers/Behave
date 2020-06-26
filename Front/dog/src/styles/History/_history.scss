@@ -11,6 +11,8 @@
         grid-template-rows: 50vh 50vh 50vh min-content;
         z-index: 1;
         height: 100vh;
+        overflow-y: scroll;
+
         &--back {
             grid-row: 1 / span 100;
             background-color: #95998d17;
@@ -126,13 +128,14 @@
         &--expense-list {
             list-style: none;
             margin: 3.5rem 4.5rem;
-            display: grid;
-            grid-template-columns: 15% 5% 60% 5% 15%;
             background-color: #f9faf95b;
-            border-radius: 3rem;
-            min-height: 90%;
+            border-radius: .5rem;
+            min-height: 100%;
             filter: drop-shadow(-3px 2px 0px rgba(215, 221, 220, 0.411));
-            
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
             
 
         }
@@ -140,9 +143,31 @@
             font-size: 3rem;
             display: flex;
             grid-column: 3 / 4;
-            margin: 0 1.2rem;
-            margin-bottom: 3rem;
+            margin: 3.5rem 1.9rem;
             padding: .5rem 1rem;
+            justify-content: center;
+            align-items: flex-start;
+            align-self: center;
+            margin-left: auto;
+
+
+            &--inner {
+                display: flex;
+                margin: .52rem 1.6rem;
+
+                width: 90%;
+                font-size: 3rem;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(186, 233, 91);
+                text-transform: capitalize;
+                padding: .6rem .3rem;
+                span {
+                    color: black;
+                }
+
+            }
+
             &--info-title {
                 display: flex;
                 justify-content: flex-start;
@@ -159,7 +184,7 @@
                 display: flex;
                 justify-content: flex-start;
                 font-family: $font-2;
-                width: 8rem;
+                width: 10rem;
                 margin-right: 9%;
 
 
@@ -233,10 +258,19 @@
 }
 
 .title-word {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-top: 1rem;
     color: $color-grey;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    width: 20rem;
 
+    &--ammount {
+        position: relative;
+        left: 32vw;
+    }
+    
 
 }
 

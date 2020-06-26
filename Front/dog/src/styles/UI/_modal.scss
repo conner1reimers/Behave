@@ -1,11 +1,11 @@
 .modal {
     position: fixed;
-    z-index: 5;
+    z-index: 9;
     background-color: white;
     min-width: 85vw;
     top: 15vh;
     left: 15%;
-    border-radius: 1rem;
+    border-radius: .45rem;
     height: 70vh;
     color: rgb(43, 49, 53);
     display: grid;
@@ -117,11 +117,11 @@
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.212);
-    z-index: 1;
+    z-index: 8;
 }
 
 .backdr {
-    z-index: 5;
+    z-index: 8;
 }
 
 .modal-header {
@@ -150,7 +150,7 @@
 }
 .form-input {
 
-    border-radius: .9rem;
+    border-radius: .4rem;
     display: flex;
     transition: all .2s;
     font-size: 1.5rem;
@@ -273,23 +273,23 @@
     top: 0;
     left: 0;
     background: rgba(30, 30, 24, 0.418);
-    z-index: 5;
+    z-index: 8;
 }
 .error-modal {
-    z-index: 5;
-    background-color: rgba(240, 235, 228, 0.774);
+    z-index: 99;
+    background-color: rgba(240, 235, 228, 0.959);
     position: fixed;
     min-width: 25vw;
     top: 20vh;
     left: 40%;
-    border-radius: .5rem;
+    border-radius: .2rem;
     height: 50vh;
     color: #1E1E18;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     font-size: 5rem;
-    filter: drop-shadow(-3px 2px 0px rgba(133, 131, 131, 0.247));
+    filter: drop-shadow(3px 4px 0px rgba(214, 210, 210, 0.411));
     overflow: hidden;
 
     
@@ -301,7 +301,7 @@
     background-color: rgba(240, 235, 228, 0.911);
     height: 40vh;
     width: 18vw;
-    z-index: 5;
+    z-index: 99;
     top: 40%;
     left: 20%;
     border-radius: 1rem;
@@ -328,7 +328,7 @@
     margin: 2rem;
     align-self: center;
     color: rgba(29, 28, 28, 0.856);
-    border-radius: .5rem;
+    border-radius: .2rem;
     background: none;
     border: 1.5px solid rgba(29, 28, 28, 0.253);
     transition: color .2s ease-in-out, background .2s ease;
@@ -336,9 +336,9 @@
 
 
     &:hover {
-        color: $color-light-1;
+        color: $color-white;
         transition: color .2s ease-in-out, background .2s ease;
-        background-color: rgba(29, 28, 28, 0.418);
+        background-color: rgba(26, 23, 23, 0.185);
 
     }
 
@@ -352,6 +352,8 @@
     background-color: rgba(29, 28, 28, 0.856);
     font-weight: 300;
     font-size: 2rem;
+    width: 100%;
+    border-radius: .2rem;
 
     & span {
         color: rgba(255, 255, 255, 0.945);

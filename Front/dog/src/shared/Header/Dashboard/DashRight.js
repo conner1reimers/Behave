@@ -7,7 +7,7 @@ import Input from '../../UIElements/Input/Input';
 import { useForm } from '../../../util/hooks/useForm';
 import { AnimatePresence, motion } from 'framer-motion';
 import business from './dashLeftImgs/businesss.png';
-import { VALIDATOR_REQUIRE } from '../../../util/validators';
+import { VALIDATOR_REQUIRE, VALIDATOR_MAXLENGTH } from '../../../util/validators';
 import getMonthYear from '../../../util/getMonthYear';
 import Trophy from '../../../lotties/Trophy/Trophy';
 import GoalModalItem from '../../../Components/GoalModal/GoalModalItem';
@@ -180,7 +180,7 @@ const DashRight = (props) => {
         setTodos();
     }, [props.todos])
 
-    
+    console.log(props.goals)
 
 
     return (
@@ -214,26 +214,32 @@ const DashRight = (props) => {
 
                     <div className="goal-modal--upper">
                         <h1 className="goal-modal--head--1"> <p>Setup Some Goals</p> <Trophy/> </h1>
-                        <Input 
-                            type="text" 
-                            id="goal"
-                            name="goal"
-                            onInput={inputHandler}
-                            class="goal-modal--input"
-                            validator={VALIDATOR_REQUIRE()}
-                        />
-                        <button className="btn btn-submit btn-goal">Submit Goal</button>
+                            <div className="goal-modal--upper--inputandbutton">
+                                <Input 
+                                    type="text" 
+                                    id="goal"
+                                    name="goal"
+                                    onInput={inputHandler}
+                                    class="goal-modal--input"
+                                    validator={VALIDATOR_MAXLENGTH(20)}
+                                />
+                                <button className="btn btn-submit btn-goal">Submit Goal</button>
+                            </div>
                     </div>
 
-                    <div className="goal-modal--lower">
-                        <h3 className="goal-modal--head--2">Which 3 goals would you like to display on your homepage?</h3>
-                        
-                        <GoalModalItem 
-                            setGoals={props.setGoals} 
-                            goals={props.goals}
-                            goalSubmit={goalSubmit}
-                        />
-                    </div>
+                        {props.goals && props.goals.length > 0 &&
+                        <div className="goal-modal--lower">
+                            
+                            <h3 className="goal-modal--head--2">Which 3 goals would you like to display on your homepage?</h3>
+                            
+                            <GoalModalItem 
+                                setGoals={props.setGoals} 
+                                goals={props.goals}
+                                goalSubmit={goalSubmit}
+                                modalOpen={modalOpen}
+                                setModalOpen={goalsModalOpen}
+                            />
+                        </div>}
                 </div>
 
 

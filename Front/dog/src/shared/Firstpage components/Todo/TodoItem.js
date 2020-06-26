@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, Fragment } from 'react'
 import Typed from 'react-typed';
 import { motion, AnimatePresence } from 'framer-motion';
 import ToDoSingle from './ToDoSingle';
@@ -8,6 +8,7 @@ import { BudgetContext } from '../../../util/context/budget-context';
 import tic from './tick.svg'
 import nope from './close.svg'
 import MouseOverLabel from '../../../util/MouseOverLabel';
+import ErrorModal from '../../ErrorModal/ErrorModal';
 
 
 const pageVariants = {
@@ -182,9 +183,34 @@ const TodoItem = (props) => {
 
     }
 
-    const deleteTodo = (event) => {
+    const deleteTodo = async (event) => {
         event.cancelBubble = true
         event.stopPropagation()
+        event.preventDefault();
+        console.log(isDelete)
+        let response;
+        try {
+            response = await sendRequest(`http://localhost:5000/api/todo/${isDelete.id}`, 'DELETE')
+            console.log(response);
+            
+
+            // setMonthEvents((prevState) => {
+            //     let curDate = parseInt(`${monthChosen}${yearChosen}`);
+            //     let day = parseInt(eventEdit.event.day);
+            //     prevState[curDate][day] = prevState[curDate][day].filter((el) => {
+            //         return el.id !== deleteId
+            //     })
+            //     return {
+            //         ...prevState
+            //     }            
+            // });
+
+            // setEventEdit({
+            //     clicked: false,
+            //     event: {}
+            // });
+            // setEditEventFurther(false);
+        } catch (err) {}
     }
 
 
@@ -226,29 +252,32 @@ const TodoItem = (props) => {
                                         <h1 className="todo-itemz--deleteHead">Finished?</h1>
                                         <div className="checkmark--box">
 
-                                            <MouseOverLabel
-                                                label="Yes"
-                                                labelClass="edit-label"
-                                                visibleClass="vis"
-                                                hiddenClass="hid"
-                                            >   <div
+                                               <div
                                                     onClick={deleteTodo}
-                                            >
+                                            ><MouseOverLabel
+                                            label="Delete Todo"
+                                            labelClass="edit-label checkmark--label"
+                                            visibleClass="vis"
+                                            hiddenClass="hid"
+                                        >
                                                     <img alt="" className="pen2 checkmark checkmark--1" src={nope}></img>
+                                                    </MouseOverLabel>
                                                 </div>
-                                            </MouseOverLabel>
+                                            
 
-                                            <MouseOverLabel
-                                                label="Cancel"
-                                                labelClass="edit-label"
-                                                visibleClass="vis"
-                                                hiddenClass="hid"
-                                            >   <div
+                                             <div
                                                     onClick={cancelHandlr}
                                             >
+                                                  <MouseOverLabel
+                                                label="Check Off"
+                                                labelClass="edit-label checkmark--label-2"
+                                                visibleClass="vis"
+                                                hiddenClass="hid"
+                                            >
                                                     <img alt="" className="pen2 checkmark checkmark--2" src={tic}></img>
+                                                    </MouseOverLabel>
                                                 </div>
-                                            </MouseOverLabel>
+                                            
                                         </div>
 
                                     </motion.div>)
@@ -299,23 +328,26 @@ const TodoItem = (props) => {
     }, [props.todos, todos])
 
     return (
-        <div className="todo-under">
-            <Typed
-                strings={[
-                    'To Do Today:',
-                    dateNow]}
-                    typeSpeed={40}
-                    backSpeed={50}
-                    backDelay={3000}
-                    className="self-typed todo-typed"
-                    loopCount={0}
-                    showCursor
-                    loop ></Typed>
-            
-            <ul className="todo-list">
-                {toDoList}
-            </ul>
-        </div>
+        <Fragment>
+            <ErrorModal error={error} clearError={clearError}/>
+            <div className="todo-under">
+                <Typed
+                    strings={[
+                        'To Do Today:',
+                        dateNow]}
+                        typeSpeed={40}
+                        backSpeed={50}
+                        backDelay={3000}
+                        className="self-typed todo-typed"
+                        loopCount={0}
+                        showCursor
+                        loop ></Typed>
+                
+                <ul className="todo-list">
+                    {toDoList}
+                </ul>
+            </div>
+        </Fragment>
     )
 }
 

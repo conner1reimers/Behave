@@ -150,7 +150,7 @@
     height: 55vh;
     grid-template-columns: repeat(2, 50%);
     grid-template-rows: repeat(2, 50%);
-    grid-row-gap: 3rem;
+    grid-row-gap: 2rem;
 
     &--upper {
         grid-row: 1 / 2;
@@ -158,14 +158,34 @@
         display: flex;
         flex-direction: column;
         margin-top: -5rem;
+
+        &--inputandbutton {
+            display: flex;
+            align-items: center;
+
+            button {
+                position: relative;
+                margin-left: 7rem;
+                top: 1rem;
+            }
+        }
     }
 
     &--lower {
-        grid-row: 2 / 3;
+        grid-row: 2 / 5;
         grid-column: 1 / 3;
         margin-top: 0rem;
+        position: relative;
+        top: -6vh;
         display: flex;
         flex-direction: column;
+
+        h3 {
+            position: relative;
+            top: -3rem;
+            
+            
+        }
         
 
 
@@ -216,50 +236,89 @@
 
     &--list {
         list-style: none;
-        display: flex;
-        flex-direction: column;
-        align-content: space-between;
-        justify-content: space-between;
-        min-width: 150%;
-        overflow-y: scroll;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        min-width: 110%;
+        min-height: 70%;
+        position: relative;
 
-        &--item {
-            margin: 2rem;
-            font-family: $font-3;
+        // overflow-y: scroll;
 
-        }
+        
     }
 }
 .goal-item{
-    margin-top: .7rem;
     color: rgb(34, 23, 15);
     // background-color: rgba(122, 36, 36, 0.39);
     cursor: pointer;
-    width: 100%;
+    position: relative;
+    width: 18em;
+    height: 15em;
+
     display: flex;
     align-content: center;
     justify-content: center;
+    border-radius: .3rem;
+    margin: .5rem .2rem;
+
+   
 
     & p {
-        font-size: 1.7rem;
-        background-color: rgb(135, 180, 135);
-        height: 3rem;
+        background-color: rgba(81, 82, 81, 0.884);
+        display: flex;
+
+        height: 50%;
         width: 100%;
-        font-family: $font-3;
-        letter-spacing: .3rem;
         font-weight: 3rem;
+
+        align-items: center;
+        padding: .3rem .7rem;
+        // height: 100%;
+        width: 100%;
+
+
         
         // make padding higher
 
-        padding: .5rem 1rem;
-        border-radius: 1px;
-        filter: drop-shadow(1px 1px 1px #b8bbb736);
+        filter: drop-shadow(5px 3px 1px #eaece86c);
+
+        span {
+            color: $color-white;
+            border-radius: 1px;
+            justify-self: center;
+            font-size: 1.5rem;
+            width: max-content;
+            margin-left: .5rem;
+            font-family: $font-3;
+            letter-spacing: .2rem;
+            padding:  2rem 3rem;
+            position: relative;
+
+
+        }
+
+
+        img {
+            height: 2rem;
+            width: 2rem;
+            justify-self: flex-start;
+            margin-right: 1rem;
+            position: absolute;
+
+        }
 
 
 
         &:hover {
-            background-color: rgb(60, 60, 167);
+            background-color: rgba(144, 144, 146, 0.5);
             transition: all .2s;
+
+            span {
+                color: rgba(14, 13, 13, 0.884);
+                font-weight: 600;
+
+            }
 
         }
 
